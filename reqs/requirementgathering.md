@@ -23,7 +23,7 @@ Add reflection here...
 
 ## UMLs
 --------------
-* [Younger Rowers]
-* [Older Rowers]
-* [Coaches]
-* [Parents]
+* [Younger Rowers](../reqs/youngerrowers.md)
+* [Older Rowers](../reqs/olderrowers.md)
+* [Coaches](../reqs/coaches.md)
+* [Parents](../reqs/parents.md)
