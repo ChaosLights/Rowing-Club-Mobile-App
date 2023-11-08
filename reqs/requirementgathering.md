@@ -1,11 +1,18 @@
 # Requirement Gathering
 
-|Table of Contents|
-|--------|
-|[Brief](#brief)|
-|[Team Management](#team-management)|
-|[Reflection](#reflection)|
-|[UMLs](#umls)|
+[⇦Readme](../README.md)
+
+| Table of Contents                     |
+|---------------------------------------|
+| [Brief](#brief)                       |
+| [Team Management](#team-management)   |
+| [Reflection](#reflection)             |
+| [Textual Analysis](#textual-analysis) |
+| [Personas](#personas)                 |
+| [Use Case Diagram](#use-case-diagram) |
+| [User Stories](#user-stories)         |
+| [Scenarios](#scenarios)               |
+| [Prototypes](#prototypes)             |
 
 ## Brief
 
