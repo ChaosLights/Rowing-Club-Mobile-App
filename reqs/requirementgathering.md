@@ -94,6 +94,18 @@ COACH:
 
 PARENT:
 
+As a parent, I want to receive real-time notifications about my child's attendance at rowing club practices and events so that I can stay informed about their commitment and safety.
+
+As a parent, I want to view a detailed progress report for my child's rowing performance, including metrics like speed, distance, and technique, so I can track their improvement over time and provide support as needed.
+
+As a parent, I want to easily access a calendar within the app that displays the dates and details of upcoming rowing competitions and events, so I can plan my schedule accordingly and be there to support my child during their races.
+
+As a parent, I want the app to provide a secure and private messaging feature that allows me to communicate with the rowing club coaches and other parents, ensuring I can get information and updates directly from the club's staff and engage with other parents.
+
+As a parent, I want to be able to record and review videos of my child's rowing sessions through the app, so I can provide constructive feedback and support their development as a rower.
+
+As a parent, I want the app to allow me to easily sign my child up for additional training sessions or workshops offered by the rowing club, so I can help them take advantage of extra opportunities to improve their skills and enjoy the sport even more.
+
 JUNIOR ROWER ORGANISED BY PARENT:
 
 17/18 JUNIOR ROWER INDEPENTANT OF PARENT:
