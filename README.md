@@ -9,8 +9,18 @@ The Rowing Club Training App is about...
 
 # Team Management
 
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+- Can WU
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
 We are planning to manage our team by...
 
 # Contents
 
-- [Requirement Gathering ](../reqs/requirementgathering.md)
+- [Requirement Gathering](reqs/requirementgathering.md)
