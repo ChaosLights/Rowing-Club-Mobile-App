@@ -9,8 +9,18 @@ The Rowing Club Training App is about...
 
 # Team Management
 
+### Project Contributors:
+- Chutiyada Cheepchiewcharnchai (Team Lead)
+- Yasmin Gordon (Team Admin)
+- Prakriti Rai (Git Lead)
+- Panayiota Papafiggou
+- Can WU
+- Ansh Patel
+- Ziad Atari
+- Sepehr Mohammad Esmaiel
+
 We are planning to manage our team by...
 
 # Contents
 
-- [Requirement Gathering ](../reqs/requirementgathering.md)
+- [Requirement Gathering](reqs/requirementgathering.md)
