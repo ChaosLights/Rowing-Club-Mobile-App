@@ -136,11 +136,17 @@ He has specific preferences in terms of event types, distances, and locations.
 Scenario:
 
 Logging In: John opens the rowing club software and logs into his account which is associated with his parents' account.
+
 Accessing the Events Section: He navigates to the 'Events' section to see the upcoming rowing events or competitions.
+
 Personal Preference Settings: John prefers to view events that are tailored to his level and interests. He taps on the 'Filter' button and selects options relevant to his preferences, such as 'Junior Level', '2000m Race', and 'Within 50 miles'.
+
 Applying Filters: After applying the filters, the event list updates to show only those that match his specified criteria.
+
 Sorting Options: John then uses the 'Sort' feature to sort the filtered events by date.
+
 Registering for an Event: John browses through the events and selects an event happening next week, goes through the registration process, and sends a consent request to his parents for approval.
+
 Confirmation: Once his parents approve, John receives a confirmation, and the event gets added to he and his parents' in-app calendar.
 
 Outcome:
