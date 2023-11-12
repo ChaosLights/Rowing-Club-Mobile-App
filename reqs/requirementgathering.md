@@ -110,13 +110,13 @@ JUNIOR ROWER ORGANISED BY PARENT:
 
 As a younger rower, I want to use basic functionalities without parent's permission so that I can check for upcoming events and competitions in advance before asking my parents' permission to participate.
 
-As a younger rower, I want to be able to sign up for events and competitions with my parents' permission.
+As a younger rower, I want to be able to sign up for events and competitions with my parents' permission so that I can participate in rowing events and improve my skills.
 
-As a younger rower, I want to have a progress report generated after participating every signed-up events.
+As a younger rower, I want to have a progress report generated after participating every signed-up events so that I can keep track of my personal data, make schedule for my next training and see my progress intuitively.
 
-As a younger rower, I want to be able to filter events with age restrictions.
+As a younger rower, I want to be able to filter events with age restrictions so that I can browse the avaliable events and make decisions more efficiently.
 
-As a younger rower, I want to have the displayed events sorted according to my preference.
+As a younger rower, I want to have the displayed events sorted according to my preference so that I don't need to see the events that are not included in my personal schedule and focus on the events that I am interested in.
 
 17/18 JUNIOR ROWER INDEPENTANT OF PARENT:
 
