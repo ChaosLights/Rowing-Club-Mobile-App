@@ -64,7 +64,7 @@ Personas will also be essential to test and validate the app later in the softwa
 | Gender                    | Male                                                                                                                              |  Male      | Male                                 |                                                  |
 | Description               | ...                                                                                                                                 | 5’11 White middle-aged man, Lives in Detached house in Radford, High-Income Business Owner, Family Man.| John is a high school student with a passion for rowing. He loves to participate in various training sessions and competitions.                               |                                                  | 
 |Motivations| ...                                                                                                                               |        | 1. To improve his rowing skills. 2. To prove his capabilities by participating in competitions. 3. To gain support and recognition from his parents.                                 |                                                  |
-| Expectations              | ...                                                                                                                               | A User-Friendly App which needs minimal tech knowledge. Needs to be easy to use. Should have a calendar to track upcoming events with timing so he can pick up his children after practice, Should also be able to track if his child is progressing or not in the app. | 1. An easy-to-use software interface for competition registrations. 2. High security to ensure the safety of his personal information. 3. Participating in competitions requires parents' permission| |
+| Expectations              | ...                                                                                                                               | A User-Friendly App which needs minimal tech knowledge. Needs to be easy to use. Should have a calendar to track upcoming events with timing so he can pick up his children after practice, Should also be able to track if his child is progressing or not in the app. | 1. An easy-to-use software interface for competition registrations. 2. High security to ensure the safety of personal information. 3. Use basic functionalities without parents' permission| |
 |Goals| | He wants to be involved in his child’s hobbies and act as a parental figure. He will do this by driving his child to and from practices, attending events as well as tracking the child’s performance to provide encouragement and support.       | 1. To win medals in regional and national competitions. 2. To gain enough skill and experience to participate in higher-level competitions in the future.                                 |                                                  |
 | Environment and Knowledge | ...                                                                                                                               | He has a medium understanding of using apps, and is not up to date with the latest technology. Has a medium powered android Mobile Device and a lower-end windows Laptop mainly used for spreadsheets and documents.  He prefers to use an app on his android mobile.       | 1. Grew up in a family supportive of sports. 2. Capable of using smartphones and computers for elementary tasks.                                 |                                                  | |
 
@@ -108,6 +108,16 @@ As a parent, I want the app to allow me to easily sign my child up for additiona
 
 JUNIOR ROWER ORGANISED BY PARENT:
 
+As a junior rower, I want to use basic functionalities without parent's permission so that I can check for upcoming events and competitions in advance before asking my parents' permission to participate.
+
+As a junior rower, I want to be able to sign up for events and competitions with my parents' permission.
+
+As a junior rower, I want to have a progress report generated after participating every signed-up events.
+
+As a junior rower, I want to be able to filter events with age restrictions.
+
+As a junior rower, I want to have the displayed events sorted according to my preference.
+
 17/18 JUNIOR ROWER INDEPENTANT OF PARENT:
 
 ## Scenarios
@@ -118,6 +128,26 @@ COACH:
 PARENT:
 
 JUNIOR ROWER ORGANISED BY PARENT:
+
+Context:
+John uses a rowing club software to keep track of upcoming events and register for competitions.
+He has specific preferences in terms of event types, distances, and locations.
+
+Scenario:
+
+Logging In: John opens the rowing club software and logs into his account which is associated with his parents' account.
+Accessing the Events Section: He navigates to the 'Events' section to see the upcoming rowing events or competitions.
+Personal Preference Settings: John prefers to view events that are tailored to his level and interests. He taps on the 'Filter' button and selects options relevant to his preferences, such as 'Junior Level', '2000m Race', and 'Within 50 miles'.
+Applying Filters: After applying the filters, the event list updates to show only those that match his specified criteria.
+Sorting Options: John then uses the 'Sort' feature to sort the filtered events by date.
+Registering for an Event: John browses through the events and selects an event happening next week, goes through the registration process, and sends a consent request to his parents for approval.
+Confirmation: Once his parents approve, John receives a confirmation, and the event gets added to he and his parents' in-app calendar.
+
+Outcome:
+John successfully finds and registers for a rowing competition that fits his preferences and skill level, thanks to the personalized sorting and filtering features of the software.
+
+Goal:
+The scenario demonstrates how a junior rower under 17 can use the software to find and register for events that he's interested and valid, enhancing the user experience through personalized settings.
 
 17/18 JUNIOR ROWER INDEPENTANT OF PARENT:
 
