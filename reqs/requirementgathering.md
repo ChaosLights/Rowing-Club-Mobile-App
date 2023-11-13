@@ -76,9 +76,12 @@ Which persona has priority over other personas when creating the app? If so, why
 Coaches and both types of junior rowers are the primary users of our application, as they will be directly using it to enter information and record attendance. Therefore, their needs will be prioritised. On the other hand, parents are secondary users, as they will mostly use the application to receive information about competitions and training, but won't have many more interactions with the app.
 
 Key Features discovered through analysis of personas:
+- Log in system
+- Events Calendar
+- Training schedule (which rowers can show availability for)
+- Image input for rowers
 - ...
-- ...
-- ...
+  (Further features are identified in the user stories.)
 
 ## Use Case Diagram
 
@@ -94,6 +97,10 @@ As a **role** I want **goal** so that **outcome**
 (Write a few for each role? Then possibly rank by importance to create a clear req checklist?)
 
 **COACH:**
+- As a coach, I want to be able to update the update calendar with upcoming events so that rowers can sign up for them.
+- As a coach, I want to have access to the rowers images of their rowing machine data after training so that i can input them manually into the system.
+- As a coach, I want to be able to record rowers personal bests so that I can rank the people on the team for competitions.
+- As a coach, I want to be able to make set training plans that rowers can access so that it is easier to see the activities rowers need to complete at training.
 
 **PARENT:**
 - As a parent, I want to receive real-time notifications about my child's attendance at rowing club practices and events so that I can stay informed about their commitment and safety.
@@ -110,21 +117,6 @@ As a **role** I want **goal** so that **outcome**
 - As a younger rower, I want to be able to use filters to filter out events with age restrictions or those that do not match my personal preferences so that I can browse the avaliable events of interest and make decisions more efficiently.
 - As a younger rower, I want to have the displayed events sorted by date so that I don't need to see the events that are outdated.
 
-<<<<<<< HEAD
-As a parent, I want to view a detailed progress report for my child's rowing performance, including metrics like speed, distance, and technique, so I can track their improvement over time and provide support as needed.
-
-As a parent, I want to easily access a calendar within the app that displays the dates and details of upcoming rowing competitions and events, so I can plan my schedule accordingly and be there to support my child during their races.
-
-As a parent, I want the app to provide a secure and private messaging feature that allows me to communicate with the rowing club coaches and other parents, ensuring I can get information and updates directly from the club's staff and engage with other parents.
-
-As a parent, I want to be able to record and review videos of my child's rowing sessions through the app, so I can provide constructive feedback and support their development as a rower.
-
-As a parent, I want the app to allow me to easily sign my child up for additional training sessions or workshops offered by the rowing club, so I can help them take advantage of extra opportunities to improve their skills and enjoy the sport even more.
-
-JUNIOR ROWER ORGANISED BY PARENT:
-
-17/18 JUNIOR ROWER INDEPENDENT OF PARENT:
-=======
 **17-18 JUNIOR ROWER INDEPENDENT OF PARENT:**
 - As an older rower, I want to be able to check upcoming events and sign up to competitions, so that I can quickly let my coaches know if I am available during those events.
 - As an older rower, I want to be able to record my attendance from my phone quickly instead of waiting for the coach to check me in on a paper attendance sheet, so that I can quickly get started on warming up and getting my equipments ready.
@@ -134,7 +126,7 @@ JUNIOR ROWER ORGANISED BY PARENT:
 - As an older rower, I want to be able to check myself against other club members on a scoreboard, so that I am motivated to compete against my teammates and stride to work harder.
 - As an older rower, I want to be able to find weekly meetup information, such as practice times or meeting times for a 1-on-1 chat, so that I can plan ahead on when I need to be in for practice, and when I can have important chat with my coaches.
 - As an older rower, I want to be able to mark myself as ill, so that I can easily let my coaches knows in advance that I cannot make it to training sessions.
->>>>>>> 5cce66b0bbfbb08468d7dcc86702c36db507e912
+
 
 ## Scenarios
 (structured description of a process: define a setting/context, define one or more actors/stakeholders, define goals/objectives, define a plot)
@@ -145,11 +137,7 @@ JUNIOR ROWER ORGANISED BY PARENT:
 
 **JUNIOR ROWER ORGANISED BY PARENT:**
 
-<<<<<<< HEAD
-17/18 JUNIOR ROWER INDEPENDENT OF PARENT:
-=======
-<ins>Register for an event under parental supervision</ins>
->>>>>>> 5cce66b0bbfbb08468d7dcc86702c36db507e912
+Register for an event under parental supervision
 
 *Context*
 
