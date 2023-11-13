@@ -54,7 +54,7 @@ Having all the personas can also help us later on when it comes to testing and v
 Personas will also be essential to test and validate the app later in the software engineering process, as we will test the app with users that fit each persona to ensure the app is functional for each group.
 
 
-| Persona                   | Coach                                                                                                                             | Parent                                                                                                                                                                                                                                                                  | Junior Rower Organised By Parent                                                                                                                                                            | 17/18 Junior Rower Independant Of Parent                                                                                                                                                                                                                                        |
+| Persona                   | Coach                                                                                                                             | Parent                                                                                                                                                                                                                                                                  | Junior Rower Organised By Parent                                                                                                                                                            | 17-18 Junior Rower Independent Of Parent                                                                                                                                                                                                                                        |
 |:--------------------------|:----------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Name                      | Craig Willis                                                                                                                      | Walton White                                                                                                                                                                                                                                                            | John Terry                                                                                                                                                                                  | Michael Anderson                                                                                                                                                                                                                                                                |
 | Picture                   | <img src="https://projects.cs.nott.ac.uk/comp2002/2023-2024/team12_project/-/raw/main/imgs/coach.png" width="200" height = "200"> | <img src="https://projects.cs.nott.ac.uk/comp2002/2023-2024/team12_project/-/raw/req-gathering/imgs/Parent.png" height="200">                                                                                                                                           | <img src="https://projects.cs.nott.ac.uk/comp2002/2023-2024/team12_project/-/raw/main/imgs/young-rower.jpg" width="200" height = "200">                                                     | <img src="../imgs/17:18-Rower.png" width = "200" height="200" >                                                                                                                                                                                                                 |
@@ -92,44 +92,41 @@ List assumptions and questions from use case diagram:
 As a **role** I want **goal** so that **outcome**
 (Write a few for each role? Then possibly rank by importance to create a clear req checklist?)
 
-COACH:
+**COACH:**
 
-PARENT:
+**PARENT:**
+- As a parent, I want to receive real-time notifications about my child's attendance at rowing club practices and events so that I can stay informed about their commitment and safety.
+- As a parent, I want to view a detailed progress report for my child's rowing performance, including metrics like speed, distance, and technique, so I can track their improvement over time and provide support as needed.
+- As a parent, I want to easily access a calendar within the app that displays the dates and details of upcoming rowing competitions and events, so I can plan my schedule accordingly and be there to support my child during their races.
+- As a parent, I want the app to provide a secure and private messaging feature that allows me to communicate with the rowing club coaches and other parents, ensuring I can get information and updates directly from the club's staff and engage with other parents.
+- As a parent, I want to be able to record and review videos of my child's rowing sessions through the app, so I can provide constructive feedback and support their development as a rower.
+- As a parent, I want the app to allow me to easily sign my child up for additional training sessions or workshops offered by the rowing club, so I can help them take advantage of extra opportunities to improve their skills and enjoy the sport even more.
 
-As a parent, I want to receive real-time notifications about my child's attendance at rowing club practices and events so that I can stay informed about their commitment and safety.
+**JUNIOR ROWER ORGANISED BY PARENT:**
+- As a younger rower, I want to use basic functionalities without parent's permission so that I can check for upcoming events and competitions in advance before asking my parents' permission to participate.
+- As a younger rower, I want to be able to sign up for events and competitions with my parents' permission so that I can participate in rowing events and improve my skills.
+- As a younger rower, I want to have a progress report generated after participating every signed-up events so that I can keep track of my personal data, make schedule for my next training and see my progress intuitively.
+- As a younger rower, I want to be able to filter events with age restrictions so that I can browse the avaliable events and make decisions more efficiently.
+- As a younger rower, I want to have the displayed events sorted according to my preference so that I don't need to see the events that are not included in my personal schedule and focus on the events that I am interested in.
 
-As a parent, I want to view a detailed progress report for my child's rowing performance, including metrics like speed, distance, and technique, so I can track their improvement over time and provide support as needed.
-
-As a parent, I want to easily access a calendar within the app that displays the dates and details of upcoming rowing competitions and events, so I can plan my schedule accordingly and be there to support my child during their races.
-
-As a parent, I want the app to provide a secure and private messaging feature that allows me to communicate with the rowing club coaches and other parents, ensuring I can get information and updates directly from the club's staff and engage with other parents.
-
-As a parent, I want to be able to record and review videos of my child's rowing sessions through the app, so I can provide constructive feedback and support their development as a rower.
-
-As a parent, I want the app to allow me to easily sign my child up for additional training sessions or workshops offered by the rowing club, so I can help them take advantage of extra opportunities to improve their skills and enjoy the sport even more.
-
-JUNIOR ROWER ORGANISED BY PARENT:
-
-As a younger rower, I want to use basic functionalities without parent's permission so that I can check for upcoming events and competitions in advance before asking my parents' permission to participate.
-
-As a younger rower, I want to be able to sign up for events and competitions with my parents' permission so that I can participate in rowing events and improve my skills.
-
-As a younger rower, I want to have a progress report generated after participating every signed-up events so that I can keep track of my personal data, make schedule for my next training and see my progress intuitively.
-
-As a younger rower, I want to be able to filter events with age restrictions so that I can browse the avaliable events and make decisions more efficiently.
-
-As a younger rower, I want to have the displayed events sorted according to my preference so that I don't need to see the events that are not included in my personal schedule and focus on the events that I am interested in.
-
-17/18 JUNIOR ROWER INDEPENTANT OF PARENT:
+**17-18 JUNIOR ROWER INDEPENDENT OF PARENT:**
+- As an older rower, I want to be able to check upcoming events and sign up to competitions, so that I can quickly let my coaches know if I am available during those events.
+- As an older rower, I want to be able to record my attendance from my phone quickly instead of waiting for the coach to check me in on a paper attendance sheet, so that I can quickly get started on warming up and getting my equipments ready.
+- As an older rower, I want to visualise my improvement through a graph of records and scored times, so that I can easily check my improvements.
+- As an older rower, I want to also have access to actual records of my times, so that I can view the precise timings that I should aim to beat.
+- As an older rower, I want to be able to record in my own ergs times while doing individual training, so that I'm not required to go to my coaches and wait for them to manually enter the times into the spreadsheet.
+- As an older rower, I want to be able to check myself against other club members on a scoreboard, so that I am motivated to compete against my teammates and stride to work harder.
+- As an older rower, I want to be able to find weekly meetup information, such as practice times or meeting times for a 1-on-1 chat, so that I can plan ahead on when I need to be in for practice, and when I can have important chat with my coaches.
+- As an older rower, I want to be able to mark myself as ill, so that I can easily let my coaches knows in advance that I cannot make it to training sessions.
 
 ## Scenarios
 (structured description of a process: define a setting/context, define one or more actors/stakeholders, define goals/objectives, define a plot)
 
-COACH:
+**COACH:**
 
-PARENT:
+**PARENT:**
 
-JUNIOR ROWER ORGANISED BY PARENT:
+**JUNIOR ROWER ORGANISED BY PARENT:**
 
 Context:
 John uses a rowing club software to keep track of upcoming events and register for competitions.
@@ -157,8 +154,29 @@ John successfully finds and registers for a rowing competition that fits his pre
 Goal:
 The scenario demonstrates how a junior rower under 17 can use the software to find and register for events that he's interested and valid, enhancing the user experience through personalized settings.
 
-17/18 JUNIOR ROWER INDEPENTANT OF PARENT:
+**17-18 JUNIOR ROWER INDEPENDENT OF PARENT:**
 
+<ins>Reviewing Previous Ergometer Records</ins>
+
+*Overview*
+
+As a new season is about to begin, Michael is keen on training to improve his erg records. He is currently pre-season training independently at a gym close to home. However, he needs a way to keep track of how well he is doing each training session, in order to work out a maximised training approach for himself.
+
+*Rationale*
+
+Since Michael is training individually, he does not have his coaches to tell him whether he is getting better. He also wants to be able to quickly view records from his phone, rather than having to contact the coach for those information every time. Michael also likes having a more visual representation of his records, as it motivate him more than looking at pure numbers.
+
+*Details*
+
+1. Michael opened the application from his phone, right before a training session.
+2. He clicked on the records page, and is met with a graph showing the timing of his rowing from the last month.
+3. He could see that during this last month, Michael's times was steadily decreasing, meaning his trainings are effective.
+4. Michael saw the dip on the graph, showing where his best time is, and clicked on the 'record history' button under the graph to see the exact timings of his best time.
+5. He scrolled through the records to find his best time, and used that as his current time goal to beat.
+
+*Notes*
+
+Although Michael is currently only reviewing his erg records at the moment, he should be able to review other records such as his time trial records from his phone as well. He should also be able to input new times on the application, so that his records are up-to-date.
 
 ## Prototypes
 
