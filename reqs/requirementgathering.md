@@ -144,7 +144,7 @@ Register for an event under parental supervision
 John uses a rowing club software to keep track of upcoming events and register for competitions.
 He has specific preferences in terms of event types, distances, and locations.
 
-*Scenerio*
+*Scenario*
 
 Logging In: John opens the rowing club software and logs into his account which is associated with his parents' account.
 
