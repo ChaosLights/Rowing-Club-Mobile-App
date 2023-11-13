@@ -106,8 +106,8 @@ As a **role** I want **goal** so that **outcome**
 - As a younger rower, I want to use basic functionalities without parent's permission so that I can check for upcoming events and competitions in advance before asking my parents' permission to participate.
 - As a younger rower, I want to be able to sign up for events and competitions with my parents' permission so that I can participate in rowing events and improve my skills.
 - As a younger rower, I want to have a progress report generated after participating every signed-up events so that I can keep track of my personal data, make schedule for my next training and see my progress intuitively.
-- As a younger rower, I want to be able to filter events with age restrictions so that I can browse the avaliable events and make decisions more efficiently.
-- As a younger rower, I want to have the displayed events sorted according to my preference so that I don't need to see the events that are not included in my personal schedule and focus on the events that I am interested in.
+- As a younger rower, I want to be able to use filters to filter out events with age restrictions or those that do not match my personal preferences so that I can browse the avaliable events of interest and make decisions more efficiently.
+- As a younger rower, I want to have the displayed events sorted by date so that I don't need to see the events that are outdated.
 
 **17-18 JUNIOR ROWER INDEPENDENT OF PARENT:**
 - As an older rower, I want to be able to check upcoming events and sign up to competitions, so that I can quickly let my coaches know if I am available during those events.
@@ -128,11 +128,14 @@ As a **role** I want **goal** so that **outcome**
 
 **JUNIOR ROWER ORGANISED BY PARENT:**
 
-Context:
+<ins>Register for an event under parental supervision</ins>
+
+*Context*
+
 John uses a rowing club software to keep track of upcoming events and register for competitions.
 He has specific preferences in terms of event types, distances, and locations.
 
-Scenario:
+*Scenerio*
 
 Logging In: John opens the rowing club software and logs into his account which is associated with his parents' account.
 
@@ -148,10 +151,12 @@ Registering for an Event: John browses through the events and selects an event h
 
 Confirmation: Once his parents approve, John receives a confirmation, and the event gets added to he and his parents' in-app calendar.
 
-Outcome:
+*Outcome*
+
 John successfully finds and registers for a rowing competition that fits his preferences and skill level, thanks to the personalized sorting and filtering features of the software.
 
-Goal:
+*Goal*
+
 The scenario demonstrates how a junior rower under 17 can use the software to find and register for events that he's interested and valid, enhancing the user experience through personalized settings.
 
 **17-18 JUNIOR ROWER INDEPENDENT OF PARENT:**
