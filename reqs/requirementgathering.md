@@ -17,22 +17,21 @@
 ## Brief
 
 -----------------
-~~Why we chose those specific UML diagrams, etc...~~
 
 [INTRO]
 
-The diagram we settled on producing are: personas, use case diagram, user stories and scenarios. We also produces low fidelity screen prototypes for each user type.
+The diagrams we settled on producing are: personas, a use case diagram, user stories and scenarios. We also produced low fidelity screen prototypes for each user type.
 
-*Personas*: As our application will include multiple user types, with each type having different function requirements, it is important for us to understand the different user types, so that we can develop the app to includes functions fitting to each and every user type. 
+*Personas*: As our application will include multiple user types, with each type having different function requirements, it is important for us to understand each of them, so that we can develop the app to includes functions fitting to each and every user. 
 We did this through a persona board, so that we will be able to easily access information from each user type quickly during the development stages, 
 
-*Use Case Diagram*: To ensure we are able to identify all the necessary functions for the application, we decided that a use case diagram will helps us check what functions we actually need for our app. Furthermore, this will make us when producing a product backlog.
+*Use Case Diagram*: To ensure we are able to identify all the necessary functions for the application, we decided that a use case diagram will help us check what functions we actually need for our app. Furthermore, this will be useful when producing a product backlog.
 
-*User Stories*: As we will using user stories as specification points for our product backlog, it makes sense for us to work on it as part of our requirement gathering. This will allow us to easily check our app against a list of requirements, 
+*User Stories*: As we will be using user stories as specification points for our product backlog, it makes sense for us to work on it as part of our requirement gathering. This will allow us to easily check our app against a list of requirements, 
 making it a lot easier to discover forgotten requirements or errors in the long run.
 
 *Scenarios*: To be able to understand the systems in our application, we decided to use scenarios to grasp how the app features would work together, and how different users would use the application. 
-This will help us in the development stages to integrate our smaller functions together into the app.
+This will help us in the development stages to integrate smaller functions together into the app.
 
 *Low Fidelity Prototypes*: As we will be producing an application that requires a user interface, producing a prototype will allow us to map out where our elements will be, and how our screens may look like.
 This will greatly reduce the time we spend on the user interface development as we will already have a plan on how to execute our idea.
