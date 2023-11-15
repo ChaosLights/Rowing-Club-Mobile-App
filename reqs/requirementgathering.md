@@ -149,6 +149,27 @@ As a **role** I want **goal** so that **outcome**
 
 **PARENT:**
 
+*Overview*
+
+It's a Saturday morning, and Walton is enjoying his coffee as he opens the rowing club app. Today is a special day – his child is participating in a major rowing competition. He logs in to the app with excitement, ready to follow their progress.
+
+*Rationale*
+
+Walton wants to keep up to date with his child's progress in the rowing competition as well as keep a track of their position in the leaderboard. He also wants to access his child's records to see how they have been getting on with training and strength. On the competition day he wants to use the app to find details of the competition like where to drop the child off, timings etc.
+
+*Details*
+
+1. Walton opens the app from his phone before they leave the house
+2. He navigates to the calender feature to confirm the details and timings of today's race
+3. He checks the attendance section to see whether his child has confirmed attendance for the race
+4. He has a look at his child's log to see their progress over the last few months
+5. After the race he opens the app to check the report section to see how the race today affected their performance metrics
+
+Notes:
+
+Through this scenario we show the ease with which a parent can keep a track of their child's records and keep up to date with training sessions and competitions
+
+
 **JUNIOR ROWER ORGANISED BY PARENT:**
 
 Register for an event under parental supervision
