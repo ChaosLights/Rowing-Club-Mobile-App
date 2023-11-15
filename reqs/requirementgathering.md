@@ -52,13 +52,11 @@ Add reflection here...
 In the process of textual analysis, actors and use cases were identified. We additionally noted a few requirements from the software that associated with the use cases of which the actors were linked to.
 >Identifying the actors and use cases were essential for the rest of the requirements modelling stage, as it is what we will create diagrams based on.
 
-**TEXTUAL ANALYSIS HERE**
+<img src="https://projects.cs.nott.ac.uk/comp2002/2023-2024/team12_project/-/raw/main/imgs/textual_analysis.png">
 
 Summary of the most important **Actors** and **Use Cases**:
 
-| Name | Type |
-|:-----|:-----|
-| ...  | ...  |
+<img src="https://projects.cs.nott.ac.uk/comp2002/2023-2024/team12_project/-/raw/main/imgs/textual_analysis_table.png">
 
 
 ## Personas
