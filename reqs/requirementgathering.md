@@ -110,10 +110,19 @@ As a **role** I want **goal** so that **outcome**
 (Write a few for each role? Then possibly rank by importance to create a clear req checklist?)
 
 **COACH:**
-- As a coach, I want to be able to update the update calendar with upcoming events so that rowers can sign up for them.
+- As a coach, I want to be able to update the event calendar with upcoming events so that rowers can sign up for them.
 - As a coach, I want to have access to the rowers images of their rowing machine data after training so that i can input them manually into the system.
 - As a coach, I want to be able to record rowers personal bests so that I can rank the people on the team for competitions.
 - As a coach, I want to be able to make set training plans that rowers can access so that it is easier to see the activities rowers need to complete at training.
+- As a coach, I want to view individual rower statistics to track their performance and improvement over time.
+- As a coach, I want to create plans that fit each rowers skill levels and goals.
+- As a coach I want to organize and schedule team practices making training more efficient.
+- As a coach, I want to communicate with individual rowers to provide feedback, guidance, and updates.
+- As a coach, I want to track the progress of each athlete, making it easier to see their development and make adjustments as needed.
+- As a coach, I want to receive notifications or reminders for important events, such as upcoming races or training sessions.
+- As a coach, I want to generate reports and summaries of the teams performance and progress.
+
+
 
 **PARENT:**
 - As a parent, I want to receive real-time notifications about my child's attendance at rowing club practices and events so that I can stay informed about their commitment and safety.
@@ -146,6 +155,29 @@ As a **role** I want **goal** so that **outcome**
 (structured description of a process: define a setting/context, define one or more actors/stakeholders, define goals/objectives, define a plot)
 
 **COACH:**
+
+*Overview*
+
+Its a Sunday morning. The coach is enjoying his tea in the garden on his morning off. He then proceeds to open the rowing club app because having the time off of work is an excellent opportunity to organise his team and track each athletes progress. 
+
+*Rationale*
+
+ The coach wants to  monitors each athlete's progress and review their skills so that he is up to date with and every one of his students in order to help them seperately and build up to each ones individual goals and in the longrun excel their skills.
+
+
+*Details*
+
+1. The coach opens the app from his phone.
+2. He navigates to the calender feature to confirm the details and timings of next weeks race.
+3. He checks the attendance section to see who can attend the competition.
+4. The coach selects an athlete from the rowing team.
+5. The coach views the athlete's training progress, including exercises and results.
+6. The system displays the athlete's progress.
+7. The coach chooses whos rowing in next weeks competition.
+
+*Notes*
+
+With this scenario the coach can see who is free for next weeks competition and he then proceeds to view their progress to choose who will be rowing for that competition.
 
 **PARENT:**
 
