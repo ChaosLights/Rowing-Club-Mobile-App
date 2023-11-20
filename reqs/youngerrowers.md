@@ -19,3 +19,4 @@
 
 ## Prototypes:
 ----------------------------------
+<img src="../imgs/Prototypes/Younger_Rower-Prototype.png">
