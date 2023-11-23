@@ -1,21 +1,7 @@
-# Older Rowers:
-----------------------------------
+# Older Rowers Prototype:
 
-|Jump to..|
-|---------|
-|[Persona](#personas)|
-|[User Stories](#user-stories)|
-|[Scenarios](#scenarios)|
-|[Prototypes](#prototypes)|
-
-## Personas:
 ----------------------------------
+[⇦Requirements](requirementgathering.md)
 
-## User Stories:
-----------------------------------
+[⇦Younger Rower Prototype](youngerrowers.md) | [Coach Prototype⇨](coaches.md)
 
-## Scenarios:
-----------------------------------
-
-## Prototypes:
-----------------------------------
