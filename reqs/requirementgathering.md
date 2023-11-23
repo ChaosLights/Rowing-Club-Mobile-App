@@ -111,12 +111,12 @@ As a **role** I want **goal** so that **outcome**
 
 **COACH:**
 - As a coach, I want to be able to update the event calendar with upcoming events so that rowers can sign up for them.
-- As a coach, I want to have access to the rowers images of their rowing machine data after training so that i can input them manually into the system.
-- As a coach, I want to be able to record rowers personal bests so that I can rank the people on the team for competitions.
+- As a coach, I want to have access to the rowers' images of their rowing machine data after training so that i can input them manually into the system.
+- As a coach, I want to be able to record rowers' personal bests so that I can rank the people on the team for competitions.
 - As a coach, I want to be able to make set training plans that rowers can access so that it is easier to see the activities rowers need to complete at training.
 - As a coach, I want to view individual rower statistics to track their performance and improvement over time.
-- As a coach, I want to create plans that fit each rowers skill levels and goals.
-- As a coach I want to organize and schedule team practices making training more efficient.
+- As a coach, I want to create plans that fit each rower's skill levels and goals.
+- As a coach, I want to organize and schedule team practices making training more efficient.
 - As a coach, I want to communicate with individual rowers to provide feedback, guidance, and updates.
 - As a coach, I want to track the progress of each athlete, making it easier to see their development and make adjustments as needed.
 - As a coach, I want to receive notifications or reminders for important events, such as upcoming races or training sessions.
