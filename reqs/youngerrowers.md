@@ -1,22 +1,6 @@
-# Younger Rowers:
-----------------------------------
+# Younger Rowers Prototype:
 
-|Jump to..|
-|---------|
-|[Persona](#personas)|
-|[User Stories](#user-stories)|
-|[Scenarios](#scenarios)|
-|[Prototypes](#prototypes)|
-
-## Personas:
 ----------------------------------
+[⇦Requirements](requirementgathering.md) | [Older Rowers Prototype⇨](olderrowers.md)
 
-## User Stories:
-----------------------------------
-
-## Scenarios:
-----------------------------------
-
-## Prototypes:
-----------------------------------
 <img src="../imgs/Prototypes/Younger_Rower-Prototype.png">
