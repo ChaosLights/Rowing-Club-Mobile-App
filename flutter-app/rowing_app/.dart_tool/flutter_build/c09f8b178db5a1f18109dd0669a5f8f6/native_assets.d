@@ -1,0 +1,1 @@
+ C:\\Users\\niyas\\OneDrive\\SEGP\\team12_project\\flutter-app\\rowing_app\\.dart_tool\\flutter_build\\c09f8b178db5a1f18109dd0669a5f8f6\\native_assets.yaml: 
