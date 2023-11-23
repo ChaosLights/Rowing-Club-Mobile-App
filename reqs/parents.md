@@ -1,21 +1,8 @@
-# Parents:
+# Parents Prototype:
+
 ----------------------------------
 
-|Jump to..|
-|---------|
-|[Persona](#personas)|
-|[User Stories](#user-stories)|
-|[Scenarios](#scenarios)|
-|[Prototypes](#prototypes)|
+[⇦Requirements](requirementgathering.md)
 
-## Personas:
-----------------------------------
+[⇦Coaches Prototype](coaches.md) 
 
-## User Stories:
-----------------------------------
-
-## Scenarios:
-----------------------------------
-
-## Prototypes:
-----------------------------------

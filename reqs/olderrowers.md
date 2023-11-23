@@ -1,5 +1,10 @@
-# Older Rowers:
+# Older Rowers Prototype:
+
 ----------------------------------
+[⇦Requirements](requirementgathering.md)
+
+[⇦Younger Rower Prototype](youngerrowers.md) | [Coaches Prototype⇨](coaches.md)
+
 These low-fidelity prototypes depict different screens that could be implemented in the Rowing app for the Older Rowers.<br><br>
 
 **(Left to Right) Home screen, Progress input screen:**<br>
