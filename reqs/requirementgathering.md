@@ -105,6 +105,10 @@ List assumptions and questions from use case diagram:
 - ...
 - ...
 
+## Activity Diagram
+
+![activity-diagram](../imgs/activity_diagram.jpg)
+
 ## User Stories
 As a **role** I want **goal** so that **outcome**
 (Write a few for each role? Then possibly rank by importance to create a clear req checklist?)
