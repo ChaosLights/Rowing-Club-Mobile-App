@@ -112,7 +112,7 @@ List assumptions and questions from use case diagram:
 
 ## Sequence Diagram
 
-![Sequence-Diagram](../imgs\SequenceDiagram.jpg)
+![Sequence-Diagram](../imgs/SequenceDiagram.jpg)
 
 ## User Stories
 As a **role** I want **goal** so that **outcome**
