@@ -10,6 +10,7 @@
 | [Textual Analysis](#textual-analysis) |
 | [Personas](#personas)                 |
 | [Use Case Diagram](#use-case-diagram) |
+| [Sequence Diagram](#sequence-diagram)
 | [User Stories](#user-stories)         |
 | [Scenarios](#scenarios)               |
 | [Prototypes](#prototypes)             |
@@ -111,7 +112,7 @@ List assumptions and questions from use case diagram:
 
 ## Sequence Diagram
 
-<img src="../imgs\SequenceDiagram.jpg">
+![Sequence-Diagram](../imgs\SequenceDiagram.jpg)
 
 ## User Stories
 As a **role** I want **goal** so that **outcome**
