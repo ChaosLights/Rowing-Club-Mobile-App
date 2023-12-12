@@ -1,6 +1,6 @@
 # Requirement Gathering
 
-[⇦Readme](../README.md)
+[⇦Readme](../README.md) | [Initial Development ⇨](../docs/initialdevelopment.md)
 
 | Table of Contents                     |
 |---------------------------------------|
