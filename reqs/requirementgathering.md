@@ -10,7 +10,8 @@
 | [Textual Analysis](#textual-analysis) |
 | [Personas](#personas)                 |
 | [Use Case Diagram](#use-case-diagram) |
-| [Sequence Diagram](#sequence-diagram)
+| [Activity Diagram](#activity-diagram) |
+| [Sequence Diagram](#sequence-diagram) |
 | [User Stories](#user-stories)         |
 | [Scenarios](#scenarios)               |
 | [Prototypes](#prototypes)             |
