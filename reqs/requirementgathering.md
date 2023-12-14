@@ -2,19 +2,20 @@
 
 [⇦Readme](../README.md) | [Initial Development ⇨](../docs/initialdevelopment.md)
 
-| Table of Contents                     |
-|---------------------------------------|
-| [Brief](#brief)                       |
-| [Team Management](#team-management)   |
-| [Reflection](#reflection)             |
-| [Textual Analysis](#textual-analysis) |
-| [Personas](#personas)                 |
-| [Use Case Diagram](#use-case-diagram) |
-| [Activity Diagram](#activity-diagram) |
-| [Sequence Diagram](#sequence-diagram) |
-| [User Stories](#user-stories)         |
-| [Scenarios](#scenarios)               |
-| [Prototypes](#prototypes)             |
+| Table of Contents                         |
+|-------------------------------------------|
+| [Brief](#brief)                           |
+| [Team Management](#team-management)       |
+| [Reflection](#reflection)                 |
+| [Textual Analysis](#textual-analysis)     |
+| [Personas](#personas)                     |
+| [Use Case Diagram](#use-case-diagram)     |
+| [Activity Diagram](#activity-diagram)     |
+| [Sequence Diagram](#sequence-diagram)     |
+| [User Stories](#user-stories)             |
+| [Scenarios](#scenarios)                   |
+| [Requirements Table](#requirements-table) |
+| [Prototypes](#prototypes)                 |
 
 ## Brief
 
