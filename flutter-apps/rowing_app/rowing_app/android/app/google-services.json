@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "768738451774",
+    "project_id": "team12-rowingapp",
+    "storage_bucket": "team12-rowingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768738451774:android:40231a14618119872d8c6f",
+        "android_client_info": {
+          "package_name": "com.example.rowing_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUqAcJjo_TgP4w8AmubEsxRDlVoNllsjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
