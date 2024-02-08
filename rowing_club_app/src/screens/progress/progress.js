@@ -1,8 +1,6 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
 import Theme from '../../style';
-//screens
-import AddTrainingScreen from './addTraining';
 
 //const: screen names
 const addTrainingName = 'AddTraining';
@@ -20,7 +18,7 @@ export default function ProgressScreen({navigation}) {
             </Text>
             <Button
                 title="Add New Training Record"
-                onPress={() => navigation.navigate('AddTraining')}
+                onPress={() => navigation.navigate(addTrainingName)}
             />
         </View>
     )
