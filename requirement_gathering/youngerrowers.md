@@ -3,4 +3,4 @@
 ----------------------------------
 [⇦Requirements](requirementgathering.md) | [Older Rowers Prototype⇨](olderrowers.md)
 
-<img src="../imgs/Prototypes/Younger_Rower-Prototype.png">
+<img src="../imgs/Prototypes/Younger_Rower/Younger_Rower-Prototype.png">
