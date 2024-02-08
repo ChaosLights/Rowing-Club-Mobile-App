@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_analytics/firebase_analytics.dart'; 
 import 'home.dart';
 import 'theme/theme.dart';
 import 'notif.dart';
 import 'message.dart';
+import 'imagefirebase.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -23,7 +31,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// Nagivator Bar
+//Nagivator Bar
 class Navigator extends StatefulWidget {
   const Navigator({super.key});
 
@@ -50,29 +58,36 @@ class _NavigatorState extends State<Navigator> {
             label: 'Home',
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
             icon: Badge(
               label: Text('2'),
+              child: Icon(Icons.notifications_sharp)),
+            label: 'Notifications',
+          ),
+          NavigationDestination( 
+            icon: Badge(
               child: Icon(Icons.messenger_sharp),
             ),
             label: 'Messages',
           ),
+          NavigationDestination(
+            icon: Icon(Icons.rowing),
+            label: 'Training')
         ],
       ),
 
-      /// Content
+      //Content
       body: <Widget>[
-        /// Home page
+        //Home page
         const Home(),
 
-        /// Notifications page
+        //Notifications page
         const Notif(),
 
-        /// Messages page
+        //Messages page
         const Message(),
+
+        //Images page
+        const ImageFirebase(),
       ][currentPageIndex],
     );
   }

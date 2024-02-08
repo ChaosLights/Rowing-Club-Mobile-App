@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "342259365894",
+    "project_id": "practice-project-e75c8",
+    "storage_bucket": "practice-project-e75c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342259365894:android:230e71bc7d3a282bc8eb87",
+        "android_client_info": {
+          "package_name": "com.example.firebase_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD81gBbNRLpdqn1-FjshZQPyg-1SF09tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342259365894:android:fbfcb7357fda54ebc8eb87",
+        "android_client_info": {
+          "package_name": "com.example.izzy_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD81gBbNRLpdqn1-FjshZQPyg-1SF09tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342259365894:android:17a14bfc862398fec8eb87",
+        "android_client_info": {
+          "package_name": "com.example.readandwrite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD81gBbNRLpdqn1-FjshZQPyg-1SF09tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342259365894:android:92aa629b0acdb54ec8eb87",
+        "android_client_info": {
+          "package_name": "com.example.test_styling"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD81gBbNRLpdqn1-FjshZQPyg-1SF09tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342259365894:android:d72c66ab6ec7f376c8eb87",
+        "android_client_info": {
+          "package_name": "yoda07.yoda07"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD81gBbNRLpdqn1-FjshZQPyg-1SF09tM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
