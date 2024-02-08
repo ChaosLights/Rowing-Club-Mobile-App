@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "rowing_club_app",
+    "slug": "rowing_club_app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "rowing_club_app"
+}
