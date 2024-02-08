@@ -2,19 +2,20 @@
 
 [⇦Readme](../README.md) | [Initial Development ⇨](../docs/initialdevelopment.md)
 
-| Table of Contents                     |
-|---------------------------------------|
-| [Brief](#brief)                       |
-| [Team Management](#team-management)   |
-| [Reflection](#reflection)             |
-| [Textual Analysis](#textual-analysis) |
-| [Personas](#personas)                 |
-| [Use Case Diagram](#use-case-diagram) |
-| [Activity Diagram](#activity-diagram) |
-| [Sequence Diagram](#sequence-diagram) |
-| [User Stories](#user-stories)         |
-| [Scenarios](#scenarios)               |
-| [Prototypes](#prototypes)             |
+| Table of Contents                         |
+|-------------------------------------------|
+| [Brief](#brief)                           |
+| [Team Management](#team-management)       |
+| [Reflection](#reflection)                 |
+| [Textual Analysis](#textual-analysis)     |
+| [Personas](#personas)                     |
+| [Use Case Diagram](#use-case-diagram)     |
+| [Activity Diagram](#activity-diagram)     |
+| [Sequence Diagram](#sequence-diagram)     |
+| [User Stories](#user-stories)             |
+| [Scenarios](#scenarios)                   |
+| [Requirements Table](#requirements-table) |
+| [Prototypes](#prototypes)                 |
 
 ## Brief
 
@@ -263,6 +264,35 @@ Since Michael is training individually, he does not have his coaches to tell him
 *Notes*
 
 Although Michael is currently only reviewing his erg records at the moment, he should be able to review other records such as his time trial records from his phone as well. He should also be able to input new times on the application, so that his records are up-to-date.
+
+## Requirements Table
+| ID | REQUIREMENT                                               | DESCRIPTION                                                                                                                                                                                                                    |
+|----|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1  | Log-in system                                             | The application must have a secure log-in system that allows different user types (coaches, parents, younger rowers organized by parents, and older rowers independent of parents) to access their respective functionalities. |
+| 2  | Events Calendar                                           | The app should feature an events calendar that displays upcoming rowing events, competitions, and training sessions. Users should be able to view event details, including dates, timings, and locations.                      |
+| 3  | Training Schedule                                         | Coaches should have the ability to create and manage training schedules, allowing rowers to show their availability. The schedule should be accessible to all relevant parties.                                                |
+| 4  | Receive Image Input from Rowers                           | Coaches should be able to receive and input images of rowing machine data submitted by rowers. This feature aids in tracking and analyzing performance.                                                                        |
+| 5  | Record Rowers' Personal Bests                             | Coaches should have the capability to record and track rowers' personal bests, allowing them to rank individuals for competitions.                                                                                             |
+| 6  | View Individual Rower Statistics                          | Coaches need to view detailed statistics for individual rowers, enabling them to track performance and improvement over time.                                                                                                  |
+| 7  | Organize and Schedule Team Practices                      | Coaches need functionality to organize and schedule team practices, optimizing training efficiency.                                                                                                                            |
+| 8  | Communication with Rowers                                 | Coaches should have the ability to communicate individually with rowers, providing feedback, guidance, and updates.                                                                                                            |
+| 9  | Track Athlete Progress                                    | Coaches should be able to track the progress of each athlete, making it easier to assess development and make necessary adjustments.                                                                                           |
+| 10 | Notifications for Important Events                        | Rowers should receive notifications or reminders for important events such as upcoming races or training sessions.                                                                                                             |
+| 11 | Generate Reports and Summaries                            | Coaches should have the capability to generate reports and summaries of the team's performance and progress.                                                                                                                   |
+| 12 | Real-Time Notifications for Parent                        | Parents should receive real-time notifications about their child's attendance at rowing club practices and events, ensuring they stay informed about their child's commitment and safety.                                      |
+| 13 | Encryption and Protection of Personal Information         | Rowers' personal information, including training data and home address, should be encrypted and protected to prevent unauthorized access and leakage after participating in an event.                                          |
+| 14 | Use Filters to Browse Events Efficiently                  | Rowers should have the ability to use filters to sort out events with age restrictions or those that do not match their preferences, allowing them to browse available events more efficiently.                                |
+| 15 | Display Events Sorted by Date                             | Rowers should have the displayed events sorted by date, providing them with a clear view of upcoming events without unnecessary information.                                                                                   |
+| 16 | Check Upcoming Events and Sign Up for Competitions        | Rowers should be able to check upcoming events and sign up for competitions, allowing them to quickly inform coaches of their availability.                                                                                    |
+| 17 | Record Attendance from Phone                              | Rowers should be able to quickly record their attendance from their phones instead of relying on coaches to check them in on a paper attendance sheet.                                                                         |
+| 18 | Visualize Improvement through Graph of Records            | Rowers should have the ability to visualize their improvement through a graph of records and scored times, providing a clear representation of progress.                                                                       |
+| 19 | Check Against Club Members on Scoreboard                  | Rowers should be able to check themselves against other club members on a scoreboard, fostering motivation and healthy competition.                                                                                            |
+| 20 | Find Weekly Meetup Information                            | Rowers should be able to find weekly meetup information, including practice times or meeting times for 1-on-1 chats, helping them plan their schedules and prepare for important interactions with coaches.                    |
+| 21 | Review Previous Ergometer Records for Individual Training | Rowers should be able to review previous ergometer records, allowing them to track and analyze their performance during individual training sessions.                                                                          |
+
+
+
+
 
 ## Prototypes
 
