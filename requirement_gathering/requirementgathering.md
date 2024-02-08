@@ -55,11 +55,11 @@ Add reflection here...
 In the process of textual analysis, actors and use cases were identified. We additionally noted a few requirements from the software that associated with the use cases of which the actors were linked to.
 >Identifying the actors and use cases were essential for the rest of the requirements modelling stage, as it is what we will create diagrams based on.
 
-<img src="../imgs/textual_analysis.png">
+<img src="../imgs/requirement_diagrams/textual_analysis.png">
 
 Summary of the most important **Actors** and **Use Cases**:
 
-<img src="../imgs/textual_analysis_table.png">
+<img src="../imgs/requirement_diagrams/textual_analysis_table.png">
 
 ## Personas
 
@@ -101,7 +101,7 @@ Key Features discovered through analysis of personas:
 
 ## Use Case Diagram
 
-<img src="../imgs/use-case-diagram.png">
+<img src="../imgs/requirement_diagrams/use-case-diagram.png">
 
 List assumptions and questions from use case diagram:
 - ...
@@ -110,11 +110,11 @@ List assumptions and questions from use case diagram:
 
 ## Activity Diagram
 
-![activity-diagram](../imgs/activity_diagram.jpg)
+![activity-diagram](../imgs/requirement_diagrams/activity_diagram.jpg)
 
 ## Sequence Diagram
 
-![Sequence-Diagram](../imgs/SequenceDiagram.jpg)
+![Sequence-Diagram](../imgs/requirement_diagrams/SequenceDiagram.jpg)
 
 ## User Stories
 As a **role** I want **goal** so that **outcome**
@@ -297,7 +297,7 @@ Although Michael is currently only reviewing his erg records at the moment, he s
 ## Prototypes
 
 --------------
-* [Younger Rowers](../reqs/youngerrowers.md)
-* [Older Rowers](../reqs/olderrowers.md)
-* [Coaches](../reqs/coaches.md)
-* [Parents](../reqs/parents.md)
+* [Younger Rowers](/youngerrowers.md)
+* [Older Rowers](/olderrowers.md)
+* [Coaches](/coaches.md)
+* [Parents](/parents.md)

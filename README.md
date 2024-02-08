@@ -23,5 +23,5 @@ We are planning to manage our team by...
 
 # Contents
 
-- [Requirement Gathering](reqs/requirementgathering.md)
+- [Requirement Gathering](requirement_gathering/requirementgathering.md)
 - [Initail Development](docs/initialdevelopment.md)

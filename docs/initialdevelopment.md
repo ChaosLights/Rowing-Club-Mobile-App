@@ -1,6 +1,6 @@
 # Initial Development
 
-[⇦Req Gathering](../reqs/requirementgathering.md) 
+[⇦Req Gathering](../requirement_gathering/requirementgathering.md) 
 
 | Table of Contents                     |
 |---------------------------------------|
