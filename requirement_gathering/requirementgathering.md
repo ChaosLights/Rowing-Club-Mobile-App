@@ -297,7 +297,7 @@ Although Michael is currently only reviewing his erg records at the moment, he s
 ## Prototypes
 
 --------------
-* [Younger Rowers](/youngerrowers.md)
-* [Older Rowers](/olderrowers.md)
-* [Coaches](/coaches.md)
-* [Parents](/parents.md)
+* [Younger Rowers](youngerrowers.md)
+* [Older Rowers](olderrowers.md)
+* [Coaches](coaches.md)
+* [Parents](parents.md)
