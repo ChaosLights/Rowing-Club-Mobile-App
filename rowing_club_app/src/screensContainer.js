@@ -7,12 +7,14 @@ import HomeScreen from './screens/home';
 import EventsScreen from './screens/events';
 import ProgressContainer from './screens/progress/progressContainer';
 import SettingsScreen from './screens/settings/settings';
+import ImageScreen from './screens/image';
 
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';
 const progressContainerName = 'ProgressContainer';
 const settingsName = 'Settings';
+const imageName = 'Image';
 //const: nav
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +36,8 @@ export default function ScreensContainer() {
                             iconName = focused ? 'body' : 'body-outline';
                         } else if(routeName === settingsName) {
                             iconName = focused ? 'settings' : 'settings-outline';
+                        } else if(routeName == imageName) {
+                            iconName = focused ? 'camera' : 'camera-outline';
                         }
 
                         return <Ionicons name={iconName} size={size} color={color}/>
@@ -49,6 +53,7 @@ export default function ScreensContainer() {
                 <Tab.Screen name={eventsName} component={EventsScreen}/>
                 <Tab.Screen name={progressContainerName} component={ProgressContainer}/>
                 <Tab.Screen name={settingsName} component={SettingsScreen}/>
+                <Tab.Screen name={imageName} component={ImageScreen} />
 
             </Tab.Navigator>
         </NavigationContainer>

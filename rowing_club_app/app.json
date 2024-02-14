@@ -1,6 +1,14 @@
 {
   "expo": {
     "name": "rowing_club_app",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "slug": "rowing_club_app",
     "version": "1.0.0",
     "assetBundlePatterns": [
