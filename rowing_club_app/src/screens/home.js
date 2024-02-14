@@ -11,6 +11,7 @@ export default function HomeScreen({ navigation }) {
     // state
     const [rowerGroup, setRowerGroup] = useState(null);
     const [attendance, addAttendance] = useState([]);
+    const [notification, addNotification] = useState([]);
     const [checkedDays, setCheckedDays] = useState({});
     const rowerID = "1";
 
@@ -27,6 +28,7 @@ export default function HomeScreen({ navigation }) {
         });
     }, [rowerID]);
 
+// get group attendance schedule
     useEffect(() => {
             onSnapshot(collection(db, "GroupAttendance"), (snapshot) => {
             let attendanceList = []
@@ -43,6 +45,15 @@ export default function HomeScreen({ navigation }) {
             });
         }, [rowerGroup]);
 
+//get notifications
+       useEffect(() => {
+        onSnapshot(collection(db, "Notification"), (snapshot) => {
+        let notificationList = []
+         snapshot.docs.map((doc) => notificationList.push({ ...doc.data(), id: doc.id }))
+              addNotification(notificationList)
+                       })
+                           }, [])
+
         const handleCheckBoxToggle = (day) => {
                 setCheckedDays((prevCheckedDays) => ({
                     ...prevCheckedDays,
@@ -50,9 +61,22 @@ export default function HomeScreen({ navigation }) {
                 }));
             };
 
+//display notifications
+const renderNotification = ({item}) => (
+        <View style={Theme.view}>
+            <Text style={Theme.h2}>
+                {item.overview}
+            </Text>
+            <Text style={Theme.body}>
+                {item.description}
+            </Text>
+        </View>
+    )
+
+// display  days and checkboxes
         const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        const renderItem = ({ item }) => {
+        const renderChecklist = ({ item }) => {
           const sortedDays = Object.keys(item)
             .filter((day) => day !== 'group' && day !== 'id')
             .sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
@@ -72,15 +96,14 @@ export default function HomeScreen({ navigation }) {
               );
         };
 
-
-
-
     // main
     return (
         <View style={Theme.view}>
-            <Text style={Theme.title}>Home Page Implementation...</Text>
-
-            <FlatList data={attendance} renderItem={renderItem} keyExtractor={item => item.id} />
+            <Text style={Theme.title}>Home Page Implementation... {"\n"} </Text>
+            <Text style={Theme.h1}>Notifications</Text>
+            <FlatList data={notification} renderItem={renderNotification} keyExtractor={item => item.id} />
+            <Text style={Theme.h1}>{"\n"}Availability</Text>
+            <FlatList data={attendance} renderItem={renderChecklist} keyExtractor={item => item.id} />
         </View>
     );
 }
