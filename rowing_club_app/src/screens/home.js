@@ -12,7 +12,7 @@ export default function HomeScreen({ navigation }) {
     const [rowerGroup, setRowerGroup] = useState(null);
     const [attendance, addAttendance] = useState([]);
     const [checkedDays, setCheckedDays] = useState({});
-    const rowerID = "1"; // Assuming rowerID is stored as a string in Firestore
+    const rowerID = "1";
 
     // get rower group
     useEffect(() => {
@@ -55,7 +55,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={Theme.h2}>{item.group}</Text>
                 {Object.keys(item).map((day) => {
                     if (day !== 'group' && day !== 'id') {
-                        const time = item[day]; // Assuming the time is stored as a string
+                        const time = item[day];
                         return (
                             <View key={day} style={Theme.checkboxContainer}>
                                 <CheckBox
