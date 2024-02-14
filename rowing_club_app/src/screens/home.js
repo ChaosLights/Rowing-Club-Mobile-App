@@ -50,26 +50,28 @@ export default function HomeScreen({ navigation }) {
                 }));
             };
 
-        const renderItem = ({ item }) => (
-            <View style={Theme.view}>
-                <Text style={Theme.h2}>{item.group}</Text>
-                {Object.keys(item).map((day) => {
-                    if (day !== 'group' && day !== 'id') {
-                        const time = item[day];
-                        return (
-                            <View key={day} style={Theme.checkboxContainer}>
-                                <CheckBox
-                                    label={`${day}: ${time}`}
-                                    checked={checkedDays[day]}
-                                    onChange={() => handleCheckBoxToggle(day)}
-                                />
-                            </View>
-                        );
-                    }
-                    return null;
-                })}
-            </View>
-        );
+        const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+        const renderItem = ({ item }) => {
+          const sortedDays = Object.keys(item)
+            .filter((day) => day !== 'group' && day !== 'id')
+            .sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
+              return (
+                <View style={Theme.view}>
+                  <Text style={Theme.h2}>{item.group}</Text>
+                  {sortedDays.map((day) => (
+                    <View key={day} style={Theme.checkboxContainer}>
+                      <CheckBox
+                        label={`${day}: ${item[day]}`}
+                        checked={checkedDays[day]}
+                        onChange={() => handleCheckBoxToggle(day)}
+                      />
+                    </View>
+                  ))}
+                </View>
+              );
+        };
+
 
 
 
