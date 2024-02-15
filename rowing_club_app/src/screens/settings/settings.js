@@ -65,6 +65,7 @@ export default function SettingsScreen({ navigation }) {
             <TextInput
                 style={Theme.input}
                 placeholder="Current Password"
+                placeholderTextColor="#808080"
                 secureTextEntry={true}
                 value={currentPassword}
                 onChangeText={setCurrentPassword}
@@ -72,6 +73,7 @@ export default function SettingsScreen({ navigation }) {
             <TextInput
                 style={Theme.input}
                 placeholder="New Password"
+                placeholderTextColor="#808080"
                 secureTextEntry={true}
                 value={newPassword}
                 onChangeText={setNewPassword}
@@ -79,6 +81,7 @@ export default function SettingsScreen({ navigation }) {
             <TextInput
                 style={Theme.input}
                 placeholder="Confirm New Password"
+                placeholderTextColor="#808080"
                 secureTextEntry={true}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
