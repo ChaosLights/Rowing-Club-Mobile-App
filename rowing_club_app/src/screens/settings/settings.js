@@ -17,7 +17,7 @@ export default function SettingsScreen({ navigation }) {
         }
 
         if (newPassword !== confirmPassword) {
-            Alert.alert('New password and confirm password do not match');
+            Alert.alert('New password and confirm password aado not match');
             return;
         }
 
