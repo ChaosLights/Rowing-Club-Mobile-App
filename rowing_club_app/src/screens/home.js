@@ -104,7 +104,7 @@ const renderNotification = ({item}) => (
                                   // Display the corresponding session time next to the correct day
                                   return (
                                       <View key={index}>
-                                          <Text style={Theme.body}>{dayObj.weekday}</Text>
+                                          <Text style={Theme.body}>{dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                                           <Text>{session ? session.split(', ')[1] : 'No session'}</Text>
                                       </View>
                                   );
