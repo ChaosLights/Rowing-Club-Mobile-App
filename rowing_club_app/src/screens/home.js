@@ -105,19 +105,11 @@ const renderNotification = ({item}) => (
                                   return (
                                       <View key={index}>
                                           <Text style={Theme.body}>{dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-                                          <Text>{session ? session.split(', ')[1] : 'No session'}</Text>
+                                          <Text>{session ? session.split(', ')[1] : 'No session'}{"\n"}</Text>
                                       </View>
                                   );
                               })}
                           </View>
-                          <Text style={Theme.h2}>
-                              {"\n"} Days of the Week:
-                          </Text>
-                          {weekdays.map((dayObj, index) => (
-                              <Text key={index} style={Theme.body}>
-                                  {dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                              </Text>
-                          ))}
                       </View>
                   );
 
