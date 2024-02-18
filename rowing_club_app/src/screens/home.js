@@ -13,15 +13,15 @@ export default function HomeScreen({ navigation }) {
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [checkedDays, setCheckedDays] = useState({});
-    const rowerID = "1";
+    const rowerID = "YRhW9fMSA0hd6IixgLaO";
 
     // get rower group
     useEffect(() => {
-        onSnapshot(collection(db, "Rower"), (snapshot) => {
+        onSnapshot(collection(db, "User"), (snapshot) => {
             snapshot.docs.forEach((doc) => {
                 const rowData = { ...doc.data(), id: doc.id };
-                if (rowData.rowerID === rowerID) {
-                    setRowerGroup(rowData.group);
+                if (doc.id === rowerID) {
+                    setRowerGroup(rowData.AgeGroup);
                     return;
                 }
             });
@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
                 snapshot.docs.forEach((doc) => {
 
                     const attendanceData = { ...doc.data(), id: doc.id };
-                    if (attendanceData.group === rowerGroup) {
+                    if (attendanceData.AgeGroup === rowerGroup) {
                         attendanceList.push(attendanceData);
                         addAttendance(attendanceList);
                         return;
@@ -74,27 +74,33 @@ const renderNotification = ({item}) => (
     )
 
 // display  days and checkboxes
-        const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        const renderChecklist = ({ item }) => {
-          const sortedDays = Object.keys(item)
-            .filter((day) => day !== 'group' && day !== 'id')
-            .sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
-              return (
-                <View style={Theme.view}>
-                  <Text style={Theme.h2}>{item.group}</Text>
-                  {sortedDays.map((day) => (
-                    <View key={day} style={Theme.checkboxContainer}>
-                      <CheckBox
-                        label={`${day}: ${item[day]}`}
-                        checked={checkedDays[day]}
-                        onChange={() => handleCheckBoxToggle(day)}
-                      />
-                    </View>
-                  ))}
-                </View>
-              );
-        };
+              const currentDate = new Date();
+                  const startOfWeek = new Date(currentDate);
+                  startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1)); // Adjust for Sunday
+
+                  const weekdays = [];
+                  for (let i = 0; i < 7; i++) {
+                      const day = new Date(startOfWeek);
+                      day.setDate(startOfWeek.getDate() + i);
+                      weekdays.push(day.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+                  }
+
+                  const renderChecklist = ({ item }) => (
+                      <View style={Theme.view}>
+                          <Text style={Theme.h2}>
+                              {item.AgeGroup}
+                          </Text>
+                          {weekdays.map((weekday, index) => (
+                              <Text key={index} style={Theme.body}>
+                                  {weekday}
+                              </Text>
+                          ))}
+                      </View>
+                  );
+
+
+
 
     // main
     return (
