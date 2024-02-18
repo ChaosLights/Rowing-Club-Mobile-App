@@ -90,7 +90,17 @@ const renderNotification = ({item}) => (
                       <View style={Theme.view}>
                           <Text style={Theme.h2}>
                               {item.AgeGroup}
+                              {"\n"} {"\n"}Sessions:
                           </Text>
+                          <View>
+
+                                      {item.Sessions.map((session, sessionIndex) => (
+                                        <Text key={sessionIndex}>{session}</Text>
+                                      ))}
+                                    </View>
+                                    <Text style={Theme.h2}>
+                                                                  {"\n"} Days of the Week:
+                                                              </Text>
                           {weekdays.map((weekday, index) => (
                               <Text key={index} style={Theme.body}>
                                   {weekday}
