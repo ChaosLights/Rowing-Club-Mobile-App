@@ -83,8 +83,10 @@ const renderNotification = ({item}) => (
                   for (let i = 0; i < 7; i++) {
                       const day = new Date(startOfWeek);
                       day.setDate(startOfWeek.getDate() + i);
-                      weekdays.push(day.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+                      const weekday = day.toLocaleDateString(undefined, { weekday: 'long' });
+                      weekdays.push({ fullDate: day, weekday: weekday });
                   }
+
 
                   const renderChecklist = ({ item }) => (
                       <View style={Theme.view}>
@@ -93,21 +95,32 @@ const renderNotification = ({item}) => (
                               {"\n"} {"\n"}Sessions:
                           </Text>
                           <View>
+                              {weekdays.map((dayObj, index) => {
+                                  const session = item.Sessions.find((s) => {
+                                      const [day] = s.split(', ');
+                                      return day === dayObj.weekday;
+                                  });
 
-                                      {item.Sessions.map((session, sessionIndex) => (
-                                        <Text key={sessionIndex}>{session}</Text>
-                                      ))}
-                                    </View>
-                                    <Text style={Theme.h2}>
-                                                                  {"\n"} Days of the Week:
-                                                              </Text>
-                          {weekdays.map((weekday, index) => (
+                                  // Display the corresponding session time next to the correct day
+                                  return (
+                                      <View key={index}>
+                                          <Text style={Theme.body}>{dayObj.weekday}</Text>
+                                          <Text>{session ? session.split(', ')[1] : 'No session'}</Text>
+                                      </View>
+                                  );
+                              })}
+                          </View>
+                          <Text style={Theme.h2}>
+                              {"\n"} Days of the Week:
+                          </Text>
+                          {weekdays.map((dayObj, index) => (
                               <Text key={index} style={Theme.body}>
-                                  {weekday}
+                                  {dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                               </Text>
                           ))}
                       </View>
                   );
+
 
 
 
