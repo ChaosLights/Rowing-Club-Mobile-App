@@ -6,7 +6,7 @@ import ProgressScreen from './progress';
 import AddTrainingScreen from './addTraining';
 
 //const: screen names
-const progressName = 'Progress';
+const progressName = 'PersonalProgress';
 const addTrainingName = 'AddTraining';
 //const: nav
 const Stack = createNativeStackNavigator();
