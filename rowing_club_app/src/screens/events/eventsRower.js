@@ -1,15 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { db } from '../config/firebase';
+import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy} from "firebase/firestore";
-import Theme from '../style';
+import Theme from '../../style';
 
-export default function EventsScreen({ navigation }) {
+export default function EventsRower({ navigation }) {
     // const
     const [events, addEvents] = useState([]);
 
-    // Fetch events for U13
+    // fetch events for U13
     const fetchU13Events = async () => {
         const q = query(collection(db, "Event"),
             where("category", "==", "Younger"),
@@ -22,7 +22,7 @@ export default function EventsScreen({ navigation }) {
         });
     };
 
-    // Fetch events for U18
+    // fetch events for U18
     const fetchU18Events = async () => {
         const q = query(collection(db, "Event"),
             where("category", "==", "Older"),
@@ -60,6 +60,7 @@ export default function EventsScreen({ navigation }) {
     // main
     return (
         <View style={Theme.container}>
+            <Text style={Theme.title}>Rower View!!{"\n"}</Text>
             <View style={Theme.optionBar}>
                 <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU13Events}>
                     <Text style={Theme.optionText}>U13</Text>
