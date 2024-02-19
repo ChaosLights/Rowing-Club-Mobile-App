@@ -5,7 +5,6 @@ import { db } from '../config/firebase';
 import { collection, onSnapshot } from "firebase/firestore";
 import Theme from '../style';
 
-if(global.userType != "Coach") {}
 export default function HomeScreen({ navigation }) {
     // state
     const [rowerGroup, setRowerGroup] = useState(null);
