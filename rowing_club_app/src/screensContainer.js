@@ -10,7 +10,7 @@ import SettingsScreen from './screens/settings/settings';
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';
-const progressContainerName = 'ProgressContainer';
+const progressContainerName = 'Progress';
 const settingsName = 'Settings';
 //const: nav
 const Tab = createBottomTabNavigator();
