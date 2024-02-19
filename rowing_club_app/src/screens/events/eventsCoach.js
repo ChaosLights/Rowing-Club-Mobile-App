@@ -60,7 +60,6 @@ export default function EventsCoach({ navigation }) {
     // main
     return (
         <View style={Theme.container}>
-            {fetchU13Events}
             <Text style={Theme.title}>Coach View!!{"\n"}</Text>
             <View style={Theme.optionBar}>
                 <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU13Events}>
