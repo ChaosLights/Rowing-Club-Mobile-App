@@ -70,7 +70,7 @@ export default function HomeScreen({ navigation }) {
         </View>
     )
 
-    // display  days and checkboxe
+    // display  days
     const currentDate = new Date();
     const startOfWeek = new Date(currentDate);
     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1)); // Adjust for Sunday
@@ -96,7 +96,7 @@ export default function HomeScreen({ navigation }) {
                         return day === dayObj.weekday;
                     });
 
-                    // Display the corresponding session time next to the correct day
+                    
                     return (
                         <View key={index}>
                             <Text style={Theme.body}>{dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
