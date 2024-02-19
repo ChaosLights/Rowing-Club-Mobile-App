@@ -62,10 +62,10 @@ export default function HomeScreen({ navigation }) {
     const renderNotification = ({item}) => (
         <View style={Theme.view}>
             <Text style={Theme.h2}>
-                {item.overview}
+                {item.Overview}
             </Text>
             <Text style={Theme.body}>
-                {item.description}
+                {item.Description}
             </Text>
         </View>
     )
@@ -96,7 +96,7 @@ export default function HomeScreen({ navigation }) {
                         return day === dayObj.weekday;
                     });
 
-                    
+
                     return (
                         <View key={index}>
                             <Text style={Theme.body}>{dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
