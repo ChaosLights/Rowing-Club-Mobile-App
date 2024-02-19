@@ -3,6 +3,9 @@ import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-na
 import Theme from '../../style';
 import { db } from '../../config/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
+const login = 'login';
+
+
 
 export default function SettingsScreen({ navigation }) {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -36,7 +39,7 @@ export default function SettingsScreen({ navigation }) {
             const storedPassword = passwordDocSnap.data().currentUserPassword;
 
             if (storedPassword !== currentPassword) {
-                Alert.alert('Current passwrd is incorrect');
+                Alert.alert('Current password is incorrect');
                 return;
             }
 
@@ -56,6 +59,8 @@ export default function SettingsScreen({ navigation }) {
 
     const handleLogout = () => {
         console.log('User logged out');
+        navigation.navigate(login);
+
 
     };
 

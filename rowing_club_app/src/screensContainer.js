@@ -6,12 +6,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/home';
 import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
-import SettingsScreen from './screens/settings/settings';
+import Settingscontainer from './screens/settings/settingscontainer';
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';
 const progressContainerName = 'Progress';
-const settingsName = 'Settings';
+const settingsContainerName = 'Settings'
 //const: nav
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +31,7 @@ export default function ScreensContainer() {
                             iconName = focused ? 'calendar' : 'calendar-outline';
                         } else if(routeName === progressContainerName) {
                             iconName = focused ? 'body' : 'body-outline';
-                        } else if(routeName === settingsName) {
+                        } else if(routeName === settingsContainerName) {
                             iconName = focused ? 'settings' : 'settings-outline';
                         }
 
@@ -47,8 +47,9 @@ export default function ScreensContainer() {
                 <Tab.Screen name={homeName} component={HomeScreen}/>
                 <Tab.Screen name={eventsName} component={EventsScreen}/>
                 <Tab.Screen name={progressContainerName} component={ProgressContainer}/>
-                <Tab.Screen name={settingsName} component={SettingsScreen}/>
+                <Tab.Screen name={settingsContainerName} component={Settingscontainer}/>
             </Tab.Navigator>
+
         </NavigationContainer>
     );
 }
