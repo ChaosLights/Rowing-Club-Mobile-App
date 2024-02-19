@@ -4,11 +4,10 @@ import EventsCoach from './eventsCoach';
 import EventsRower from './eventsRower';
 
 export default function EventsScreen({ navigation }) {
-    // <View>
-    //     <Text>{global.userType}</Text>
-    // </View>
+    userType = "Coach"
+    userType = "14-15"
 
-    if(global.userType == "Coach") {
+    if(userType == "Coach") {
         return (
             <EventsCoach/>
         );
