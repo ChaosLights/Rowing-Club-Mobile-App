@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
 import { db } from '../../config/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
@@ -62,33 +62,40 @@ export default function SettingsScreen({ navigation }) {
     return (
         <View style={Theme.view}>
             <Text style={Theme.title}>Change Password</Text>
+            <View style={{marginBottom: 10}} />
             <TextInput
-                style={Theme.input}
+                style={[Theme.input, Theme.underline]}
                 placeholder="Current Password"
                 placeholderTextColor="#808080"
                 secureTextEntry={true}
                 value={currentPassword}
                 onChangeText={setCurrentPassword}
             />
+            <View style={{marginBottom: 10}} />
             <TextInput
-                style={Theme.input}
+                style={[Theme.input, Theme.underline]}
                 placeholder="New Password"
                 placeholderTextColor="#808080"
                 secureTextEntry={true}
                 value={newPassword}
                 onChangeText={setNewPassword}
             />
+            <View style={{marginBottom: 10}} />
             <TextInput
-                style={Theme.input}
+                style={[Theme.input, Theme.underline]}
                 placeholder="Confirm New Password"
                 placeholderTextColor="#808080"
                 secureTextEntry={true}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
-            <Button title="Change Password" onPress={handleChangePassword} />
-            <View style={{ marginVertical: 10 }} />
-            <Button title="Logout" onPress={handleLogout} />
+            <View style={{marginBottom: 10}} />
+            <TouchableOpacity style={[Theme.maroonOvalButton, {marginTop: 10}]} onPress={handleChangePassword}>
+                <Text style={Theme.optionText}>Change Password</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={Theme.maroonOvalButton} onPress={handleLogout}>
+                <Text style={Theme.optionText}>Logout</Text>
+            </TouchableOpacity>
         </View>
     );
 }

@@ -12,6 +12,19 @@ const Theme = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
     },
+    maroonOvalButton: {
+        backgroundColor: 'maroon',
+        borderRadius: 20, // roundness
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    underline: {
+        borderBottomWidth: 1,
+        borderBottomColor: 'black',
+    },
     optionBar: {
         flexDirection: 'row',
         justifyContent: 'space-between',
