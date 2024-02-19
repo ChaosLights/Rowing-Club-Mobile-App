@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //screens
 import HomeScreen from './screens/home';
-import EventsScreen from './screens/events';
+import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
 import SettingsScreen from './screens/settings/settings';
 //const: screen names
