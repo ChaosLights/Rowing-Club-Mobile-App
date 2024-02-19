@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import CheckBox from 'react-native-checkbox';
 import { db } from '../config/firebase';
 import { collection, onSnapshot } from "firebase/firestore";
 import Theme from '../style';
 
 export default function HomeScreen({ navigation }) {
-    // state
+    //CONSTS
     const [rowerGroup, setRowerGroup] = useState(null);
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [checkedDays, setCheckedDays] = useState({});
-    //const rowerID = "YRhW9fMSA0hd6IixgLaO"; //id for U18
-    const rowerID = "0Iz45PGQ70hFnUpo6loC"; //id for 14-15
+    //const rowerID = "YRhW9fMSA0hd6IixgLaO";       //id for U18
+    const rowerID = "0Iz45PGQ70hFnUpo6loC";         //id for 14-15
 
-    // get rower group
+    //GET ROWERS GROUP
+    //from User db
     useEffect(() => {
         onSnapshot(collection(db, "User"), (snapshot) => {
             snapshot.docs.forEach((doc) => {
@@ -27,10 +27,11 @@ export default function HomeScreen({ navigation }) {
         });
     }, [rowerID]);
 
-    // get group attendance schedule
+    //GET GROUP ATTENDANCE SCHEDULE
+    //from GroupAttendance db
     useEffect(() => {
         onSnapshot(collection(db, "GroupAttendance"), (snapshot) => {
-        let attendanceList = []
+            let attendanceList = []
             snapshot.docs.forEach((doc) => {
                 const attendanceData = { ...doc.data(), id: doc.id };
                 if (attendanceData.AgeGroup === rowerGroup) {
@@ -42,7 +43,8 @@ export default function HomeScreen({ navigation }) {
         });
     }, [rowerGroup]);
 
-    //get notifications
+    //GET NOTIFIACTIONS
+    //from Notification db
     useEffect(() => {
         onSnapshot(collection(db, "Notification"), (snapshot) => {
             let notificationList = []
@@ -51,15 +53,11 @@ export default function HomeScreen({ navigation }) {
         })
     }, [])
 
-    const handleCheckBoxToggle = (day) => {
-        setCheckedDays((prevCheckedDays) => ({
-            ...prevCheckedDays,
-            [day]: !prevCheckedDays[day],
-        }));
-    };
 
-    //display notifications
-    const renderNotification = ({item}) => (
+    //DISPLAY NOTIFICATIONS
+    //from notification const
+    //(function called in main)
+    const renderNotification = ({ item }) => (
         <View style={Theme.view}>
             <Text style={Theme.h2}>
                 {item.Overview}
@@ -70,11 +68,14 @@ export default function HomeScreen({ navigation }) {
         </View>
     )
 
-    // display  days
+
+    //DISPLAY TRAINING SESSIONS
+    //get current date, and date of the start of the week
     const currentDate = new Date();
     const startOfWeek = new Date(currentDate);
     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1)); // Adjust for Sunday
 
+    //makes weekdays list, storing all dates within the current week
     const weekdays = [];
     for (let i = 0; i < 7; i++) {
         const day = new Date(startOfWeek);
@@ -83,7 +84,11 @@ export default function HomeScreen({ navigation }) {
         weekdays.push({ fullDate: day, weekday: weekday });
     }
 
-    const renderChecklist = ({ item }) => (
+    //displays ageGroup from database and 
+    //compares day (days there is training, from notification.Sessions) to weekday (items in weekdays list)
+    //if they are equal disply the time (from notification.Sessions) else display "No session"
+    //(function called in main)
+    const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
             <Text style={Theme.h2}>
                 {item.AgeGroup}
@@ -108,14 +113,16 @@ export default function HomeScreen({ navigation }) {
         </View>
     );
 
-    // main
+
+    // MAIN 
+    //prints headings and calls methods renderNotification and renderAttendance to display info
     return (
         <View style={Theme.view}>
-            <Text style={Theme.title}>Home Page Implementation... {"\n"} </Text>
+            <Text style={Theme.title}>Home Page Implementation! {"\n"} </Text>
             <Text style={Theme.h1}>Notifications</Text>
             <FlatList data={notification} renderItem={renderNotification} keyExtractor={item => item.id} />
             <Text style={Theme.h1}>{"\n"}Availability</Text>
-            <FlatList data={attendance} renderItem={renderChecklist} keyExtractor={item => item.id} />
+            <FlatList data={attendance} renderItem={renderAttendance} keyExtractor={item => item.id} />
         </View>
     );
 }
