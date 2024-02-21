@@ -8,8 +8,8 @@ export default function HomeScreen({ navigation }) {
     //CONSTS
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
-    //const typeID = "AmU8s77q7TcDytflxrC8" // id for over 18
-    const typeID = "Onulbd9Ck9DoxPDN1bZ1" //id for 14-15
+    const typeID = "AmU8s77q7TcDytflxrC8" // id for over 18
+    //const typeID = "Onulbd9Ck9DoxPDN1bZ1" //id for 14-15
 
 
     //GET GROUP ATTENDANCE SCHEDULE
@@ -55,10 +55,10 @@ export default function HomeScreen({ navigation }) {
 
 
     //DISPLAY TRAINING SESSIONS
-    //get current date, and date of the start of the week
+    //set current date, and date of the start of the week
     const currentDate = new Date();
     const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1)); // Adjust for Sunday
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
 
     //makes weekdays list, storing all dates within the current week
     const weekdays = [];
