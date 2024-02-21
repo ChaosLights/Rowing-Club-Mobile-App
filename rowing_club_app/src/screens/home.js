@@ -56,7 +56,7 @@ export default function HomeScreen({ navigation }) {
 
     //DISPLAY NOTIFICATIONS
     //from notification const
-    //(function called in main)
+    //(called in main return function)
     const renderNotification = ({ item }) => (
         <View style={Theme.view}>
             <Text style={Theme.h2}>
@@ -84,39 +84,59 @@ export default function HomeScreen({ navigation }) {
         weekdays.push({ fullDate: day, weekday: weekday });
     }
 
-    //displays ageGroup from database and 
-    //compares day (days there is training, from notification.Sessions) to weekday (items in weekdays list)
-    //if they are equal disply the time (from notification.Sessions) else display "No session"
-    //(function called in main)
+    //displays ageGroup from database and week titles
+    //and calls renderWeek function
+    //(called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
             <Text style={Theme.h2}>
                 {item.AgeGroup}
                 {"\n"} {"\n"}Sessions:
             </Text>
-            <View>
-                {weekdays.map((dayObj, index) => {
-                    const sessions = item.Sessions.filter((s) => { 
-                        const [day] = s.split(', ');
-                        return day === dayObj.weekday;
-                    });
-    
-                    return (
-                        <View key={index}>
-                            <Text style={Theme.body}>{dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-                            {sessions.length > 0 ? (
-                                sessions.map((session, sessionIndex) => (
-                                    <Text key={sessionIndex}>{session.split(', ')[1]}{"\n"}</Text> //if weekday = a day where there is training print all sessions on specified day
-                                ))
-                            ) : (
-                                <Text>No session{"\n"}</Text> // if weekday does not have a training session, print "no session"
-                            )}
-                        </View>
-                    );
-                })}
+            <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}>
+                    <Text style={Theme.h3}>Current Week</Text>
+                    {renderWeek(item.Sessions, weekdays, 0)}
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text style={Theme.h3}>Next Week</Text>
+                    {renderWeek(item.Sessions, weekdays, 7)}
+                </View>
             </View>
         </View>
     );
+    
+
+    //displays all training info
+    //(called in renderAttendance function)
+    const renderWeek = (sessions, weekdays, offset) => {
+        return weekdays.map((dayObj, index) => {
+            const targetDate = new Date(dayObj.fullDate);
+            targetDate.setDate(targetDate.getDate() + offset);
+    
+            const sessionsForDay = sessions.filter((s) => {
+                const [day] = s.split(', ');
+                //compares day (days there is training, from notification.Sessions) to weekday (items in weekdays list)
+                //if they are equal disply the time (from notification.Sessions) else display "No session"
+                return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' }); 
+                
+            });
+    
+            return (
+                //prints weekday and training times
+                <View key={index}>
+                    <Text style={Theme.body}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
+                    {sessionsForDay.length > 0 ? (
+                        sessionsForDay.map((session, sessionIndex) => (
+                            <Text key={sessionIndex}>{session.split(', ')[1]}{"\n"}</Text> //if weekday = a day where there is training print all sessions on specified day
+                        ))
+                    ) : (
+                        <Text>No session{"\n"}</Text> // if weekday does not have a training session, print "no session"
+                    )}
+                </View>
+            );
+        });
+    };
     
 
 
