@@ -96,22 +96,28 @@ export default function HomeScreen({ navigation }) {
             </Text>
             <View>
                 {weekdays.map((dayObj, index) => {
-                    const session = item.Sessions.find((s) => {
+                    const sessions = item.Sessions.filter((s) => { 
                         const [day] = s.split(', ');
                         return day === dayObj.weekday;
                     });
-
-
+    
                     return (
                         <View key={index}>
                             <Text style={Theme.body}>{dayObj.fullDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-                            <Text>{session ? session.split(', ')[1] : 'No session'}{"\n"}</Text>
+                            {sessions.length > 0 ? (
+                                sessions.map((session, sessionIndex) => (
+                                    <Text key={sessionIndex}>{session.split(', ')[1]}{"\n"}</Text> //if weekday = a day where there is training print all sessions on specified day
+                                ))
+                            ) : (
+                                <Text>No session{"\n"}</Text> // if weekday does not have a training session, print "no session"
+                            )}
                         </View>
                     );
                 })}
             </View>
         </View>
     );
+    
 
 
     // MAIN 
