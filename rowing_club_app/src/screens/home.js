@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
         weekdays.push({ fullDate: day, weekday: weekday });
     }
 
-    //displays ageGroup from database and week titles
+    //displays week titles
     //and calls renderWeek function
     //(called in main return function)
     const renderAttendance = ({ item }) => (
