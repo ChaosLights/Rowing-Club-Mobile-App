@@ -6,42 +6,27 @@ import Theme from '../style';
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
-    const [rowerGroup, setRowerGroup] = useState(null);
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
-    const [checkedDays, setCheckedDays] = useState({});
-    //const rowerID = "YRhW9fMSA0hd6IixgLaO";       //id for U18
-    const rowerID = "0Iz45PGQ70hFnUpo6loC";         //id for 14-15
+    //const typeID = "AmU8s77q7TcDytflxrC8" // id for over 18
+    const typeID = "Onulbd9Ck9DoxPDN1bZ1" //id for 14-15
 
-    //GET ROWERS GROUP
-    //from User db
-    useEffect(() => {
-        onSnapshot(collection(db, "User"), (snapshot) => {
-            snapshot.docs.forEach((doc) => {
-                const rowData = { ...doc.data(), id: doc.id };
-                if (doc.id === rowerID) {
-                    setRowerGroup(rowData.AgeGroup);
-                    return;
-                }
-            });
-        });
-    }, [rowerID]);
 
     //GET GROUP ATTENDANCE SCHEDULE
-    //from GroupAttendance db
+    //from RecuringSchedule db
     useEffect(() => {
-        onSnapshot(collection(db, "GroupAttendance"), (snapshot) => {
+        onSnapshot(collection(db, "RecuringSchedule"), (snapshot) => {
             let attendanceList = []
             snapshot.docs.forEach((doc) => {
                 const attendanceData = { ...doc.data(), id: doc.id };
-                if (attendanceData.AgeGroup === rowerGroup) {
+                if (attendanceData.TypeID === typeID) {
                     attendanceList.push(attendanceData);
                     addAttendance(attendanceList);
                     return;
                 }
             });
         });
-    }, [rowerGroup]);
+    }, []);
 
     //GET NOTIFIACTIONS
     //from Notification db
