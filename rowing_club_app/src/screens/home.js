@@ -74,17 +74,15 @@ export default function HomeScreen({ navigation }) {
     //(called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
-            <Text style={Theme.h2}>
-                {item.AgeGroup}
-                {"\n"} {"\n"}Sessions:
+            <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flex: 1 }}>
-                    <Text style={Theme.h3}>Current Week</Text>
-                    {renderWeek(item.Sessions, weekdays, 0)}
+                    <Text style={Theme.h3}>Current Week</Text> 
+                    {renderWeek(item.Sessions, weekdays, 0)} 
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text style={Theme.h3}>Next Week</Text>
+                    <Text style={Theme.h3}>Next Week</Text> 
                     {renderWeek(item.Sessions, weekdays, 7)}
                 </View>
             </View>
