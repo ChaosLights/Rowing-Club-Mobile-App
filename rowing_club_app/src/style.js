@@ -7,10 +7,12 @@ const Theme = StyleSheet.create({
     },
     eventContainer: {
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
-        borderRadius: 20,
-        padding: 40,
-        marginTop: 10,
+        borderRadius: 10,
+        padding: 20,
+        margin: 10,
         marginBottom: 5,
+        width: '95%',
+        alignSelf: 'center',
     },
     maroonOvalButton: {
         backgroundColor: 'maroon',
