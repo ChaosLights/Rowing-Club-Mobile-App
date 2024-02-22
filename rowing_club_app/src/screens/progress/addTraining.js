@@ -84,7 +84,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 150,
-        backgroundColor: 'blue',
+        backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -97,7 +97,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 50,
-        backgroundColor: 'red',
+        backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
         justifyContent: 'center',
         margin: 20,
