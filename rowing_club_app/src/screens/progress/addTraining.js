@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-import { RNCamera } from 'react-native-camera';
 import { storage } from '../../config/firebase';
 import { ref, uploadBytes } from 'firebase/storage'
 import React, { useState } from 'react';
@@ -11,22 +10,54 @@ const ImageScreen = () => {
     const [uploading, setUploading] = useState(false);
     
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let permLib = await ImagePicker.getMediaLibraryPermissionsAsync();
+        const options = {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
-        });
-
-        if(!result.canceled){
-            setImage(result.assets[0].uri);
+            selectionLimit: 1,
+        }
+        if(permLib.granted){
+            const result = await ImagePicker.launchImageLibraryAsync(options);
+            if(!result.canceled){
+                setImage(result.assets[0].uri);
+            }
+        }else{
+            permLib = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if(permLib.granted){
+                const result = await ImagePicker.launchImageLibraryAsync(options);
+                if(!result.canceled){
+                    setImage(result.assets[0].uri);
+                }
+            }else{
+                alert('MediaLiberary permission is required to use Media Liberary.');
+            }
         }
     }
 
     const takeImage = async() => {
-        if(this.camera) {
-            const options = { quality: 0.5, base64: true };
-            const data = await this.camera.takePictureAsync(options);
+        let permCamera = await ImagePicker.getCameraPermissionsAsync();
+        const options = {
+            mediaType: ImagePicker.MediaTypeOptions.Images,
+            base64: false,
+            cameraType: ImagePicker.CameraType.back,
+            selectionLimit: 1,
+        };
+        if(permCamera.granted){
+            const result = await ImagePicker.launchCameraAsync(options);
+            if(!result.canceled){
+                setImage(result.assets[0].uri);
+            }
+        }else{
+            permCamera = await ImagePicker.requestCameraPermissionsAsync();
+            if(permCamera.granted){
+                const result = await ImagePicker.launchCameraAsync(options);
+                if(!result.canceled){
+                    setImage(result.assets[0].uri);
+                }
+            }else{
+                alert('Camera permission is required to use camera.');
+            }
         }
     }
     const uploadMedia = async() => {
@@ -57,25 +88,31 @@ const ImageScreen = () => {
             setImage(null);
         } catch (error) {
             console.error(error);
+            alert('Cannot upload empty image!');
             setUploading(false);
         }
     };
 
     return (
-        <SafeAreaView style={style.container}>
-            <TouchableOpacity style={style.selectButton} onPress={pickImage}>
-                <Text style={style.buttonText}>Pick an Image</Text>
-            </TouchableOpacity>
-            <View style={style.imageContainer}>
-                {image && <Image
-                    source={{ uri: image }}
-                    style={{ width: 300, height: 300 }}
-                />}
-                <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
-                    <Text style={style.buttonText}>Upload Image</Text>
+        <ScrollView>
+            <SafeAreaView style={style.container}>
+                <TouchableOpacity style={style.selectButton} onPress={pickImage}>
+                    <Text style={style.buttonText}>Pick an Image</Text>
                 </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+                <TouchableOpacity style={style.selectButton} onPress={takeImage}>
+                    <Text style={style.buttonText}>Take an Image</Text>
+                </TouchableOpacity>
+                <View style={style.imageContainer}>
+                    {image && <Image
+                        source={{ uri: image }}
+                        style={{ width: 300, height: 300 }}
+                    />}
+                    <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
+                        <Text style={style.buttonText}>Upload Image</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </ScrollView>
     )
 }
 
@@ -90,6 +127,7 @@ const style = StyleSheet.create({
     },
     selectButton: {
         borderRadius: 5,
+        marginBottom: 10,
         width: 150,
         height: 150,
         backgroundColor: '#800000', //maroon coloured button
