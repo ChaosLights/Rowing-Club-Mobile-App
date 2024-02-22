@@ -13,7 +13,7 @@ export default function EventsRower({ navigation }) {
     const fetchU13Events = async () => {
         const q = query(collection(db, "Event"),
             where("category", "==", "Younger"),
-            orderBy("date", "asc") // Order by timestamp in ascending order
+            orderBy("Date", "asc") // Order by timestamp in ascending order
         );
         const querySnapshot = await onSnapshot(q, (snapshot) => {
             let eventList = [];
@@ -39,14 +39,14 @@ export default function EventsRower({ navigation }) {
     const renderItem = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
-                {item.title}
+                {item.Title}
             </Text>
             <Text style={Theme.body}>
-                {dateFormat(item.date)}
+                {dateFormat(item.Date)}
             </Text>
             <Text style={Theme.body}>
                 {"\n"}
-                {item.description}
+                {item.Description}
             </Text>
         </View>
     );

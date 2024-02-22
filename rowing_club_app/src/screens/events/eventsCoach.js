@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy} from "firebase/firestore";
 import Theme from '../../style';
@@ -8,6 +9,26 @@ import Theme from '../../style';
 export default function EventsCoach({ navigation }) {
     // const
     const [events, addEvents] = useState([]);
+    const [selected, setSelected] = useState([]);
+    const [userTypeList, setUserTypeList] = useState([]);
+
+    // get dropdown options
+    useEffect(() => {
+        // get UserType table
+        onSnapshot(collection(db, "UserType"), (snapshot) => {
+            const updatedUserTypeList = [];
+            // for each non-coach user type
+            snapshot.docs.forEach((doc) => {
+                const userType = { ...doc.data(), id: doc.id };
+                if (userType.Type != "Coach") {
+                    // add ID and descriptive name onto updatedUserTypeList via mapping
+                    updatedUserTypeList.push({key: userType.id, value: userType.Type});
+                }
+            });
+            // set the user type list to the updated version
+            setUserTypeList(updatedUserTypeList);
+        });
+    }, []);
 
     // fetch events for U13
     const fetchU13Events = async () => {
@@ -25,7 +46,7 @@ export default function EventsCoach({ navigation }) {
     // fetch events for U18
     const fetchU18Events = async () => {
         const q = query(collection(db, "Event"),
-            where("category", "==", "Older"),
+            where("TypeID", "==", " AmU8s77q7TcDytflxrC8"),
             orderBy("date", "asc") // Order by timestamp in ascending order
         );
         const querySnapshot = await onSnapshot(q, (snapshot) => {
@@ -39,18 +60,17 @@ export default function EventsCoach({ navigation }) {
     const renderItem = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
-                {item.title}
+                {item.Title}
             </Text>
             <Text style={Theme.body}>
-                {dateFormat(item.date)}
+                {dateFormat(item.Date)}
             </Text>
             <Text style={Theme.body}>
                 {"\n"}
-                {item.description}
+                {item.Description}
             </Text>
         </View>
     );
-
 
     // get date in format
     function dateFormat(date) {
@@ -61,6 +81,15 @@ export default function EventsCoach({ navigation }) {
     return (
         <View style={Theme.container}>
             <Text style={Theme.title}>Coach View!!{"\n"}</Text>
+            
+            <MultipleSelectList // dropdown for different rower types
+                setSelected={(val) => setSelected(val)}
+                search = {false}
+                data = {userTypeList}
+                boxStyles={{width: '90%'}} // MOVE TO STYLE SHEET??
+                save="key"
+            />
+
             <View style={Theme.optionBar}>
                 <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU13Events}>
                     <Text style={Theme.optionText}>U13</Text>
