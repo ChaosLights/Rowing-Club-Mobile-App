@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
+import { RNCamera } from 'react-native-camera';
 import { storage } from '../../config/firebase';
 import { ref, uploadBytes } from 'firebase/storage'
 import React, { useState } from 'react';
@@ -22,6 +23,12 @@ const ImageScreen = () => {
         }
     }
 
+    const takeImage = async() => {
+        if(this.camera) {
+            const options = { quality: 0.5, base64: true };
+            const data = await this.camera.takePictureAsync(options);
+        }
+    }
     const uploadMedia = async() => {
         setUploading(true);
 
@@ -79,12 +86,13 @@ const style = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#e5e5e5', // Grey background
     },
     selectButton: {
         borderRadius: 5,
         width: 150,
         height: 150,
-        backgroundColor: 'blue',
+        backgroundColor: '#800000', // Maroon button
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -97,7 +105,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 50,
-        backgroundColor: 'red',
+        backgroundColor: '#800000', // Maroon button
         alignItems: 'center',
         justifyContent: 'center',
         margin: 20,
@@ -106,6 +114,5 @@ const style = StyleSheet.create({
         marginTop: 30,
         marginBottom: 50,
         alignItems: 'center',
-
     }
 });
