@@ -4,6 +4,9 @@ import { storage } from '../../config/firebase';
 import { ref, uploadBytes } from 'firebase/storage'
 import React, { useState } from 'react';
 import * as FileSystem from 'expo-file-system';
+import { db } from '../../config/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { userId } from '../settings/login';
 
 const ImageScreen = () => {
     const [image, setImage] = useState(null);
@@ -62,8 +65,8 @@ const ImageScreen = () => {
     }
     const uploadMedia = async() => {
         setUploading(true);
-
         try {
+            //Handle image uploading
             const { uri } = await FileSystem.getInfoAsync(image);
             const blob = await new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
@@ -79,20 +82,32 @@ const ImageScreen = () => {
             });
 
             const filename = image.substring(image.lastIndexOf('/') + 1);
-            console.log(storage);
-            const storageRef = ref(storage, filename);
+            const storageRef = ref(storage, "images/"+filename);
 
             await uploadBytes(storageRef, blob);
             setUploading(false);
             Alert.alert('Photo Uploaded');
             setImage(null);
+            //Handle firebase uploading
+            const docRef = await addDoc(collection(db, "ImageInput"), {
+                ImageName: filename,
+                UserId: userId,
+            });
         } catch (error) {
             console.error(error);
             alert('Cannot upload empty image!');
             setUploading(false);
         }
     };
-
+    const fetchImages = async() => {
+        let images = [];
+        const listResult = await storage().ref('/images').listAll();
+        for (const itemRef of listResult.items) {
+          const url = await itemRef.getDownloadURL();
+          images.push({ name: itemRef.name, url: url });
+        }
+        return images;
+    }
     return (
         <ScrollView>
             <SafeAreaView style={style.container}>

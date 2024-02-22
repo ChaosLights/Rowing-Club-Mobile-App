@@ -4,13 +4,14 @@ import SettingsCoach from './settingsCoach';
 import SettingsRower from './settingsRower';
 import { db } from '../../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { userId } from './login';
 
 export default function SettingsScreen({ route, navigation }) {
     const [userType, setUserType] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const defaultUserId = 'FWBWX7EOw75rwE20cQD2';
-    const userId = route?.params?.userId || defaultUserId;
+    //const defaultUserId = 'FWBWX7EOw75rwE20cQD2';
+    //const userId = route?.params?.userId || defaultUserId;
 
     useEffect(() => {
         const fetchUserType = async () => {
