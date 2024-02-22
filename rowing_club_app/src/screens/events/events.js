@@ -5,7 +5,7 @@ import EventsRower from './eventsRower';
 
 export default function EventsScreen({ navigation }) {
     userType = "Coach"
-    userType = "14-15"
+    // userType = "14-15"
 
     if(userType == "Coach") {
         return (
