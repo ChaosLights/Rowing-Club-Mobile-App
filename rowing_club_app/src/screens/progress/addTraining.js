@@ -92,7 +92,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 150,
-        backgroundColor: '#800000', // Maroon button
+        backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -105,7 +105,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 50,
-        backgroundColor: '#800000', // Maroon button
+        backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
         justifyContent: 'center',
         margin: 20,
