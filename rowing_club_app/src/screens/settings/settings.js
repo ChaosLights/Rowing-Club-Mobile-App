@@ -1,106 +1,57 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
-import Theme from '../../style';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import SettingsCoach from './settingsCoach';
+import SettingsRower from './settingsRower';
 import { db } from '../../config/firebase';
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
-const login = 'login';
+import { doc, getDoc } from 'firebase/firestore';
 
+export default function SettingsScreen({ route, navigation }) {
+    const [userType, setUserType] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
+    const defaultUserId = 'FWBWX7EOw75rwE20cQD2';
+    const userId = route?.params?.userId || defaultUserId;
 
-export default function SettingsScreen({ navigation }) {
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    useEffect(() => {
+        const fetchUserType = async () => {
+            try {
+                // Fetch the user document from Firestore using the userId
+                const userDocRef = doc(db, 'User', userId);
+                const userDocSnap = await getDoc(userDocRef);
 
-    const handleChangePassword = async () => {
+                if (userDocSnap.exists()) {
+                    // Get the TypeID from the user document
+                    const typeID = userDocSnap.data().TypeID;
 
-        if (currentPassword === '' || newPassword === '' || confirmPassword === '') {
-            Alert.alert('Please fill in all fields');
-            return;
-        }
+                    // Fetch the corresponding user type from the UserType collection
+                    const userTypeDocRef = doc(db, 'UserType', typeID);
+                    const userTypeDocSnap = await getDoc(userTypeDocRef);
 
-        if (newPassword !== confirmPassword) {
-            Alert.alert('New password and confirm password aado not match');
-            return;
-        }
-
-        const passwordDocumentId = 'ZcF4gkJykIoiwl593D6U';
-
-        try {
-            const passwordDocRef = doc(db, 'Passwords', passwordDocumentId);
-            const passwordDocSnap = await getDoc(passwordDocRef);
-
-            if (!passwordDocSnap.exists()) {
-                Alert.alert('No password document found')
-                return;
+                    if (userTypeDocSnap.exists()) {
+                        // Set the user type based on the document
+                        setUserType(userTypeDocSnap.data().Type);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching user type: ", error);
+                // Handle any errors, such as showing an alert or setting an error state
+            } finally {
+                setIsLoading(false);
             }
-        
+        };
 
-            const storedPassword = passwordDocSnap.data().currentUserPassword;
+        fetchUserType();
+    }, [userId]);
 
-            if (storedPassword !== currentPassword) {
-                Alert.alert('Current password is incorrect');
-                return;
-            }
+    if (isLoading) {
+        return <ActivityIndicator size="large" />;
+    }
 
-            await updateDoc(passwordDocRef, {
-                currentUserPassword: newPassword,
-            });
-
-            Alert.alert('Password updated successfully');
-
-        } catch (error) {
-            console.error("Error updating password: ", error);
-            Alert.alert('There was a problem updating the password.');
-        }
-
-        console.log('New password:', newPassword);
-    };
-
-    const handleLogout = () => {
-        console.log('User logged out');
-        navigation.navigate(login);
-
-
-    };
-
-    return (
-        <View style={Theme.view}>
-            <Text style={Theme.title}>Change Password</Text>
-            <View style={{marginBottom: 10}} />
-            <TextInput
-                style={[Theme.input, Theme.underline]}
-                placeholder="Current Password"
-                placeholderTextColor="#808080"
-                secureTextEntry={true}
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
-            />
-            <View style={{marginBottom: 10}} />
-            <TextInput
-                style={[Theme.input, Theme.underline]}
-                placeholder="New Password"
-                placeholderTextColor="#808080"
-                secureTextEntry={true}
-                value={newPassword}
-                onChangeText={setNewPassword}
-            />
-            <View style={{marginBottom: 10}} />
-            <TextInput
-                style={[Theme.input, Theme.underline]}
-                placeholder="Confirm New Password"
-                placeholderTextColor="#808080"
-                secureTextEntry={true}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-            />
-            <View style={{marginBottom: 10}} />
-            <TouchableOpacity style={[Theme.maroonOvalButton, {marginTop: 10}]} onPress={handleChangePassword}>
-                <Text style={Theme.optionText}>Change Password</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={Theme.maroonOvalButton} onPress={handleLogout}>
-                <Text style={Theme.optionText}>Logout</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    // Conditional rendering based on the userType
+    if (userType === "Coach") {
+        return <SettingsCoach navigation={navigation} />;
+    } else {
+        // If the userType is anything other than "Coach", render SettingsRower
+        return <SettingsRower navigation={navigation} />;
+    }
 }

@@ -1,16 +1,27 @@
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 
 export default function Login({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        if (username === 'user' && password === 'password') {
-            navigation.navigate('home');
+    const handleLogin = async () => {
+
+        // Querying the Firestore database for a user document with matching Username and Password
+        const usersRef = collection(db, 'User');
+        const q = query(usersRef, where('Username', '==', username), where('Password', '==', password));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userId = userDoc.id; // This is the document ID, which is the userId
+
+            // Navigate to the home page and pass the userId for use in the settings page
+            navigation.navigate('Home', { userId });
         } else {
-            Alert.alert('Invalid credentials');
+            Alert.alert('Incorrect details', 'The username or password you entered is incorrect.');
         }
     };
 
