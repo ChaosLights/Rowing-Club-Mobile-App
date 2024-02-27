@@ -33,7 +33,7 @@ export default function EventsCoach({ navigation }) {
     // fetch events for U13
     const fetchU13Events = async () => {
         const q = query(collection(db, "Event"),
-            where("TypeID", "==", " Onulbd9Ck9DoxPDN1bZ1"),
+            where("TypeID", "==", "Onulbd9Ck9DoxPDN1bZ1"),
             orderBy("Date", "desc") // order by latest event for at the top
         );
         const querySnapshot = await onSnapshot(q, (snapshot) => {
@@ -46,39 +46,31 @@ export default function EventsCoach({ navigation }) {
     // fetch events for U18
     const fetchU18Events = async () => {
         const q = query(collection(db, "Event"),
-            where("TypeID", "==", " AmU8s77q7TcDytflxrC8"),
+            where("TypeID", "==", "AmU8s77q7TcDytflxrC8"),
             orderBy("Date", "desc") // Order by timestamp in ascending order
         );
         const querySnapshot = await onSnapshot(q, (snapshot) => {
             let eventList = [];
             snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
             addEvents(eventList);
+            console.log(eventList); //TEST
         });
     };
 
     // fetch events for selected age group
     const fetchEvents = async () => {
         let eventList = [];
-        // for each age group that is selected by the multi-select dropdown
-        await selected.forEach(async (ageGroup) => {
+        selected.forEach(ageGroup => {
             // query events for certain age group
             const q = query(collection(db, "Event"),
-                where("TypeID", "==", "AmU8s77q7TcDytflxrC8"),
+                where("TypeID", "==", ageGroup),
                 orderBy("Date", "desc") // order by latest event for at the top
             );
-            // retrieve the queried events and add to eventList
-            const querySnapshot = await onSnapshot(q, (snapshot) => {
+            const querySnapshot = onSnapshot(q, (snapshot) => {
                 snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
             });
-            console.log(ageGroup); //TEST
-
-        });
-        console.log("eventList"); //TEST
-        console.log(eventList); //TEST
-        // add all retrieved events to events
+        })
         addEvents(eventList);
-        console.log("events"); //TEST
-        console.log(events); //TEST
     };
 
     // for each event item
