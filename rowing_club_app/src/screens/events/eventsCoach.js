@@ -33,20 +33,23 @@ export default function EventsCoach({ navigation }) {
     // fetch events for selected age group
     const fetchEvents = async () => {
         let eventList = [];
+        // for each selected age group from the dropdown
         selected.forEach(ageGroup => {
             // query events for certain age group
             const q = query(collection(db, "Event"),
                 where("TypeID", "==", ageGroup),
                 orderBy("Date", "desc") // order by latest event for at the top
             );
+            // added queried events onto eventList
             const querySnapshot = onSnapshot(q, (snapshot) => {
                 snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
             });
         })
+        // add events into events array to be shown
         addEvents(eventList);
     };
 
-    // for each event item
+    // how each event item will be rendered
     const renderItem = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
