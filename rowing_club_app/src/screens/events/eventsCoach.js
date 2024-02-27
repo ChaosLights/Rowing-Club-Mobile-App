@@ -30,33 +30,6 @@ export default function EventsCoach({ navigation }) {
         });
     }, []);
 
-    // fetch events for U13
-    const fetchU13Events = async () => {
-        const q = query(collection(db, "Event"),
-            where("TypeID", "==", "Onulbd9Ck9DoxPDN1bZ1"),
-            orderBy("Date", "desc") // order by latest event for at the top
-        );
-        const querySnapshot = await onSnapshot(q, (snapshot) => {
-            let eventList = [];
-            snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
-            addEvents(eventList);
-        });
-    };
-
-    // fetch events for U18
-    const fetchU18Events = async () => {
-        const q = query(collection(db, "Event"),
-            where("TypeID", "==", "AmU8s77q7TcDytflxrC8"),
-            orderBy("Date", "desc") // Order by timestamp in ascending order
-        );
-        const querySnapshot = await onSnapshot(q, (snapshot) => {
-            let eventList = [];
-            snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
-            addEvents(eventList);
-            console.log(eventList); //TEST
-        });
-    };
-
     // fetch events for selected age group
     const fetchEvents = async () => {
         let eventList = [];
@@ -113,15 +86,6 @@ export default function EventsCoach({ navigation }) {
             <View style={Theme.optionBar}>
                 <TouchableOpacity style={Theme.optionBarButton} onPress={fetchEvents}>
                     <Text style={Theme.optionText}>Search</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={Theme.optionBar}>
-                <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU13Events}>
-                    <Text style={Theme.optionText}>U13</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU18Events}>
-                    <Text style={Theme.optionText}>U18</Text>
                 </TouchableOpacity>
             </View>
             <FlatList data={events} renderItem={renderItem} keyExtractor={item => item.id} />
