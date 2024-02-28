@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { View, Text, ScrollView, FlatList, Modal, Button, TextInput } from 'react-native';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, addDoc } from "firebase/firestore";
 import Theme from '../../style';
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
+    // attendance schedule and notifications states
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
-    const [sessionAttendance, setSessionAttendance] = useState({}); // State to track attendance for each session
-    const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
+
+    //modal states
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [newNotificationOverview, setNewNotificationOverview] = useState('');
+    const [newNotificationDescription, setNewNotificationDescription] = useState('');
+    //modal functions
+    const openModal = () => setModalVisible(true);
+    const closeModal = () => setModalVisible(false);
 
     const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
-    //GET GROUP ATTENDANCE SCHEDULE
-    //from RecuringSchedule db
+    // Fetch attendance schedule from RecurringSchedule collection
     useEffect(() => {
         console.log("Fetching attendance schedule...");
         onSnapshot(collection(db, "RecuringSchedule"), (snapshot) => {
@@ -43,46 +48,52 @@ export default function HomeScreen({ navigation }) {
         })
     }, [])
 
+    //ADD NEW NOTICICATION
+    //to Notification db
+    const addNewNotification = async () => {
+        try {
+            const docRef = await addDoc(collection(db, 'Notification'), {
+                Overview: newNotificationOverview,
+                Description: newNotificationDescription,
+            });
+
+            console.log('Notification added with ID: ', docRef.id);
+        } catch (error) {
+            console.error('Error adding notification: ', error);
+        }
+
+        closeModal();
+        setNewNotificationOverview('');
+        setNewNotificationDescription('');
+    };
+
+    //display notifications
+    // (called in main return function)
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
-            <Text style={Theme.h2}>
-                {item.Overview}
-            </Text>
-            <Text style={Theme.body}>
-            {item.Description}
-            </Text>
+            <Text style={Theme.h2}>{item.Overview}</Text>
+            <Text style={Theme.body}>{item.Description}</Text>
         </View>
     );
-
-    // Function to handle attendance selection
-    const handleAttendanceSelection = (sessionIndex, value) => {
-        console.log(`Session ${sessionIndex} attendance set to: ${value}`);
-        setSessionAttendance(prevState => ({
-            ...prevState,
-            [sessionIndex]: value // Update attendance for the selected session
-        }));
-    }
 
     // displays week titles
     // and calls renderWeek function
     // (called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
-            <Text style={Theme.h2}>{"\n"}Sessions:
-            </Text>
+            <Text style={Theme.h2}>{"\n"}Sessions:</Text>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flex: 1 }}>
-                    <Text style={Theme.h3}>Current Week</Text> 
-                    {renderWeek(item.Sessions, weekdays, 0)} 
+                    <Text style={Theme.h3}>Current Week</Text>
+                    {renderWeek(item.Sessions, weekdays, 0)}
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text style={Theme.h3}>Next Week</Text> 
+                    <Text style={Theme.h3}>Next Week</Text>
                     {renderWeek(item.Sessions, weekdays, 7)}
                 </View>
             </View>
         </View>
     );
-
 
     // DISPLAY TRAINING SESSIONS
     // set current date, and date of the start of the week
@@ -90,6 +101,7 @@ export default function HomeScreen({ navigation }) {
     const startOfWeek = new Date(currentDate);
     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
 
+    
     // makes weekdays list, storing all dates within the current week
     const weekdays = [];
     for (let i = 0; i < 7; i++) {
@@ -111,34 +123,65 @@ export default function HomeScreen({ navigation }) {
                 return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
             });
 
+             // prints weekday and training times
             return (
-                // prints weekday and training times
                 <View key={index} style={Theme.eventContainer}>
                     <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                     {sessionsForDay.length > 0 ? (
                         sessionsForDay.map((session, sessionIndex) => (
                             <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text>{session.split(', ')[1]}</Text>
-                                
                             </View>
                         ))
                     ) : (
                         <Text>No session{"\n"}</Text>
                     )}
-
                 </View>
             );
         });
     };
 
+    // DISPLAY NOTICITATION POPUP
+    // (called in main return function)
+    const renderNotificationPopup = () => (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+                <TextInput
+                    placeholder="Overview"
+                    value={newNotificationOverview}
+                    onChangeText={text => setNewNotificationOverview(text)}
+                    style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                />
+                <TextInput
+                    placeholder="Description"
+                    value={newNotificationDescription}
+                    onChangeText={text => setNewNotificationDescription(text)}
+                    style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                />
+                <Button title="Add Notification" onPress={addNewNotification} />
+                <Button title="Close" onPress={closeModal} />
+            </View>
+        </View>
+    );
+
     // MAIN 
-    // prints headings and calls methods renderNotification and renderAttendance to display info
+    // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
     return (
         <ScrollView>
             <View style={Theme.view}>
                 <Text style={Theme.title}>Home Page Implementation! {"\n"} </Text>
+
+                {/*display notifs*/}
                 <Text style={Theme.h1}>Notifications</Text>
                 <FlatList data={notification} renderItem={renderNotification} keyExtractor={item => item.id} />
+                
+                {/* Notification popup */}
+                <Button title="Add Notification" onPress={openModal} />
+                <Modal visible={isModalVisible} onRequestClose={closeModal} transparent animationType="slide">
+                    {renderNotificationPopup()}
+                </Modal>
+
+                {/*display attendance dates*/}
                 <Text style={Theme.h1}>{"\n"}Attendance</Text>
                 <FlatList data={attendance} renderItem={renderAttendance} keyExtractor={item => item.id} />
             </View>

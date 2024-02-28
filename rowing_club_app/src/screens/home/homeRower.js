@@ -43,6 +43,8 @@ export default function HomeScreen({ navigation }) {
         })
     }, [])
 
+    //display notifications
+    // called in main
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
