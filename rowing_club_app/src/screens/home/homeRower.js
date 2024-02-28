@@ -156,7 +156,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <ScrollView>
             <View style={Theme.view}>
-                <Text style={Theme.title}>Home Page Implementation! {"\n"} </Text>
+                <Text style={Theme.title}>Home Page Implementation! Rower View {"\n"} </Text>
                 <Text style={Theme.h1}>Notifications</Text>
                 <FlatList data={notification} renderItem={renderNotification} keyExtractor={item => item.id} />
                 <Text style={Theme.h1}>{"\n"}Attendance</Text>
