@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, FlatList, Modal, Button, TextInput } from 'react-native';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, addDoc } from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc} from "firebase/firestore";
 import Theme from '../../style';
 
 export default function HomeScreen({ navigation }) {
@@ -67,12 +67,25 @@ export default function HomeScreen({ navigation }) {
         setNewNotificationDescription('');
     };
 
+    //DELETE NOTIFICATION
+    //from Notification db
+    const deleteNotification = async (notificationId) => {
+        
+        try {
+            await deleteDoc(doc(db, 'Notification', notificationId));
+            console.log('Notification deleted successfully!');
+        } catch (error) {
+            console.error('Error deleting notification: ', error);
+        }
+    };
+
     //display notifications
     // (called in main return function)
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>{item.Overview}</Text>
             <Text style={Theme.body}>{item.Description}</Text>
+            <Button title="Delete" onPress={() => deleteNotification(item.id)} />
         </View>
     );
 
