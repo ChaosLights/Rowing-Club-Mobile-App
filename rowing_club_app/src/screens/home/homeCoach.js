@@ -182,7 +182,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <ScrollView>
             <View style={Theme.view}>
-                <Text style={Theme.title}>Home Page Implementation! {"\n"} </Text>
+                <Text style={Theme.title}>Home Page Implementation! Coach View {"\n"} </Text>
 
                 {/*display notifs*/}
                 <Text style={Theme.h1}>Notifications</Text>
