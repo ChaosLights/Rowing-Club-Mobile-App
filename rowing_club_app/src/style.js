@@ -48,7 +48,7 @@ const Theme = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-    h1: { 
+       h1: { 
         fontSize: 20,
         fontWeight: 'bold',
     },
