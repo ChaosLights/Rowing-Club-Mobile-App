@@ -11,6 +11,7 @@ import { userId } from '../settings/login';
 const ImageScreen = () => {
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
+    let userType = "Coach";
     
     const pickImage = async () => {
         let permLib = await ImagePicker.getMediaLibraryPermissionsAsync();
@@ -108,27 +109,54 @@ const ImageScreen = () => {
         }
         return images;
     }
-    return (
-        <ScrollView>
-            <SafeAreaView style={style.container}>
-                <TouchableOpacity style={style.selectButton} onPress={pickImage}>
-                    <Text style={style.buttonText}>Pick an Image</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={style.selectButton} onPress={takeImage}>
-                    <Text style={style.buttonText}>Take an Image</Text>
-                </TouchableOpacity>
-                <View style={style.imageContainer}>
-                    {image && <Image
-                        source={{ uri: image }}
-                        style={{ width: 300, height: 300 }}
-                    />}
-                    <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
-                        <Text style={style.buttonText}>Upload Image</Text>
+    if(userType == "Coach"){
+        return (
+            <ScrollView>
+                <SafeAreaView style={style.container}>
+                    <Text style={style.title}>Coach View</Text>
+                    <TouchableOpacity style={style.selectButton} onPress={pickImage}>
+                        <Text style={style.buttonText}>Pick an Image</Text>
                     </TouchableOpacity>
-                </View>
-            </SafeAreaView>
-        </ScrollView>
-    )
+                    <TouchableOpacity style={style.selectButton} onPress={takeImage}>
+                        <Text style={style.buttonText}>Take an Image</Text>
+                    </TouchableOpacity>
+                    <View style={style.imageContainer}>
+                        {image && <Image
+                            source={{ uri: image }}
+                            style={{ width: 300, height: 300 }}
+                        />}
+                        <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
+                            <Text style={style.buttonText}>Upload Image</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        )
+    }else{
+        return (
+            <ScrollView>
+                <SafeAreaView style={style.container}>
+                    <Text style={style.title}>Rower View</Text>
+                    <TouchableOpacity style={style.selectButton} onPress={pickImage}>
+                        <Text style={style.buttonText}>Pick an Image</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.selectButton} onPress={takeImage}>
+                        <Text style={style.buttonText}>Take an Image</Text>
+                    </TouchableOpacity>
+                    <View style={style.imageContainer}>
+                        {image && <Image
+                            source={{ uri: image }}
+                            style={{ width: 300, height: 300 }}
+                        />}
+                        <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
+                            <Text style={style.buttonText}>Upload Image</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        )
+    }
+
 }
 
 export default ImageScreen;
@@ -140,11 +168,19 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#e5e5e5', // Grey background
     },
+    title: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: "red",
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
     selectButton: {
         borderRadius: 5,
         marginBottom: 10,
         width: 150,
-        height: 150,
+        height: 80,
         backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
         justifyContent: 'center',
@@ -156,7 +192,7 @@ const style = StyleSheet.create({
     },
     uploadButton: {
         borderRadius: 5,
-        width: 150,
+        width: 130,
         height: 50,
         backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
