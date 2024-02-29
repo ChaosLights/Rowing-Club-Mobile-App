@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot } from "firebase/firestore";
 import Theme from '../../style';
@@ -14,6 +15,20 @@ export default function HomeScreen({ navigation }) {
 
     const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
+
+    const AttendancePickerData = [
+        {key:'Not Attending', value:'Absent'},
+        {key:'Attending', value:'Attending'},
+        {key:'Sick', value:'Sick'},
+        {key:'Home Training', value:'HomeTraining'},
+    
+      ]
+    
+      const WeekPickerData = [
+        {key:'Current Week', value:'currentWeek'},
+        {key:'Next Week', value:'nextWeek'},
+    
+      ]
 
     //GET GROUP ATTENDANCE SCHEDULE
     //from RecuringSchedule db
@@ -70,14 +85,14 @@ export default function HomeScreen({ navigation }) {
     // (called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
-            <Picker
+            <SelectList
                 style={Theme.maroonOvalButton}
-                selectedValue={selectedWeek}
-                onValueChange={(itemValue, itemIndex) => setSelectedWeek(itemValue)}
-            >
-                <Picker.Item label="Current Week" value="currentWeek" />
-                <Picker.Item label="Next Week" value="nextWeek" />
-            </Picker>
+                setSelected={(val) => setSelectedWeek(val)}
+                data={WeekPickerData}
+                placeholder='Current Week'
+                save="value"
+                search={false}
+            />
             <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
             <View style={{ flexDirection: 'row' }}>
@@ -132,14 +147,14 @@ export default function HomeScreen({ navigation }) {
                         sessionsForDay.map((session, sessionIndex) => (
                             <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text>{session.split(', ')[1]}</Text>
-                                <Picker
-                                    selectedValue={sessionAttendance[sessionIndex] || 'Attending'} // Use sessionAttendance state
-                                    style={Theme.maroonOvalButton}
-                                    onValueChange={(value) => handleAttendanceSelection(sessionIndex, value)}
-                                >
-                                    <Picker.Item label="Attending" value="Attending" />
-                                    <Picker.Item label="Absent" value="Absent" />
-                                </Picker>
+                                <SelectList
+                                    setSelected={(val) => handleAttendanceSelection(index, val)} // Pass the parameters to handleAttendanceSelection
+                                    data={AttendancePickerData}
+                                    search={false}
+                                    onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
+                                    placeholder={"~~~"}
+                                    save="value"
+                                />
                             </View>
                         ))
                     ) : (
