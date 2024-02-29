@@ -11,6 +11,7 @@ export default function HomeScreen({ navigation }) {
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
+    const [userTypeList, setUserTypeList] = useState([]);
 
     //modal states
     const [isModalVisible, setModalVisible] = useState(false);
@@ -28,6 +29,25 @@ export default function HomeScreen({ navigation }) {
         {key:'Next Week', value:'nextWeek'},
     
       ]
+
+    // get dropdown options
+    useEffect(() => {
+        // get UserType table
+        onSnapshot(collection(db, "UserType"), (snapshot) => {
+            let updatedUserTypeList = [];
+            // for each non-coach user type
+            snapshot.docs.forEach((doc) => {
+                const userType = { ...doc.data(), id: doc.id };
+                if (userType.Type != "Coach") {
+                    // add ID and descriptive name onto updatedUserTypeList via mapping
+                    updatedUserTypeList.push({key: userType.id, value: userType.Type});
+                }
+            });
+            // set the user type list to the updated version
+            setUserTypeList(updatedUserTypeList);
+        });
+    }, []);
+
 
     // Fetch attendance schedule from RecurringSchedule collection
     useEffect(() => {
@@ -107,6 +127,14 @@ export default function HomeScreen({ navigation }) {
                 setSelected={(val) => setSelectedWeek(val)}
                 data={WeekPickerData}
                 placeholder='Current Week'
+                save="value"
+                search={false}
+            />
+            <SelectList
+                style={Theme.maroonOvalButton}
+                setSelected={(val) => setSelectedWeek(val)}
+                data={userTypeList}
+                placeholder='Age Group'
                 save="value"
                 search={false}
             />
