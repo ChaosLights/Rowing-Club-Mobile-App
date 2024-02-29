@@ -3,12 +3,14 @@ import { View, Text, ScrollView, FlatList, Modal, Button, TextInput } from 'reac
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, addDoc, deleteDoc, doc} from "firebase/firestore";
 import Theme from '../../style';
+import { SelectList } from 'react-native-dropdown-select-list'
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
     // attendance schedule and notifications states
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
+    const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
 
     //modal states
     const [isModalVisible, setModalVisible] = useState(false);
@@ -20,6 +22,12 @@ export default function HomeScreen({ navigation }) {
 
     const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
+
+    const WeekPickerData = [
+        {key:'Current Week', value:'currentWeek'},
+        {key:'Next Week', value:'nextWeek'},
+    
+      ]
 
     // Fetch attendance schedule from RecurringSchedule collection
     useEffect(() => {
@@ -94,16 +102,29 @@ export default function HomeScreen({ navigation }) {
     // (called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
-            <Text style={Theme.h2}>{"\n"}Sessions:</Text>
+            <SelectList
+                style={Theme.maroonOvalButton}
+                setSelected={(val) => setSelectedWeek(val)}
+                data={WeekPickerData}
+                placeholder='Current Week'
+                save="value"
+                search={false}
+            />
+            <Text style={Theme.h2}>{"\n"}Sessions:
+            </Text>
             <View style={{ flexDirection: 'row' }}>
-                <View style={{ flex: 1 }}>
-                    <Text style={Theme.h3}>Current Week</Text>
-                    {renderWeek(item.Sessions, weekdays, 0)}
-                </View>
-                <View style={{ flex: 1 }}>
-                    <Text style={Theme.h3}>Next Week</Text>
-                    {renderWeek(item.Sessions, weekdays, 7)}
-                </View>
+                {selectedWeek === 'currentWeek' && (
+                    <View style={{ flex: 1 }}>
+                        <Text style={Theme.h3}>Current Week</Text>
+                        {renderWeek(item.Sessions, weekdays, 0)}
+                    </View>
+                )}
+                {selectedWeek === 'nextWeek' && (
+                    <View style={{ flex: 1 }}>
+                        <Text style={Theme.h3}>Next Week</Text>
+                        {renderWeek(item.Sessions, weekdays, 7)}
+                    </View>
+                )}
             </View>
         </View>
     );
