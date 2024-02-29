@@ -11,6 +11,7 @@ export default function HomeScreen({ navigation }) {
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
+    const [selectedAgeGroup, setSelectedAgeGroup] = useState([]); 
     const [userTypeList, setUserTypeList] = useState([]);
 
     //modal states
@@ -21,7 +22,7 @@ export default function HomeScreen({ navigation }) {
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
 
-    const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
+    //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
     const WeekPickerData = [
@@ -29,6 +30,17 @@ export default function HomeScreen({ navigation }) {
         {key:'Next Week', value:'nextWeek'},
     
       ]
+
+      function getTypeIDByValue(value) {
+        for (var i = 0; i < userTypeList.length; i++) {
+            if (userTypeList[i].value === value) {
+                return userTypeList[i].key;
+            }
+        }
+        return null;
+    }
+
+    
 
     // get dropdown options
     useEffect(() => {
@@ -56,6 +68,7 @@ export default function HomeScreen({ navigation }) {
             let attendanceList = []
             snapshot.docs.forEach((doc) => {
                 const attendanceData = { ...doc.data(), id: doc.id };
+                var typeID = getTypeIDByValue(selectedAgeGroup);
                 if (attendanceData.TypeID === typeID) {
                     attendanceList.push(attendanceData);
                     addAttendance(attendanceList);
@@ -132,7 +145,7 @@ export default function HomeScreen({ navigation }) {
             />
             <SelectList
                 style={Theme.maroonOvalButton}
-                setSelected={(val) => setSelectedWeek(val)}
+                setSelected={(val) => setSelectedAgeGroup(val)}
                 data={userTypeList}
                 placeholder='Age Group'
                 save="value"
@@ -143,7 +156,7 @@ export default function HomeScreen({ navigation }) {
             <View style={{ flexDirection: 'row' }}>
                 {selectedWeek === 'currentWeek' && (
                     <View style={{ flex: 1 }}>
-                        <Text style={Theme.h3}>Current Week</Text>
+                        <Text style={Theme.h3}>Current Week </Text>
                         {renderWeek(item.Sessions, weekdays, 0)}
                     </View>
                 )}
