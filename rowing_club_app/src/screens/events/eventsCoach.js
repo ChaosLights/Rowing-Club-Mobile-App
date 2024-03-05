@@ -15,7 +15,7 @@ export default function EventsCoach({ navigation }) {
     // get dropdown options
     useEffect(() => {
         // get UserType table
-        onSnapshot(collection(db, "UserType"), (snapshot) => {
+        const querySnapshot = onSnapshot(collection(db, "UserType"), (snapshot) => {
             let updatedUserTypeList = [];
             // for each non-coach user type
             snapshot.docs.forEach((doc) => {
@@ -28,11 +28,14 @@ export default function EventsCoach({ navigation }) {
             // set the user type list to the updated version
             setUserTypeList(updatedUserTypeList);
         });
+
+        // return cleanup function
+        return () => querySnapshot();
     }, []);
 
     // fetch events for selected age group
     const fetchEvents = () => {
-        const eventList = [];
+        let eventList = [];
         // for each selected age group from the dropdown
         selected.forEach(ageGroup => {
             // query events for certain age group
@@ -45,7 +48,7 @@ export default function EventsCoach({ navigation }) {
                 snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
                 // sort newly added events by date
                 eventList.sort((a, b) => b.Date - a.Date);
-                // reset events array to include new events
+                // re-set events array to include new events
                 setEvents(eventList);
             });
         })
@@ -53,10 +56,13 @@ export default function EventsCoach({ navigation }) {
 
     // get the type string name using TypeID of events
     function getTypeName(typeID) {
+        // find the user type that equals to the typeID
         const user = userTypeList.find(user => user.key === typeID);
         if (user) {
+            // returning the string literal name of user type
             return user.value;
         }
+        // if user cannot be found
         console.error("Queried user type does not exist");
     }
 
