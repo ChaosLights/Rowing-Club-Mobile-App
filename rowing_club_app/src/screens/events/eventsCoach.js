@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, query, where, orderBy} from "firebase/firestore";
+import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
 import Theme from '../../style';
 
 export default function EventsCoach({ navigation }) {
@@ -31,7 +31,7 @@ export default function EventsCoach({ navigation }) {
     }, []);
 
     // fetch events for selected age group
-    const fetchEvents = async () => {
+    const fetchEvents = () => {
         let eventList = [];
         // for each selected age group from the dropdown
         selected.forEach(ageGroup => {
@@ -49,7 +49,16 @@ export default function EventsCoach({ navigation }) {
         addEvents(eventList);
     };
 
-    // how each event item will be rendered
+    // get the type string name using TypeID of events
+    function getTypeName(typeID) {
+        const user = userTypeList.find(user => user.key === typeID);
+        if (user) {
+            return user.value;
+        }
+        console.error("Queried user type does not exist");
+    }
+
+    // show each event item will be rendered
     const renderItem = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
@@ -59,7 +68,8 @@ export default function EventsCoach({ navigation }) {
                 {dateFormat(item.Date)}
             </Text>
             <Text style={Theme.body}>
-                {item.TypeID}
+                {"Group: "}
+                {getTypeName(item.TypeID)}
             </Text>
             <Text style={Theme.body}>
                 {"\n"}
