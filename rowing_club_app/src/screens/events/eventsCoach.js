@@ -8,7 +8,7 @@ import Theme from '../../style';
 
 export default function EventsCoach({ navigation }) {
     // const
-    const [events, addEvents] = useState([]);
+    const [events, setEvents] = useState([]);
     const [selected, setSelected] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
 
@@ -32,7 +32,7 @@ export default function EventsCoach({ navigation }) {
 
     // fetch events for selected age group
     const fetchEvents = () => {
-        let eventList = [];
+        const eventList = [];
         // for each selected age group from the dropdown
         selected.forEach(ageGroup => {
             // query events for certain age group
@@ -43,10 +43,12 @@ export default function EventsCoach({ navigation }) {
             // added queried events onto eventList
             const querySnapshot = onSnapshot(q, (snapshot) => {
                 snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
+                // sort newly added events by date
+                eventList.sort((a, b) => b.Date - a.Date);
+                // reset events array to include new events
+                setEvents(eventList);
             });
         })
-        // add events into events array to be shown
-        addEvents(eventList);
     };
 
     // get the type string name using TypeID of events
