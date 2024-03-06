@@ -8,7 +8,7 @@ import Theme from '../../style';
 
 export default function EventsCoach({ navigation }) {
     // const
-    const [events, setEvents] = useState([]);
+    const [coachEvents, setEvents] = useState([]);
     const [selected, setSelected] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
 
@@ -43,7 +43,7 @@ export default function EventsCoach({ navigation }) {
                 where("TypeID", "==", ageGroup),
                 orderBy("Date", "desc") // order by latest event for at the top
             );
-            // added queried events onto eventList
+            // add queried events onto eventList
             const querySnapshot = onSnapshot(q, (snapshot) => {
                 snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
                 // sort newly added events by date
@@ -109,7 +109,7 @@ export default function EventsCoach({ navigation }) {
                     <Text style={Theme.optionText}>Search</Text>
                 </TouchableOpacity>
             </View>
-            <FlatList data={events} renderItem={renderItem} keyExtractor={item => item.id} />
+            <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
     );
 }

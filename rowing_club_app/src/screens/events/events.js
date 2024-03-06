@@ -7,7 +7,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 export default function EventsScreen({ navigation }) {
     // const
-    const [content, setContent] = useState([]);
+    const [content, setContent] = useState();
 
     // query user type
     useEffect(() => {
