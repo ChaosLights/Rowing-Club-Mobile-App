@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
 
-    //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
+    const typeIDx = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
     const WeekPickerData = [
@@ -72,11 +72,14 @@ export default function HomeScreen({ navigation }) {
                 if (attendanceData.TypeID === typeID) {
                     attendanceList.push(attendanceData);
                     addAttendance(attendanceList);
+                    attendanceList = [];
                     return;
                 }
+                
             });
+
         });
-    }, []);
+    }, [selectedAgeGroup]);
 
     //GET NOTIFIACTIONS
     //from Notification db
