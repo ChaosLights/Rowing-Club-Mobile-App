@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy} from "firebase/firestore";
@@ -7,33 +7,42 @@ import Theme from '../../style';
 
 export default function EventsRower({ navigation }) {
     // const
-    const [events, addEvents] = useState([]);
+    const [userTypeID, setUserTypeID] = useState();
+    const [rowerEvents, setEvents] = useState([]);
 
-    // fetch events for U13
-    const fetchU13Events = async () => {
-        const q = query(collection(db, "Event"),
-            where("category", "==", "Younger"),
-            orderBy("Date", "asc") // Order by timestamp in ascending order
-        );
-        const querySnapshot = await onSnapshot(q, (snapshot) => {
-            let eventList = [];
-            snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
-            addEvents(eventList);
+    useEffect(() => {
+        // query for current user information
+        const q1 = query(collection(db, "User"), where("__name__", "==", global.user));
+        const querySnapshot1 = onSnapshot(q1, (snapshot) => {
+            // set the user typeID to userTypeID
+            setUserTypeID(snapshot.docs[0].data().TypeID);
+            console.log(userTypeID);
         });
-    };
 
-    // fetch events for U18
-    const fetchU18Events = async () => {
-        const q = query(collection(db, "Event"),
-            where("category", "==", "Older"),
-            orderBy("date", "asc") // Order by timestamp in ascending order
+        // query for events
+        let eventList = [];
+        const q2 = query(collection(db, "Event"),
+            orderBy("Date", "desc") // order by latest event for at the top
         );
-        const querySnapshot = await onSnapshot(q, (snapshot) => {
-            let eventList = [];
-            snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
-            addEvents(eventList);
+        const querySnapshot2 = onSnapshot(q2, (snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                const event = { ...doc.data(), id: doc.id };
+                if (event.TypeID === userTypeID) {
+                    console.log(event.Title); //TEST
+                    // add ID and descriptive name onto updatedUserTypeList via mapping
+                    eventList.push(event);
+                    // re-set events array to include new events
+                    setEvents(eventList);
+                }
+            });
         });
-    };
+
+        // Return cleanup functions
+        return () => {
+            querySnapshot1();
+            querySnapshot2();
+        };
+    }, [userTypeID]);
 
     // for each event item
     const renderItem = ({ item }) => (
@@ -51,7 +60,6 @@ export default function EventsRower({ navigation }) {
         </View>
     );
 
-
     // get date in format
     function dateFormat(date) {
         return new Date(date.seconds * 1000).toLocaleString();
@@ -61,15 +69,7 @@ export default function EventsRower({ navigation }) {
     return (
         <View style={Theme.container}>
             <Text style={Theme.title}>Rower View!!{"\n"}</Text>
-            <View style={Theme.optionBar}>
-                <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU13Events}>
-                    <Text style={Theme.optionText}>U13</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={Theme.optionBarButton} onPress={fetchU18Events}>
-                    <Text style={Theme.optionText}>U18</Text>
-                </TouchableOpacity>
-            </View>
-            <FlatList data={events} renderItem={renderItem} keyExtractor={item => item.id} />
+            <FlatList data={rowerEvents} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
     );
 }
