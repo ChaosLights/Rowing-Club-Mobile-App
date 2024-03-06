@@ -94,8 +94,7 @@ export default function EventsCoach({ navigation }) {
     // main
     return (
         <View style={Theme.container}>
-            <Text style={Theme.title}>Coach View!!{"\n"}</Text>
-            
+            <Text style={Theme.body}>{"\n"}</Text>
             <MultipleSelectList // dropdown for different rower types
                 setSelected={(val) => setSelected(val)}
                 search = {false}
