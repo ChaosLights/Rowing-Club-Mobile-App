@@ -16,7 +16,6 @@ export default function EventsRower({ navigation }) {
         const querySnapshot1 = onSnapshot(q1, (snapshot) => {
             // set the user typeID to userTypeID
             setUserTypeID(snapshot.docs[0].data().TypeID);
-            console.log(userTypeID);
         });
 
         // query for events
@@ -28,7 +27,6 @@ export default function EventsRower({ navigation }) {
             snapshot.docs.forEach((doc) => {
                 const event = { ...doc.data(), id: doc.id };
                 if (event.TypeID === userTypeID) {
-                    console.log(event.Title); //TEST
                     // add ID and descriptive name onto updatedUserTypeList via mapping
                     eventList.push(event);
                     // re-set events array to include new events
@@ -68,7 +66,7 @@ export default function EventsRower({ navigation }) {
     // main
     return (
         <View style={Theme.container}>
-            <Text style={Theme.title}>Rower View!!{"\n"}</Text>
+            <Text style={Theme.body}>{"\n"}</Text>
             <FlatList data={rowerEvents} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
     );
