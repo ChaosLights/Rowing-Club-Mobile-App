@@ -1,16 +1,18 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
 import Theme from '../../style';
+import * as eventRender from './eventRender';
 
 export default function EventsCoach({ navigation }) {
     // const
     const [coachEvents, setEvents] = useState([]);
     const [selected, setSelected] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
+    const [editEvent, setEditEvent] = useState();
 
     // get dropdown options
     useEffect(() => {
@@ -54,35 +56,18 @@ export default function EventsCoach({ navigation }) {
         })
     };
 
-    // get the type string name using TypeID of events
-    function getTypeName(typeID) {
-        // find the user type that equals to the typeID
-        const user = userTypeList.find(user => user.key === typeID);
-        if (user) {
-            // returning the string literal name of user type
-            return user.value;
-        }
-        // if user cannot be found
-        console.error("Queried user type does not exist");
-    }
-
     // show each event item will be rendered
     const renderItem = ({ item }) => (
         <View style={Theme.eventContainer}>
-            <Text style={Theme.h2}>
-                {item.Title}
-            </Text>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                {eventRender.renderTitle(item, editEvent)}
+                {eventRender.renderEdit(item, editEvent, setEditEvent)}
+            </View>
             <Text style={Theme.body}>
                 {dateFormat(item.Date)}
             </Text>
-            <Text style={Theme.body}>
-                {"Group: "}
-                {getTypeName(item.TypeID)}
-            </Text>
-            <Text style={Theme.body}>
-                {"\n"}
-                {item.Description}
-            </Text>
+            {eventRender.renderGroup(item, editEvent, userTypeList)}
+            {eventRender.renderDesc(item, editEvent)}
         </View>
     );
 
