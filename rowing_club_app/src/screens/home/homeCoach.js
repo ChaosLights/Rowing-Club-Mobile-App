@@ -128,10 +128,16 @@ export default function HomeScreen({ navigation }) {
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>{item.Overview}</Text>
-            <Text style={Theme.body}>{item.Description}</Text>
-            <Button title="Delete" onPress={() => deleteNotification(item.id)} />
+            <Text style={[Theme.body, { marginBottom: 15 }]}>{item.Description}</Text>
+            <View style={Theme.RedButton}>
+            <Button 
+                title="Delete" 
+                onPress={() => deleteNotification(item.id)}
+                color="white" 
+            />
+            </View>
         </View>
-    );
+      );
 
     // displays week titles
     // and calls renderWeek function
@@ -245,24 +251,28 @@ export default function HomeScreen({ navigation }) {
     // MAIN 
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
     return (
-        <ScrollView>
+        <FlatList
+          data={[
+            { sectionTitle: "Notifications", data: notification },
+            { sectionTitle: "Attendance", data: attendance }
+          ]}
+          renderItem={({ item }) => (
             <View style={Theme.view}>
-                <Text style={Theme.title}>Home Page Implementation! Coach View {"\n"} </Text>
-
-                {/*display notifs*/}
-                <Text style={Theme.h1}>Notifications</Text>
-                <FlatList data={notification} renderItem={renderNotification} keyExtractor={item => item.id} />
-                
-                {/* Notification popup */}
+              <Text style={Theme.h1}>{item.sectionTitle}</Text>
+              <FlatList
+                data={item.data}
+                renderItem={item.sectionTitle === "Notifications" ? renderNotification : renderAttendance}
+                keyExtractor={item => item.id}
+              />
+              {item.sectionTitle === "Notifications" && (
                 <Button title="Add Notification" onPress={openModal} />
-                <Modal visible={isModalVisible} onRequestClose={closeModal} transparent animationType="slide">
-                    {renderNotificationPopup()}
-                </Modal>
-
-                {/*display attendance dates*/}
-                <Text style={Theme.h1}>{"\n"}Attendance</Text>
-                <FlatList data={attendance} renderItem={renderAttendance} keyExtractor={item => item.id} />
+              )}
+              <Modal visible={isModalVisible && item.sectionTitle === "Notifications"} onRequestClose={closeModal} transparent animationType="slide">
+                {renderNotificationPopup()}
+              </Modal>
             </View>
-        </ScrollView>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
     );
 }
