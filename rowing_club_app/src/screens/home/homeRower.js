@@ -1,19 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { db } from '../config/firebase';
+import { SelectList } from 'react-native-dropdown-select-list'
+import { db } from '../../config/firebase';
 import { collection, onSnapshot } from "firebase/firestore";
-import Theme from '../style';
+import Theme from '../../style';
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [sessionAttendance, setSessionAttendance] = useState({}); // State to track attendance for each session
-    const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
+    const [selectedWeek, setSelectedWeek] = useState('Current week'); // State to track selected week
 
     const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
+
+    const AttendancePickerData = [
+        {key:'Not Attending', value:'Absent'},
+        {key:'Attending', value:'Attending'},
+        {key:'Sick', value:'Sick'},
+        {key:'Home Training', value:'Home Training'},
+    
+      ]
+    
+      const WeekPickerData = [
+        {key:'Current Week', value:'Current week'},
+        {key:'Next Week', value:'Next week'},
+    
+      ]
 
     //GET GROUP ATTENDANCE SCHEDULE
     //from RecuringSchedule db
@@ -43,6 +58,8 @@ export default function HomeScreen({ navigation }) {
         })
     }, [])
 
+    //display notifications
+    // called in main
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
@@ -68,24 +85,28 @@ export default function HomeScreen({ navigation }) {
     // (called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
-            <Picker
+            <SelectList
                 style={Theme.maroonOvalButton}
-                selectedValue={selectedWeek}
-                onValueChange={(itemValue, itemIndex) => setSelectedWeek(itemValue)}
-            >
-                <Picker.Item label="Current Week" value="currentWeek" />
-                <Picker.Item label="Next Week" value="nextWeek" />
-            </Picker>
+                setSelected={(val) => setSelectedWeek(val)}
+                data={WeekPickerData}
+                placeholder='Current week'
+                save="value"
+                search={false}
+                boxStyles={{backgroundColor:'maroon'}}
+                dropdownStyles={{backgroundColor:'maroon'}}
+                dropdownTextStyles={{color:'white'}}
+                inputStyles={{color:'white'}}
+            />
             <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
             <View style={{ flexDirection: 'row' }}>
-                {selectedWeek === 'currentWeek' && (
+                {selectedWeek === 'Current week' && (
                     <View style={{ flex: 1 }}>
                         <Text style={Theme.h3}>Current Week</Text>
                         {renderWeek(item.Sessions, weekdays, 0)}
                     </View>
                 )}
-                {selectedWeek === 'nextWeek' && (
+                {selectedWeek === 'Next week' && (
                     <View style={{ flex: 1 }}>
                         <Text style={Theme.h3}>Next Week</Text>
                         {renderWeek(item.Sessions, weekdays, 7)}
@@ -125,19 +146,22 @@ export default function HomeScreen({ navigation }) {
             return (
                 // prints weekday and training times
                 <View key={index} style={Theme.eventContainer}>
-                    <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
+                    <Text style={[Theme.h3, { marginBottom: 10 }]}>
+                        {targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                     {sessionsForDay.length > 0 ? (
                         sessionsForDay.map((session, sessionIndex) => (
-                            <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text>{session.split(', ')[1]}</Text>
-                                <Picker
-                                    selectedValue={sessionAttendance[sessionIndex] || 'Attending'} // Use sessionAttendance state
-                                    style={Theme.maroonOvalButton}
-                                    onValueChange={(value) => handleAttendanceSelection(sessionIndex, value)}
-                                >
-                                    <Picker.Item label="Attending" value="Attending" />
-                                    <Picker.Item label="Absent" value="Absent" />
-                                </Picker>
+                            <View key={sessionIndex} style={[Theme.GreyOvalButton, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                <Text style={{ color: 'white' }}>{session.split(', ')[1]}</Text>
+                                <SelectList
+                                    setSelected={(val) => handleAttendanceSelection(index, val)} // Pass the parameters to handleAttendanceSelection
+                                    data={AttendancePickerData}
+                                    search={false}
+                                    onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
+                                    placeholder={"Select"}
+                                    save="value"
+                                    boxStyles={{backgroundColor:'#F5F5F5'}}
+                                    dropdownStyles={{backgroundColor:'#F5F5F5'}}
+                                />
                             </View>
                         ))
                     ) : (
@@ -152,14 +176,23 @@ export default function HomeScreen({ navigation }) {
     // MAIN 
     // prints headings and calls methods renderNotification and renderAttendance to display info
     return (
-        <ScrollView>
+        <FlatList
+          data={[
+            { sectionTitle: "Notifications", data: notification },
+            { sectionTitle: "Attendance", data: attendance }
+          ]}
+          renderItem={({ item }) => (
             <View style={Theme.view}>
-                <Text style={Theme.title}>Home Page Implementation! {"\n"} </Text>
-                <Text style={Theme.h1}>Notifications</Text>
-                <FlatList data={notification} renderItem={renderNotification} keyExtractor={item => item.id} />
-                <Text style={Theme.h1}>{"\n"}Attendance</Text>
-                <FlatList data={attendance} renderItem={renderAttendance} keyExtractor={item => item.id} />
+              <Text style={Theme.h1}>{item.sectionTitle}</Text>
+              <FlatList
+                data={item.data}
+                renderItem={item.sectionTitle === "Notifications" ? renderNotification : renderAttendance}
+                keyExtractor={item => item.id}
+              />
             </View>
-        </ScrollView>
-    );
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      );
+      
 }

@@ -14,6 +14,29 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    GreyOvalButton: {
+        backgroundColor: 'grey',
+        borderRadius: 20, // roundness
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    RedButton: {
+        backgroundColor: 'red',
+        borderRadius: 8,
+        paddingHorizontal: 10, // Adjust padding horizontally
+        paddingVertical: 5, // Adjust padding vertically
+        alignSelf: 'center',
+    },
+    GreenButton: {
+        backgroundColor: 'green',
+        borderRadius: 8,
+        paddingHorizontal: 10, // Adjust padding horizontally
+        paddingVertical: 5, // Adjust padding vertically
+        alignSelf: 'center',
+    },
     underline: {
         borderBottomWidth: 1,
         borderBottomColor: 'black',
@@ -29,7 +52,16 @@ const Theme = StyleSheet.create({
      justifyContent: 'center',
      alignItems: 'center',
     },
-    h1: {
+    optionBarButton: {
+        marginRight: 50,
+        marginLeft: 50,
+    },
+    optionText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'white',
+    },
+       h1: { 
         fontSize: 20,
         fontWeight: 'bold',
     },
