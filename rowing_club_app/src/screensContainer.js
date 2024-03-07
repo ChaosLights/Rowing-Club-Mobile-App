@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //screens
-import HomeScreen from './screens/home';
+import HomeScreen from './screens/home/home';
 import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
 import Settingscontainer from './screens/settings/settingscontainer';
