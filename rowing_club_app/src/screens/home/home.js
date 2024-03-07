@@ -4,8 +4,8 @@ import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
 
 export default function EventsScreen({ navigation }) {
-    userType = "Coach"
-    //userType = "14-15"
+    //userType = "Coach"
+    userType = "14-15"
 
     if(userType == "Coach") {
         return (

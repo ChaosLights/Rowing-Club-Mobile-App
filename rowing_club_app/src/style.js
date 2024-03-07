@@ -23,6 +23,29 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    GreyOvalButton: {
+        backgroundColor: 'grey',
+        borderRadius: 20, // roundness
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    RedButton: {
+        backgroundColor: 'red',
+        borderRadius: 8,
+        paddingHorizontal: 10, // Adjust padding horizontally
+        paddingVertical: 5, // Adjust padding vertically
+        alignSelf: 'center',
+    },
+    GreenButton: {
+        backgroundColor: 'green',
+        borderRadius: 8,
+        paddingHorizontal: 10, // Adjust padding horizontally
+        paddingVertical: 5, // Adjust padding vertically
+        alignSelf: 'center',
+    },
     underline: {
         borderBottomWidth: 1,
         borderBottomColor: 'black',
