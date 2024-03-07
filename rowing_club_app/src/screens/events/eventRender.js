@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
 
+// render function for event title
 export function renderTitle(item, editEvent) {
     if (item == editEvent) {
         return (
@@ -19,6 +20,7 @@ export function renderTitle(item, editEvent) {
     )
 }
 
+// render function for event edit button
 export function renderEdit(item, editEvent, setEditEvent) {
     if (item == editEvent) {
         return (
@@ -34,6 +36,7 @@ export function renderEdit(item, editEvent, setEditEvent) {
     )
 }
 
+// render function for event event age group
 export function renderGroup(item, editEvent, userTypeList) {
     // get the type string name using TypeID of events
     function getTypeName(typeID) {
@@ -63,6 +66,7 @@ export function renderGroup(item, editEvent, userTypeList) {
     )
 }
 
+// render function for event description
 export function renderDesc(item, editEvent) {
     if (item == editEvent) {
         return (
