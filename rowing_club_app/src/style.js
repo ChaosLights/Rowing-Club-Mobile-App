@@ -5,15 +5,6 @@ const Theme = StyleSheet.create({
         fontSize: 26,
         fontWeight: 'bold',
     },
-    eventContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
-        borderRadius: 10,
-        padding: 20,
-        margin: 10,
-        marginBottom: 5,
-        width: '95%',
-        alignSelf: 'center',
-    },
     maroonOvalButton: {
         backgroundColor: 'maroon',
         borderRadius: 20, // roundness
@@ -26,6 +17,47 @@ const Theme = StyleSheet.create({
     underline: {
         borderBottomWidth: 1,
         borderBottomColor: 'black',
+    },
+    circle: {
+     backgroundColor: '#f52d56',
+     width: 60,
+     height: 60,
+     position: 'absolute',
+     bottom: 40,
+     right: 40,
+     borderRadius: 50,
+     justifyContent: 'center',
+     alignItems: 'center',
+    },
+    h1: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    h2: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    body: {
+        fontSize: 15,
+    },
+    modalCentered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    },
+    view: {
+        padding: 10,
+    },
+    //events page starts
+    eventContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderRadius: 10,
+        padding: 20,
+        margin: 10,
+        marginBottom: 5,
+        width: '95%',
+        alignSelf: 'center',
     },
     optionBarButton: {
         marginRight: 50,
@@ -48,54 +80,39 @@ const Theme = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-    circle: {
-     backgroundColor: '#f52d56',
-     width: 60,
-     height: 60,
-     position: 'absolute',
-     bottom: 40,
-     right: 40,
-     borderRadius: 50,
-     justifyContent: 'center',
-     alignItems: 'center',
+    container: {
+        flex: 1,
+        position: 'relative',
     },
     dropdownContainer: {
         width: '90%',
         alignSelf: 'center',
         marginTop: 15,
     },
-    h1: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    h2: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    body: {
-        fontSize: 15,
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    container1: {
-    //add here!!
-    },
-    modalCentered: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-    },
-    view: {
-        padding: 10,
-    },
     textInput: {
         fontSize: 15,
         borderWidth: 1,
-    }
+    },
+    //floating button starts
+    contentContainer: {
+        flex: 1,
+    },
+    floatingButtonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    },
+    circle1: {
+        backgroundColor: 'maroon',
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    //floating button ends
+    //events page ends
 });
 
 export default Theme;

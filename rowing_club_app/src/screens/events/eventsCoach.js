@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, StyleSheet, Animated} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, Animated} from 'react-native';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
@@ -111,8 +111,8 @@ export default function EventsCoach({ navigation }) {
 
     // main
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
+    <View style={Theme.container}>
+      <View style={Theme.contentContainer}>
         <MultipleSelectList // dropdown for different rower types
           setSelected={(val) => setSelected(val)}
           search={false}
@@ -127,19 +127,19 @@ export default function EventsCoach({ navigation }) {
         </View>
         <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={(item) => item.id} />
       </View>
-      <View style={styles.floatingButtonContainer}>
-        <Animated.View style={[styles.circle, { bottom: icon1 }]}>
+      <View style={Theme.floatingButtonContainer}>
+        <Animated.View style={[Theme.circle1, { bottom: icon1 }]}>
           <TouchableOpacity>
             <Icon name="plus" size={25} color="#FFFF" />
           </TouchableOpacity>
         </Animated.View>
-        <Animated.View style={[styles.circle, { top: icon2 }]}>
+        <Animated.View style={[Theme.circle1, { top: icon2 }]}>
           <TouchableOpacity>
             <Icon name="trash" size={25} color="#FFFF" />
           </TouchableOpacity>
         </Animated.View>
         <TouchableOpacity
-          style={styles.circle}
+          style={Theme.circle1}
           onPress={() => {
             pop === false ? popIn() : popOut();
           }}
@@ -150,27 +150,3 @@ export default function EventsCoach({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
-  contentContainer: {
-    flex: 1,
-  },
-  floatingButtonContainer: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-  },
-  circle: {
-    backgroundColor: 'maroon',
-    width: 60,
-    height: 60,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-});
