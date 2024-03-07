@@ -68,6 +68,10 @@ const Theme = StyleSheet.create({
     view: {
         padding: 10,
     },
+    textInput: {
+        fontSize: 15,
+        borderWidth: 1,
+    }
 });
 
 export default Theme;
