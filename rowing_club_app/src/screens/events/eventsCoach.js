@@ -39,11 +39,11 @@ export default function EventsCoach({ navigation }) {
         return () => querySnapshot();
     }, []);
 
-    // fetch events for selected age group
+    // update selected user types onto userTypeList
     useEffect(() => {
       let eventList = [];
-      console.log(selected.length);
       if(selected.length <= 0) {
+        // return empty array if no user type selected
         setEvents(eventList);
       } else {
         // for each selected age group from the dropdown
@@ -57,7 +57,7 @@ export default function EventsCoach({ navigation }) {
             const querySnapshot = onSnapshot(q, (snapshot) => {
                 snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
                 // sort newly added events by date
-                eventList.sort((a, b) => b.Date - a.Date);
+                eventListz.sort((a, b) => b.Date - a.Date);
                 // re-set events array to include new events
                 setEvents(eventList);
             });
@@ -67,6 +67,7 @@ export default function EventsCoach({ navigation }) {
 
     // show each event item will be rendered
     const renderItem = ({ item }) => (
+      // const [event, setEvent] = useState([item.Title, item.Date, item.TypeID]);
         <View style={Theme.eventContainer}>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 {eventRender.renderTitle(item, editEvent)}
@@ -79,6 +80,7 @@ export default function EventsCoach({ navigation }) {
             {eventRender.renderDesc(item, editEvent)}
         </View>
     );
+    
 
     // get date in format
     function dateFormat(date) {
@@ -128,7 +130,9 @@ export default function EventsCoach({ navigation }) {
         />
         {/* show events */}
         <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={(item) => item.id} />
+
       </View>
+
       <View style={Theme.floatingButtonContainer}>
         <Animated.View style={[Theme.circle1, { bottom: icon1 }]}>
           <TouchableOpacity>
