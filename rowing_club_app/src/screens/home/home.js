@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
+import { useState, useEffect } from 'react';
 
-export default function EventsScreen({ navigation }) {
+export default function HomeScreen({ navigation }) {
     // const
     const [content, setContent] = useState();
 
