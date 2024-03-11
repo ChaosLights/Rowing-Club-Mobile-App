@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput, Animated} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput} from 'react-native';
 import { MultipleSelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
@@ -14,9 +14,8 @@ export default function EventsCoach({ navigation }) {
     const [selected, setSelected] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
     const [editEvent, setEditEvent] = useState();
-    const [icon1] = useState(new Animated.Value(-160));
-    const [icon2] = useState(new Animated.Value(80));
-    const [pop, setPop] = useState(false);
+//    const [title, setTitle] = useState(""); //for add event function
+//    const [description, setDescription] = useState(""); //for add event function
 
     // get dropdown options
     useEffect(() => {
@@ -80,73 +79,45 @@ export default function EventsCoach({ navigation }) {
         return new Date(date.seconds * 1000).toLocaleString();
     }
 
-  // handle button animation
-  const popIn = () => {
-    setPop(true);
-    Animated.timing(icon1, {
-      toValue: -160,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-    Animated.timing(icon2, {
-      toValue: 80,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  }
-
-  const popOut = () => {
-    setPop(false);
-    Animated.timing(icon1, {
-      toValue: -90,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-    Animated.timing(icon2, {
-      toValue: -60,
-      duration: 500,
-      useNativeDriver: false,
-    }).start();
-  }
+    // tried implementing add event feature
+    const addEvents = async () => {
+//      try {
+//        await db.collection("Event").add({
+//          Title: title,
+//          Description: description,
+//        });
+//
+//        setTitle("");
+//        setDescription("");
+//
+//      } catch (error) {
+//        console.error("Error adding event: ", error);
+//      }
+    };
 
     // main
   return (
     <View style={Theme.container}>
-      <View style={Theme.contentContainer}>
-        <MultipleSelectList // dropdown for different rower types
-          setSelected={(val) => setSelected(val)}
-          search={false}
-          data={userTypeList}
-          boxStyles={Theme.dropdownContainer}
-          save="key"
-        />
-        <View style={Theme.optionBar}>
-          <TouchableOpacity style={Theme.optionBarButton} onPress={fetchEvents}>
-            <Text style={Theme.optionText}>Search</Text>
-          </TouchableOpacity>
+        <View style={Theme.contentContainer}>
+            <MultipleSelectList // dropdown for different rower types
+              setSelected={(val) => setSelected(val)}
+              search={false}
+              data={userTypeList}
+              boxStyles={Theme.dropdownContainer}
+              save="key"
+            />
+            <View style={Theme.optionBar}>
+              <TouchableOpacity style={Theme.optionBarButton} onPress={fetchEvents}>
+                <Text style={Theme.optionText}>Search</Text>
+              </TouchableOpacity>
+            </View>
+            <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={(item) => item.id} />
+         </View>
+        <View style={Theme.floatingButtonContainer}>
+            <TouchableOpacity style={Theme.circle1} onPress={addEvents}>
+              <Icon name="plus" size={25} color="#FFFF" />
+            </TouchableOpacity>
         </View>
-        <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={(item) => item.id} />
-      </View>
-      <View style={Theme.floatingButtonContainer}>
-        <Animated.View style={[Theme.circle1, { bottom: icon1 }]}>
-          <TouchableOpacity>
-            <Icon name="plus" size={25} color="#FFFF" />
-          </TouchableOpacity>
-        </Animated.View>
-        <Animated.View style={[Theme.circle1, { top: icon2 }]}>
-          <TouchableOpacity>
-            <Icon name="trash" size={25} color="#FFFF" />
-          </TouchableOpacity>
-        </Animated.View>
-        <TouchableOpacity
-          style={Theme.circle1}
-          onPress={() => {
-            pop === false ? popIn() : popOut();
-          }}
-        >
-          <Icon name="pencil" size={25} color="#FFFF" />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
