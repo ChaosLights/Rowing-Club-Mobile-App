@@ -126,9 +126,6 @@ const Theme = StyleSheet.create({
         borderWidth: 1,
     },
     //floating button starts
-    contentContainer: {
-        flex: 1,
-    },
     floatingButtonContainer: {
         position: 'absolute',
         bottom: 20,
