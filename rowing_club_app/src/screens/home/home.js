@@ -4,16 +4,19 @@ import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
 
 export default function EventsScreen({ navigation }) {
-    //userType = "Coach"
-    userType = "14-15"
+    // const
+    const [content, setContent] = useState();
 
-    if(userType == "Coach") {
-        return (
-            <HomeCoach/>
-        );
-    } else {
-        return (
-            <HomeRower/>
-        );
-    }
+    // check if user is coach or rower
+    useEffect(() => {
+        if (global.userTypeID === "YDYsOFRCBMqhFpDn1buu") {
+            // set returning content to coach screen
+            setContent(<HomeCoach />);
+        } else {
+            // set returning content to rower screen
+            setContent(<HomeRower />);
+        }
+    }, [global.userTypeID]);
+
+    return content;
 }
