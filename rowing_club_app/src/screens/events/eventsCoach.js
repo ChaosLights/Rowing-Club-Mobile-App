@@ -40,8 +40,12 @@ export default function EventsCoach({ navigation }) {
     }, []);
 
     // fetch events for selected age group
-    const fetchEvents = () => {
-        let eventList = [];
+    useEffect(() => {
+      let eventList = [];
+      console.log(selected.length);
+      if(selected.length <= 0) {
+        setEvents(eventList);
+      } else {
         // for each selected age group from the dropdown
         selected.forEach(ageGroup => {
             // query events for certain age group
@@ -58,7 +62,8 @@ export default function EventsCoach({ navigation }) {
                 setEvents(eventList);
             });
         })
-    };
+      }
+    }, [selected]);
 
     // show each event item will be rendered
     const renderItem = ({ item }) => (
@@ -113,18 +118,15 @@ export default function EventsCoach({ navigation }) {
   return (
     <View style={Theme.container}>
       <View style={Theme.contentContainer}>
-        <MultipleSelectList // dropdown for different rower types
+        {/* dropdown selection for different rower types */}
+        <MultipleSelectList
           setSelected={(val) => setSelected(val)}
           search={false}
           data={userTypeList}
           boxStyles={Theme.dropdownContainer}
           save="key"
         />
-        <View style={Theme.optionBar}>
-          <TouchableOpacity style={Theme.optionBarButton} onPress={fetchEvents}>
-            <Text style={Theme.optionText}>Search</Text>
-          </TouchableOpacity>
-        </View>
+        {/* show events */}
         <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={(item) => item.id} />
       </View>
       <View style={Theme.floatingButtonContainer}>
