@@ -251,13 +251,22 @@ export default function HomeScreen({ navigation }) {
     // MAIN 
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
     return (
+        
+        
         <FlatList
+        
+        
           data={[
             { sectionTitle: "Notifications", data: notification },
             { sectionTitle: "Attendance", data: attendance }
           ]}
           renderItem={({ item }) => (
+            
             <View style={Theme.view}>
+                <Text style={[Theme.h2, {flex: 10}]}>
+        { "Coach" }
+    </Text>
+                
               <Text style={Theme.h1}>{item.sectionTitle}</Text>
               <FlatList
                 data={item.data}
