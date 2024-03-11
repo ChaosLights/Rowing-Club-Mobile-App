@@ -16,7 +16,7 @@ export default function EventsCoach({ navigation }) {
     const [editEvent, setEditEvent] = useState();
     const [icon1] = useState(new Animated.Value(-160));
     const [icon2] = useState(new Animated.Value(80));
-    const [pop, setPop] = useState(false);
+    const [pop, setPop] = useState(true);
 
     // get dropdown options
     useEffect(() => {
