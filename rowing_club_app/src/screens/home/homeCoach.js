@@ -13,6 +13,7 @@ export default function HomeScreen({ navigation }) {
     const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
     const [selectedAgeGroup, setSelectedAgeGroup] = useState([]); 
     const [userTypeList, setUserTypeList] = useState([]);
+    const initialSelectedValue = userTypeList.length > 0 ? userTypeList[userTypeList.length - 1].value : null;
 
     //modal states
     const [isModalVisible, setModalVisible] = useState(false);
@@ -23,7 +24,7 @@ export default function HomeScreen({ navigation }) {
     const closeModal = () => setModalVisible(false);
 
     const typeIDx = "AmU8s77q7TcDytflxrC8"; // id for over 18
-    //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
+    let typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
     const WeekPickerData = [
         {key:'Current Week', value:'currentWeek'},
@@ -61,7 +62,7 @@ export default function HomeScreen({ navigation }) {
     }, []);
 
 
-    // Fetch attendance schedule from RecurringSchedule collection
+    //// Fetch attendance schedule from RecurringSchedule collection
     useEffect(() => {
         console.log("Fetching attendance schedule...");
         onSnapshot(collection(db, "RecuringSchedule"), (snapshot) => {
@@ -74,6 +75,10 @@ export default function HomeScreen({ navigation }) {
                     addAttendance(attendanceList);
                     attendanceList = [];
                     return;
+                }
+                else{
+                    attendanceList.push(attendanceData);
+                    addAttendance(attendanceList);
                 }
                 
             });
@@ -144,6 +149,8 @@ export default function HomeScreen({ navigation }) {
     // (called in main return function)
     const renderAttendance = ({ item }) => (
         <View style={Theme.view}>
+            <Text style={Theme.h2}>{"\n"}Week:
+            </Text>
             <SelectList
                 style={Theme.maroonOvalButton}
                 setSelected={(val) => setSelectedWeek(val)}
@@ -152,13 +159,16 @@ export default function HomeScreen({ navigation }) {
                 save="value"
                 search={false}
             />
+            <Text style={Theme.h2}>{"\n"}Age Group:
+            </Text>
             <SelectList
                 style={Theme.maroonOvalButton}
                 setSelected={(val) => setSelectedAgeGroup(val)}
                 data={userTypeList}
-                placeholder='Age Group'
+                placeholder={initialSelectedValue}
                 save="value"
                 search={false}
+                defaultValue={initialSelectedValue}
             />
             <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
