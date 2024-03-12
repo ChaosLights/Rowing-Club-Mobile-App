@@ -74,11 +74,11 @@ export default function HomeScreen({ navigation }) {
     );
 
     // Function to handle attendance selection
-    const handleAttendanceSelection = (sessionIndex, value) => {
-        console.log(`Session ${sessionIndex} attendance set to: ${value}`);
+    const handleAttendanceSelection = (dayTime, value) => {
+        console.log(`Session ${dayTime} attendance set to: ${value}`);
         setSessionAttendance(prevState => ({
             ...prevState,
-            [sessionIndex]: value // Update attendance for the selected session
+            [dayTime]: value // Update attendance for the selected session
         }));
     }
 
@@ -133,45 +133,55 @@ export default function HomeScreen({ navigation }) {
         weekdays.push({ fullDate: day, weekday: weekday });
     }
 
-    // displays all training info
+    // Function to display all training information for a given week
     // (called in renderAttendance function)
     const renderWeek = (sessions, weekdays, offset) => {
         return weekdays.map((dayObj, index) => {
-            const targetDate = new Date(dayObj.fullDate);
-            targetDate.setDate(targetDate.getDate() + offset);
-
-            const sessionsForDay = sessions.filter((s) => {
-                const [day] = s.split(', ');
-                return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
-            });
-
-            return (
-                // prints weekday and training times
-                <View key={index} style={Theme.eventContainer}>
-                    <Text style={[Theme.h3, { marginBottom: 10 }]}>
-                        {targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-                    {sessionsForDay.length > 0 ? (
-                        sessionsForDay.map((session, sessionIndex) => (
-                            <View key={sessionIndex} style={[Theme.GreyOvalButton, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                <Text style={{ color: 'white' }}>{session.split(', ')[1]}</Text>
-                                <SelectList
-                                    setSelected={(val) => handleAttendanceSelection(index, val)} // Pass the parameters to handleAttendanceSelection
-                                    data={AttendancePickerData}
-                                    search={false}
-                                    onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
-                                    placeholder={"Select"}
-                                    save="value"
-                                    boxStyles={{backgroundColor:'#F5F5F5'}}
-                                    dropdownStyles={{backgroundColor:'#F5F5F5'}}
-                                />
-                            </View>
-                        ))
-                    ) : (
-                        <Text>No session{"\n"}</Text>
-                    )}
-
-                </View>
-            );
+        // Create a new Date object for the current day in the loop
+        const targetDate = new Date(dayObj.fullDate);
+        // Add the offset value to the day, affecting the date displayed
+        targetDate.setDate(targetDate.getDate() + offset);
+    
+        // Filter the sessions array to only include sessions for the current day
+        const sessionsForDay = sessions.filter((s) => {
+            const [day, time] = s.split(', ');
+            // Compare the day in the session data with the current day's localized name
+            return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
+        });
+    
+        return (
+            // prints weekday and training times
+            <View key={index} style={Theme.eventContainer}>
+            <Text style={[Theme.h3, { marginBottom: 10 }]}>
+                {/* Display the full date (weekday, month, day, and year) for the current day */}
+                {targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
+            {sessionsForDay.length > 0 ? (
+                sessionsForDay.map((session, sessionIndex) => {
+                const [day, time] = session.split(', ');
+                const dayTime = `${day}, ${time}`;
+                return (
+                    <View key={sessionIndex} style={[Theme.GreyOvalButton, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                    <Text style={{ color: 'white' }}>{time}</Text>
+                    {/* Pass the dayTime and session data to handleAttendanceSelection when an option is selected */}
+                    <SelectList
+                        setSelected={(val) => handleAttendanceSelection(dayTime, val)}
+                        data={AttendancePickerData}
+                        
+                        search={false}
+                        onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
+                        placeholder={"Select"}
+                        save="value"
+                        boxStyles={{backgroundColor:'#F5F5F5'}}
+                        dropdownStyles={{backgroundColor:'#F5F5F5'}}
+                    />
+                    </View>
+                )
+                })
+            ) : (
+                <Text>No session{"\n"}</Text>
+            )}
+            </View>
+        );
         });
     };
 
