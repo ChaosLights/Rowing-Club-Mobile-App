@@ -13,6 +13,8 @@ export default function HomeScreen({ navigation }) {
     const [sessionAttendance, setSessionAttendance] = useState({}); // State to track attendance for each session
     const [selectedWeek, setSelectedWeek] = useState('Current week'); // State to track selected week
     const [availability, setAvailability] = useState([]);
+    
+    const [selectedAvailability, setSelectedAvailability] = useState({});
 
     //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
@@ -66,7 +68,7 @@ export default function HomeScreen({ navigation }) {
                     value = "Absent";
                 } else if (data.Sick && data.Sick.includes(global.user)) {
                     value = "Sick";
-                } else if (data.HomeTraining && data.HomeTraining.includes(global.user)) {
+                } else if (data["Home Training"] && data["Home Training"].includes(global.user)) { 
                     value = "Home Training";
                 }
 
@@ -79,6 +81,15 @@ export default function HomeScreen({ navigation }) {
             console.error("Error fetching availability:", error);
         }
     };
+
+    useEffect(() => {
+        // Update selected availability when availability state changes
+        const initialSelectedAvailability = {};
+        availability.forEach(item => {
+            initialSelectedAvailability[item.dayTime] = item.value;
+        });
+        setSelectedAvailability(initialSelectedAvailability);
+    }, [availability]);
 
 
     //GET GROUP ATTENDANCE SCHEDULE 
@@ -130,19 +141,6 @@ export default function HomeScreen({ navigation }) {
             [dayTime]: value
         }));
 
-        // // Update availability list
-        // setAvailability(prevState => {
-        //     const updatedAvailability = [...prevState];
-        //     const index = updatedAvailability.findIndex(item => item.dayTime === dayTime);
-        //     if (index !== -1) {
-        //         updatedAvailability[index] = { dayTime, value };
-        //     } else {
-        //         updatedAvailability.push({ dayTime, value });
-        //     }
-        //     return updatedAvailability;
-        // });
-
-        // console.log(availability);
         try {
             // Attempt to create the document reference
             const sessionDocRef = doc(db, "Availability", `${typeID}-${dayTime}`);
@@ -151,7 +149,7 @@ export default function HomeScreen({ navigation }) {
             const sessionData = {
                 Session: dayTime,
                 TypeID: typeID,
-                HomeTraining: [],
+                "Home Training": [],
                 Sick: [],
                 Absent: [],
                 Attending: [],
@@ -163,7 +161,7 @@ export default function HomeScreen({ navigation }) {
 
             const updateField = { [value]: arrayUnion(global.user) };
             // Remove user's ID from the old field if it's different from the new field
-            for (const attendanceField of ['Attending', 'Absent', 'Sick', 'HomeTraining']) {
+            for (const attendanceField of ['Attending', 'Absent', 'Sick', 'Home Training']) {
                 // Check if the user's ID exists in the old field before attempting to remove it
                 if (sessionData[attendanceField] && sessionData[attendanceField].includes(global.userID)) {
                     // Remove user's ID from the old field and add it to the update object
@@ -263,10 +261,10 @@ export default function HomeScreen({ navigation }) {
                                     <SelectList
                                         setSelected={(val) => handleAttendanceSelection(dayTime, val)}
                                         data={AttendancePickerData}
-
+                                        defaultValue={selectedAvailability[dayTime]}
                                         search={false}
                                         onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
-                                        placeholder={"Select"}
+                                        placeholder={selectedAvailability[dayTime]}
                                         save="value"
                                         boxStyles={{ backgroundColor: '#F5F5F5' }}
                                         dropdownStyles={{ backgroundColor: '#F5F5F5' }}
@@ -276,11 +274,11 @@ export default function HomeScreen({ navigation }) {
                         })
                     ) : (
                         <Text>No session{"\n"}</Text>
-                    )}
+                    )}   
                 </View>
             );
         });
-    };
+    };  
 
     // MAIN 
     // prints headings and calls methods renderNotification and renderAttendance to display info
