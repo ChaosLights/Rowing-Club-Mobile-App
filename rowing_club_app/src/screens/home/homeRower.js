@@ -101,7 +101,11 @@ export default function HomeScreen({ navigation }) {
 
             const sessionData = {
                 Session: dayTime,
-                TypeID: typeID
+                TypeID: typeID,
+                HomeTraining: [],
+                Sick: [],
+                Absent: [],
+                Attending: [],
             };
 
             await setDoc(sessionDocRef, sessionData, { merge: true });
@@ -110,14 +114,12 @@ export default function HomeScreen({ navigation }) {
             const updateField = { [value]: arrayUnion(global.user) };
             // Remove user's ID from the old field if it's different from the new field
             for (const attendanceField of ['Attending', 'Absent', 'Sick', 'HomeTraining']) {
-                if (attendanceField !== value && sessionData.hasOwnProperty(attendanceField)) {
-                    // Check if the user's ID exists in the old field before attempting to remove it
-                    if (sessionData[attendanceField]) {
-                        // Remove user's ID from the old field and add it to the update object
-                        updateField[attendanceField] = arrayRemove(global.userID);
-                    }
+                // Check if the user's ID exists in the old field before attempting to remove it
+                if (sessionData[attendanceField] && sessionData[attendanceField].includes(global.userID)) {
+                    // Remove user's ID from the old field and add it to the update object
+                    updateField[attendanceField] = arrayRemove(global.userID);
                 }
-            }
+            } 
             await updateDoc(sessionDocRef, updateField);
             console.log("Attendance updated successfully.");
         } catch (error) {
