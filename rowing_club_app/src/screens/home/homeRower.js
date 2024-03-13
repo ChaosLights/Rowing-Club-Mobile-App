@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore";
 import Theme from '../../style';
 
 export default function HomeScreen({ navigation }) {
@@ -13,7 +13,7 @@ export default function HomeScreen({ navigation }) {
     const [sessionAttendance, setSessionAttendance] = useState({}); // State to track attendance for each session
     const [selectedWeek, setSelectedWeek] = useState('Current week'); // State to track selected week
     const [availability, setAvailability] = useState([]);
-    
+
     const [selectedAvailability, setSelectedAvailability] = useState({});
 
     //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
@@ -58,7 +58,6 @@ export default function HomeScreen({ navigation }) {
             const availabilityList = [];
 
             querySnapshot.forEach((doc) => {
-                console.log("data");
                 const data = doc.data();
                 let value = "";
 
@@ -68,7 +67,7 @@ export default function HomeScreen({ navigation }) {
                     value = "Absent";
                 } else if (data.Sick && data.Sick.includes(global.user)) {
                     value = "Sick";
-                } else if (data["Home Training"] && data["Home Training"].includes(global.user)) { 
+                } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
                     value = "Home Training";
                 }
 
@@ -133,48 +132,72 @@ export default function HomeScreen({ navigation }) {
         </View>
     );
 
-    // Function to handle attendance selection
     const handleAttendanceSelection = async (dayTime, value) => {
         console.log(`Session ${dayTime} attendance set to: ${value}`);
         setSessionAttendance(prevState => ({
             ...prevState,
             [dayTime]: value
         }));
-
+    
         try {
-            // Attempt to create the document reference
             const sessionDocRef = doc(db, "Availability", `${typeID}-${dayTime}`);
             console.log("Session document reference:", sessionDocRef);
-
-            const sessionData = {
-                Session: dayTime,
-                TypeID: typeID,
-                "Home Training": [],
-                Sick: [],
-                Absent: [],
-                Attending: [],
-
-            };
-
-            await setDoc(sessionDocRef, sessionData, { merge: true });
-            console.log("Session document created or updated successfully.");
-
+    
+            // Fetch the existing session data from Firestore
+            const sessionDocSnap = await getDoc(sessionDocRef);
+            const sessionData = sessionDocSnap.data();
+    
+            // Check if the selected value is already the same as the current value in the database
+            if (sessionData && sessionData[value] && sessionData[value].includes(global.user)) {
+                // Value is already selected, no need to perform updates
+                console.log("Attendance value is already the same, no updates needed.");
+                return;
+            }
+    
+            // Create an update object
             const updateField = { [value]: arrayUnion(global.user) };
-            // Remove user's ID from the old field if it's different from the new field
-            for (const attendanceField of ['Attending', 'Absent', 'Sick', 'Home Training']) {
-                // Check if the user's ID exists in the old field before attempting to remove it
-                if (sessionData[attendanceField] && sessionData[attendanceField].includes(global.userID)) {
-                    // Remove user's ID from the old field and add it to the update object
-                    updateField[attendanceField] = arrayRemove(global.userID);
+    
+            // Determine the old field based on the existing session data
+            let oldField;
+            if (sessionData) {
+                if (sessionData.Attending && sessionData.Attending.includes(global.user)) {
+                    oldField = "Attending";
+                } else if (sessionData.Absent && sessionData.Absent.includes(global.user)) {
+                    oldField = "Absent";
+                } else if (sessionData.Sick && sessionData.Sick.includes(global.user)) {
+                    oldField = "Sick";
+                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(global.user)) {
+                    oldField = "Home Training";
                 }
             }
+    
+            // Remove the user ID from the old field if it exists
+            if (oldField) {
+                updateField[oldField] = arrayRemove(global.user);
+            }
+    
+            // Update the session document with the new attendance value
+            await setDoc(sessionDocRef, sessionData, { merge: true });
+            console.log("Session document created or updated successfully.");
+    
+            // Update the session document with the updated field
             await updateDoc(sessionDocRef, updateField);
             console.log("Attendance updated successfully.");
         } catch (error) {
-            // Log any errors encountered during document reference creation
-            console.error("Error creating session document reference:", error);
+            console.error("Error updating attendance:", error);
         }
-    }
+    };   
+
+
+    // if (sessionDocRef.Attending && data.Attending.includes(global.user)) {
+    //     updateField[Attending] = arrayRemove(global.userID);
+    // } else if (sessionDocRef.Absent && data.Absent.includes(global.user)) {
+    //     updateField[Absent] = arrayRemove(global.userID);
+    // } else if (sessionDocRef.Sick && data.Sick.includes(global.user)) {
+    //     updateField[Sick] = arrayRemove(global.userID);
+    // } else if (sessionDocRef["Home Training"] && data["Home Training"].includes(global.user)) {
+    //     updateField["Home Training"] = arrayRemove(global.userID);
+    // }
 
     // displays week titles
     // and calls renderWeek function
@@ -274,11 +297,11 @@ export default function HomeScreen({ navigation }) {
                         })
                     ) : (
                         <Text>No session{"\n"}</Text>
-                    )}   
+                    )}
                 </View>
             );
         });
-    };  
+    };
 
     // MAIN 
     // prints headings and calls methods renderNotification and renderAttendance to display info
