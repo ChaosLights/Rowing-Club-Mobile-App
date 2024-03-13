@@ -12,6 +12,7 @@ export default function HomeScreen({ navigation }) {
     const [notification, addNotification] = useState([]);
     const [sessionAttendance, setSessionAttendance] = useState({}); // State to track attendance for each session
     const [selectedWeek, setSelectedWeek] = useState('Current week'); // State to track selected week
+    const [availability, setAvailability] = useState([]);
 
     //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
@@ -78,8 +79,21 @@ export default function HomeScreen({ navigation }) {
         console.log(`Session ${dayTime} attendance set to: ${value}`);
         setSessionAttendance(prevState => ({
             ...prevState,
-            [dayTime]: value // Update attendance for the selected session
+            [dayTime]: value
         }));
+        
+        // Update availability list
+        setAvailability(prevState => {
+            const updatedAvailability = [...prevState];
+            const index = updatedAvailability.findIndex(item => item.dayTime === dayTime);
+            if (index !== -1) {
+                updatedAvailability[index] = { dayTime, value };
+            } else {
+                updatedAvailability.push({ dayTime, value });
+            }
+            console.log(availability);
+            return updatedAvailability;
+        });
     }
 
     // displays week titles
