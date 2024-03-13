@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
     //userType = "14-15"
 
     //global.userTypeID = "YDYsOFRCBMqhFpDn1buu" //coach
-    global.userTypeID = "AmU8s77q7TcDytflxrC8" //rower
+    //global.userTypeID = "AmU8s77q7TcDytflxrC8" //rower
 
     // check if user is coach or rower
     useEffect(() => {
