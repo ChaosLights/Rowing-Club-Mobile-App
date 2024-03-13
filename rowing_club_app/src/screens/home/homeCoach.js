@@ -74,7 +74,7 @@ export default function HomeScreen({ navigation }) {
                     attendanceList.push(attendanceData);
                     addAttendance(attendanceList);
                     attendanceList = [];
-                    return;
+                    return; 
                 }
                 else{
                     attendanceList.push(attendanceData);
@@ -91,7 +91,7 @@ export default function HomeScreen({ navigation }) {
     useEffect(() => {
         console.log("Fetching notifications...");
         onSnapshot(collection(db, "Notification"), (snapshot) => {
-            let notificationList = []
+            let notificationList = [] 
             snapshot.docs.map((doc) => notificationList.push({ ...doc.data(), id: doc.id }))
             addNotification(notificationList)
         })
@@ -165,7 +165,7 @@ export default function HomeScreen({ navigation }) {
                 style={Theme.maroonOvalButton}
                 setSelected={(val) => setSelectedAgeGroup(val)}
                 data={userTypeList}
-                placeholder={initialSelectedValue}
+                placeholder= 'Age Group'
                 save="value"
                 search={false}
                 defaultValue={initialSelectedValue}
