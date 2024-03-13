@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove } from "firebase/firestore";
+import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs } from "firebase/firestore";
 import Theme from '../../style';
 
 export default function HomeScreen({ navigation }) {
@@ -32,7 +32,56 @@ export default function HomeScreen({ navigation }) {
 
     ]
 
-    //GET GROUP ATTENDANCE SCHEDULE
+    // FETCH CURRENT AVAILABILITY
+    useEffect(() => {
+        fetchAvailability();
+    }, []);
+
+    const fetchAvailability = async () => {
+        const currentDate = new Date();
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
+
+        const formattedStartOfWeek = startOfWeek.toLocaleDateString(undefined, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        try {
+            const q = query(collection(db, "Availability"), where("Session", ">=", formattedStartOfWeek));
+            const querySnapshot = await getDocs(q);
+
+            const availabilityList = [];
+
+            querySnapshot.forEach((doc) => {
+                console.log("data");
+                const data = doc.data();
+                let value = "";
+
+                if (data.Attending && data.Attending.includes(global.user)) {
+                    value = "Attending";
+                } else if (data.Absent && data.Absent.includes(global.user)) {
+                    value = "Absent";
+                } else if (data.Sick && data.Sick.includes(global.user)) {
+                    value = "Sick";
+                } else if (data.HomeTraining && data.HomeTraining.includes(global.user)) {
+                    value = "Home Training";
+                }
+
+                availabilityList.push({ dayTime: data.Session, value });
+            });
+
+            setAvailability(availabilityList);
+            console.log("Availability list:", availabilityList);
+        } catch (error) {
+            console.error("Error fetching availability:", error);
+        }
+    };
+
+
+    //GET GROUP ATTENDANCE SCHEDULE 
     //from RecuringSchedule db
     useEffect(() => {
         console.log("Fetching attendance schedule...");
@@ -81,19 +130,19 @@ export default function HomeScreen({ navigation }) {
             [dayTime]: value
         }));
 
-        // Update availability list
-        setAvailability(prevState => {
-            const updatedAvailability = [...prevState];
-            const index = updatedAvailability.findIndex(item => item.dayTime === dayTime);
-            if (index !== -1) {
-                updatedAvailability[index] = { dayTime, value };
-            } else {
-                updatedAvailability.push({ dayTime, value });
-            }
-            return updatedAvailability;
-        });
+        // // Update availability list
+        // setAvailability(prevState => {
+        //     const updatedAvailability = [...prevState];
+        //     const index = updatedAvailability.findIndex(item => item.dayTime === dayTime);
+        //     if (index !== -1) {
+        //         updatedAvailability[index] = { dayTime, value };
+        //     } else {
+        //         updatedAvailability.push({ dayTime, value });
+        //     }
+        //     return updatedAvailability;
+        // });
 
-        console.log(availability);
+        // console.log(availability);
         try {
             // Attempt to create the document reference
             const sessionDocRef = doc(db, "Availability", `${typeID}-${dayTime}`);
@@ -106,6 +155,7 @@ export default function HomeScreen({ navigation }) {
                 Sick: [],
                 Absent: [],
                 Attending: [],
+
             };
 
             await setDoc(sessionDocRef, sessionData, { merge: true });
@@ -119,7 +169,7 @@ export default function HomeScreen({ navigation }) {
                     // Remove user's ID from the old field and add it to the update object
                     updateField[attendanceField] = arrayRemove(global.userID);
                 }
-            } 
+            }
             await updateDoc(sessionDocRef, updateField);
             console.log("Attendance updated successfully.");
         } catch (error) {
