@@ -354,7 +354,7 @@ const pickerSelectStyles = StyleSheet.create({
       borderRadius: 4,
       color: 'black',
       textAlign: 'center',
-      paddingRight: 30, // to ensure the text is never behind the icon
+      paddingRight: 30,
     },
     inputAndroid: {
       fontSize: 16,
@@ -365,7 +365,7 @@ const pickerSelectStyles = StyleSheet.create({
       borderRadius: 8,
       color: 'black',
       textAlign: 'center',
-      paddingRight: 30, // to ensure the text is never behind the icon
+      paddingRight: 30,
     },
     iconContainer: {
       top: 5,
