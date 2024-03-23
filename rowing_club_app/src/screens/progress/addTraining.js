@@ -5,7 +5,7 @@ import ImageScreenCoach from './addTrainingCoach';
 export default function ImageScreen() {
     const [content, setContent] = useState();
     const refreshContent = async(id) => {
-        if(id === "YDYsOFRCBMqhFpDn1buu1"){
+        if(id === "YDYsOFRCBMqhFpDn1buu"){
             setContent(<ImageScreenCoach/>);
         }else{
             setContent(<ImageScreenRower/>);
