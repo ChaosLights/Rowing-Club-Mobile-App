@@ -309,7 +309,7 @@ function TrainingDataView() {
                                 }
                             </View>
                             <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
-                                <Text style = {{marginRight: 10}}>1200m: {record.threeKM}</Text>
+                                <Text style = {{marginRight: 10}}>3000m: {record.threeKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgThreeKM[fiveKMData.length-2-index] < 0 ? (
                                         <Icon name="arrow-up" size={15} color="green"/>
@@ -320,7 +320,7 @@ function TrainingDataView() {
                                 }
                             </View>
                             <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
-                                <Text style = {{marginRight: 10}}>1600m: {record.fourKM}</Text>
+                                <Text style = {{marginRight: 10}}>4000m: {record.fourKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgFourKM[fiveKMData.length-2-index] < 0 ? (
                                         <Icon name="arrow-up" size={15} color="green"/>
@@ -331,7 +331,7 @@ function TrainingDataView() {
                                 }
                             </View>
                             <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
-                                <Text style = {{marginRight: 10}}>2000m: {record.fiveKM}</Text>
+                                <Text style = {{marginRight: 10}}>5000m: {record.fiveKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgFiveKM[fiveKMData.length-2-index] < 0 ? (
                                         <Icon name="arrow-up" size={15} color="green"/>
