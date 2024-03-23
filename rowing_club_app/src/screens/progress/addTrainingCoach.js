@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Image, Button, TextInput, SafeAreaView, View, ScrollView, Text, StyleSheet, Alert } from 'react-native';
+import { Image, Button, TextInput, SafeAreaView, View, ScrollView, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { storage } from '../../config/firebase';
 import { ref, listAll, getDownloadURL, deleteObject, getMetadata } from 'firebase/storage'
 import RNPickerSelect from 'react-native-picker-select';
@@ -94,7 +94,7 @@ function DisplayImage({ refresh, setRefresh }){
 }
 
 function RaceDataInput({ refresh, setRefresh }){
-    const [raceType, setRaceType] = useState('');
+    const [raceType, setRaceType] = useState('2km');
     let fourHM = '', eightHM = '', twelveHM = '', sixteenHM = '', twentyHM = '';
     let oneKM = '', twoKM = '', threeKM = '', fourKM = '', fiveKM = '';
     let distance = '';
@@ -252,9 +252,6 @@ function RaceDataInput({ refresh, setRefresh }){
                         onEndEditing={(value) => {twentyHM = value.nativeEvent.text}}
                     />
                 </View>
-                <View style={{marginTop: 20}}>
-                    <Button title="Submit" onPress={() => {submitData()}} color='#800000' />
-                </View>
             </View>
         );
     }
@@ -302,9 +299,6 @@ function RaceDataInput({ refresh, setRefresh }){
                         onEndEditing={(value) => {fiveKM = value.nativeEvent.text}}
                     />
                 </View>
-                <View style={{marginTop: 20}}>
-                    <Button title="Submit" onPress={() => {submitData()}} color='#800000' />
-                </View>
             </View>
         );
     };
@@ -320,31 +314,64 @@ function RaceDataInput({ refresh, setRefresh }){
                         onEndEditing={(value) => {distance = value.nativeEvent.text}}
                     />
                 </View>
-                <View style={{marginTop: 20}}>
-                    <Button title="Submit" onPress={() => {submitData()}} color='#800000' />
-                </View>
             </View>
         );
     };
     return (
         <View>
-            <Text style={style.selectTitle}>Race Type</Text>
-            <RNPickerSelect
-                placeholder={{ label: "Select a race type", value: null }}
-                onValueChange={(raceType) => setRaceType(raceType)}
-                items={[
-                    { label: '2 km', value: '2km' },
-                    { label: '5 km', value: '5km' },
-                    { label: '30 mins', value: '30min' },
-                ]}
-                style={style.select}
-            />
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Text style={style.selectTitle}>Race Type</Text>
+                <RNPickerSelect
+                    placeholder={{ label: "Select a race type", value: null }}
+                    onValueChange={(raceType) => setRaceType(raceType)}
+                    items={[
+                        { label: '2 km', value: '2km' },
+                        { label: '5 km', value: '5km' },
+                        { label: '30 mins', value: '30min' },
+                    ]}
+                    value={raceType}
+                    style={pickerSelectStyles}
+                />
+            </View>
             {raceType == '2km' && <TwoKMDisplay/>}
             {raceType == '5km' && <FiveKMDisplay/>}
             {raceType == '30min' && <ThirtyMinDisplay/>}
+            <View style={{marginTop: 20}}>
+                <TouchableOpacity style={style.submitButton} onPress={submitData}>
+                    <Text style={style.submitText}>Submit</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 4,
+      color: 'black',
+      textAlign: 'center',
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+      fontSize: 16,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      borderWidth: 0.5,
+      borderColor: 'purple',
+      borderRadius: 8,
+      color: 'black',
+      textAlign: 'center',
+      paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    iconContainer: {
+      top: 5,
+      right: 15,
+    },
+  });
 const style = StyleSheet.create({
     container: {
         flex: 1,
@@ -360,18 +387,7 @@ const style = StyleSheet.create({
     },
     selectTitle: {
         color: '#800000',
-        justifyContent: 'center',
-    },
-    select: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
-        borderColor: 'gray',
-        borderRadius: 8,
-        color: 'black',
-        paddingRight: 30,
-        justifyContent: 'center',
+        fontWeight: 'bold',
     },
     inputContainer: {
         marginTop: 10,
@@ -391,5 +407,19 @@ const style = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#800000',
         paddingHorizontal: 5,
+        width: 150,
+    },
+    submitButton: {
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: '#800000', 
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    submitText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 16,
     }
 });
