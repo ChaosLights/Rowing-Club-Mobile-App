@@ -7,11 +7,10 @@ export default function HomeScreen({ navigation }) {
     // const
     const [content, setContent] = useState();
 
-    //userType = "Coach"
-    //userType = "14-15"
 
     //global.userTypeID = "YDYsOFRCBMqhFpDn1buu" //coach
-    global.userTypeID = "AmU8s77q7TcDytflxrC8" //rower
+    global.userTypeID = "AmU8s77q7TcDytflxrC8" //rower 18 and over
+    //global.userTypeID = "OyhnLJNs0fEJ0eBT6266" //rower 16-17
 
     // check if user is coach or rower
     useEffect(() => {

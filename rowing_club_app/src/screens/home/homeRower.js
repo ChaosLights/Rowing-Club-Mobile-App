@@ -12,6 +12,8 @@ export default function HomeScreen({ navigation }) {
     const [selectedWeek, setSelectedWeek] = useState('Current week'); // State to track selected week
     const [availability, setAvailability] = useState([]);
 
+    const [selectedAvailability, setSelectedAvailability] = useState({});
+
     //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
@@ -48,7 +50,8 @@ export default function HomeScreen({ navigation }) {
         });
 
         try {
-            const q = query(collection(db, "Availability"), where("Session", ">=", formattedStartOfWeek));
+            const q = query(collection(db, "Availability"), where("TypeID", "==", typeID), where("Session", ">=", formattedStartOfWeek));
+
             const querySnapshot = await getDocs(q);
 
             const availabilityList = [];
@@ -58,17 +61,16 @@ export default function HomeScreen({ navigation }) {
                 let value = "";
 
                 if (data.Attending && data.Attending.includes(global.user)) {
-                    value = "Attending";
+                value = "Attending";
                 } else if (data.Absent && data.Absent.includes(global.user)) {
-                    value = "Absent";
+                value = "Absent";
                 } else if (data.Sick && data.Sick.includes(global.user)) {
-                    value = "Sick";
-                } else if (data.HomeTraining && data.HomeTraining.includes(global.user)) {
-                    value = "Home Training";
+                value = "Sick";
+                } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
+                value = "Home Training";
                 }
-
                 availabilityList.push({ dayTime: data.Session, value });
-            });
+                });
 
             setAvailability(availabilityList);
             console.log("Availability list:", availabilityList);
@@ -76,6 +78,15 @@ export default function HomeScreen({ navigation }) {
             console.error("Error fetching availability:", error);
         }
     };
+
+    useEffect(() => {
+    // Update selected availability when availability state changes
+    const initialSelectedAvailability = {};
+    availability.forEach(item => {
+    initialSelectedAvailability[item.dayTime] = item.value;
+    });
+    setSelectedAvailability(initialSelectedAvailability);
+    }, [availability]);
 
 
     //GET GROUP ATTENDANCE SCHEDULE
@@ -127,19 +138,6 @@ export default function HomeScreen({ navigation }) {
             [dayTime]: value
         }));
 
-        // // Update availability list
-        // setAvailability(prevState => {
-        //     const updatedAvailability = [...prevState];
-        //     const index = updatedAvailability.findIndex(item => item.dayTime === dayTime);
-        //     if (index !== -1) {
-        //         updatedAvailability[index] = { dayTime, value };
-        //     } else {
-        //         updatedAvailability.push({ dayTime, value });
-        //     }
-        //     return updatedAvailability;
-        // });
-
-        // console.log(availability);
         try {
             // Attempt to create the document reference
             const sessionDocRef = doc(db, "Availability", `${typeID}-${dayTime}`);
@@ -284,10 +282,10 @@ export default function HomeScreen({ navigation }) {
                                     <SelectList
                                         setSelected={(val) => handleAttendanceSelection(dayTime, val)}
                                         data={AttendancePickerData}
-
+                                        defaultValue={selectedAvailability[dayTime]}
                                         search={false}
                                         onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
-                                        placeholder={"Select"}
+                                        placeholder={selectedAvailability[dayTime]}
                                         save="value"
                                         boxStyles={{ backgroundColor: '#F5F5F5' }}
                                         dropdownStyles={{ backgroundColor: '#F5F5F5' }}
