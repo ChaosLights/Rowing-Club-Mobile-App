@@ -3,9 +3,7 @@ import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore";
-import Theme from '../../style';
-
+import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore";import Theme from '../../style';
 export default function HomeScreen({ navigation }) {
     //CONSTS
     const [attendance, addAttendance] = useState([]);
@@ -13,8 +11,6 @@ export default function HomeScreen({ navigation }) {
     const [sessionAttendance, setSessionAttendance] = useState({}); // State to track attendance for each session
     const [selectedWeek, setSelectedWeek] = useState('Current week'); // State to track selected week
     const [availability, setAvailability] = useState([]);
-
-    const [selectedAvailability, setSelectedAvailability] = useState({});
 
     //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
     //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
@@ -67,7 +63,7 @@ export default function HomeScreen({ navigation }) {
                     value = "Absent";
                 } else if (data.Sick && data.Sick.includes(global.user)) {
                     value = "Sick";
-                } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
+                } else if (data.HomeTraining && data.HomeTraining.includes(global.user)) {
                     value = "Home Training";
                 }
 
@@ -81,17 +77,8 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
-    useEffect(() => {
-        // Update selected availability when availability state changes
-        const initialSelectedAvailability = {};
-        availability.forEach(item => {
-            initialSelectedAvailability[item.dayTime] = item.value;
-        });
-        setSelectedAvailability(initialSelectedAvailability);
-    }, [availability]);
 
-
-    //GET GROUP ATTENDANCE SCHEDULE 
+    //GET GROUP ATTENDANCE SCHEDULE
     //from RecuringSchedule db
     useEffect(() => {
         console.log("Fetching attendance schedule...");
@@ -132,72 +119,85 @@ export default function HomeScreen({ navigation }) {
         </View>
     );
 
+    // Function to handle attendance selection
     const handleAttendanceSelection = async (dayTime, value) => {
         console.log(`Session ${dayTime} attendance set to: ${value}`);
         setSessionAttendance(prevState => ({
             ...prevState,
             [dayTime]: value
         }));
-    
+
+        // // Update availability list
+        // setAvailability(prevState => {
+        //     const updatedAvailability = [...prevState];
+        //     const index = updatedAvailability.findIndex(item => item.dayTime === dayTime);
+        //     if (index !== -1) {
+        //         updatedAvailability[index] = { dayTime, value };
+        //     } else {
+        //         updatedAvailability.push({ dayTime, value });
+        //     }
+        //     return updatedAvailability;
+        // });
+
+        // console.log(availability);
         try {
+            // Attempt to create the document reference
             const sessionDocRef = doc(db, "Availability", `${typeID}-${dayTime}`);
             console.log("Session document reference:", sessionDocRef);
-    
+
+            let sessionData = {
+                                Session: dayTime,
+                                TypeID: typeID,
+                                "Home Training": [],
+                                Sick: [],
+                                Absent: [],
+                                Attending: [],};
             // Fetch the existing session data from Firestore
             const sessionDocSnap = await getDoc(sessionDocRef);
-            const sessionData = sessionDocSnap.data();
-    
+            if (sessionDocSnap.exists()) {
+                sessionData = sessionDocSnap.data();
+            }
+
             // Check if the selected value is already the same as the current value in the database
-            if (sessionData && sessionData[value] && sessionData[value].includes(global.user)) {
-                // Value is already selected, no need to perform updates
-                console.log("Attendance value is already the same, no updates needed.");
-                return;
-            }
-    
-            // Create an update object
-            const updateField = { [value]: arrayUnion(global.user) };
-    
-            // Determine the old field based on the existing session data
-            let oldField;
-            if (sessionData) {
-                if (sessionData.Attending && sessionData.Attending.includes(global.user)) {
-                    oldField = "Attending";
-                } else if (sessionData.Absent && sessionData.Absent.includes(global.user)) {
-                    oldField = "Absent";
-                } else if (sessionData.Sick && sessionData.Sick.includes(global.user)) {
-                    oldField = "Sick";
-                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(global.user)) {
-                    oldField = "Home Training";
-                }
-            }
-    
-            // Remove the user ID from the old field if it exists
-            if (oldField) {
-                updateField[oldField] = arrayRemove(global.user);
-            }
-    
-            // Update the session document with the new attendance value
+                        if (sessionData && sessionData[value] && sessionData[value].includes(global.user)) {
+                            // Value is already selected, no need to perform updates
+                            console.log("Attendance value is already the same, no updates needed.");
+                            return;
+                        }
+
+                        // Create an update object
+                        const updateField = { [value]: arrayUnion(global.user) };
+
+                        // Determine the old field based on the existing session data
+                        let oldField;
+                        if (sessionData) {
+                            if (sessionData.Attending && sessionData.Attending.includes(global.user)) {
+                                oldField = "Attending";
+                            } else if (sessionData.Absent && sessionData.Absent.includes(global.user)) {
+                                oldField = "Absent";
+                            } else if (sessionData.Sick && sessionData.Sick.includes(global.user)) {
+                                oldField = "Sick";
+                            } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(global.user)) {
+                                oldField = "Home Training";
+                            }
+                        }
+
+                        // Remove the user ID from the old field if it exists
+                        if (oldField) {
+                            updateField[oldField] = arrayRemove(global.user);
+                        }
+
             await setDoc(sessionDocRef, sessionData, { merge: true });
             console.log("Session document created or updated successfully.");
-    
-            // Update the session document with the updated field
+
+
             await updateDoc(sessionDocRef, updateField);
             console.log("Attendance updated successfully.");
         } catch (error) {
-            console.error("Error updating attendance:", error);
+            // Log any errors encountered during document reference creation
+            console.error("Error creating session document reference:", error);
         }
-    };   
-
-
-    // if (sessionDocRef.Attending && data.Attending.includes(global.user)) {
-    //     updateField[Attending] = arrayRemove(global.userID);
-    // } else if (sessionDocRef.Absent && data.Absent.includes(global.user)) {
-    //     updateField[Absent] = arrayRemove(global.userID);
-    // } else if (sessionDocRef.Sick && data.Sick.includes(global.user)) {
-    //     updateField[Sick] = arrayRemove(global.userID);
-    // } else if (sessionDocRef["Home Training"] && data["Home Training"].includes(global.user)) {
-    //     updateField["Home Training"] = arrayRemove(global.userID);
-    // }
+    }
 
     // displays week titles
     // and calls renderWeek function
@@ -284,10 +284,10 @@ export default function HomeScreen({ navigation }) {
                                     <SelectList
                                         setSelected={(val) => handleAttendanceSelection(dayTime, val)}
                                         data={AttendancePickerData}
-                                        defaultValue={selectedAvailability[dayTime]}
+
                                         search={false}
                                         onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
-                                        placeholder={selectedAvailability[dayTime]}
+                                        placeholder={"Select"}
                                         save="value"
                                         boxStyles={{ backgroundColor: '#F5F5F5' }}
                                         dropdownStyles={{ backgroundColor: '#F5F5F5' }}
@@ -297,12 +297,12 @@ export default function HomeScreen({ navigation }) {
                         })
                     ) : (
                         <Text>No session{"\n"}</Text>
-                    )} 
-                </View> 
+                    )}
+                </View>
             );
         });
     };
- 
+
     // MAIN 
     // prints headings and calls methods renderNotification and renderAttendance to display info
     return (
