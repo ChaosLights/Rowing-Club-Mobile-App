@@ -297,12 +297,12 @@ export default function HomeScreen({ navigation }) {
                         })
                     ) : (
                         <Text>No session{"\n"}</Text>
-                    )}
-                </View>
+                    )} 
+                </View> 
             );
         });
     };
-
+ 
     // MAIN 
     // prints headings and calls methods renderNotification and renderAttendance to display info
     return (
