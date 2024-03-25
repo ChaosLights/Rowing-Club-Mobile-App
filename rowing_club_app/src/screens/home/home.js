@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { useState, useEffect } from 'react';
 import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
 
 export default function EventsScreen({ navigation }) {
-    //userType = "Coach"
-    userType = "14-15"
+    userType = "Coach"
+    // userType = "14-15"
 
     if(userType == "Coach") {
         return (
