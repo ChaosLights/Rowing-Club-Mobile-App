@@ -3,7 +3,7 @@ import ImageScreenRower from './addTrainingRower';
 import ImageScreenCoach from './addTrainingCoach';
 
 export default function ImageScreen() {
-    let userType = 'Coach'
+    let userType = 'Rower'
     if(userType == 'Rower'){
         return <ImageScreenRower/>
     }else{
