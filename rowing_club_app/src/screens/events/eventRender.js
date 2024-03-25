@@ -1,14 +1,17 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import Theme from '../../style';
 
 // render function for event title
 export function renderTitle(item, editEvent) {
     if (item == editEvent) {
+        // const [title, setTitle] = useState(item.Title);
         return (
             <TextInput
                 editable
                 style={[Theme.textInput, {flex: 10, marginRight: 5}]}
+                // onChange={setTitle}
                 value={item.Title}
             />
         )
@@ -38,7 +41,7 @@ export function renderEdit(item, editEvent, setEditEvent) {
 
 // render function for event event age group
 export function renderGroup(item, editEvent, userTypeList) {
-    // get the type string name using TypeID of events
+    // function to get user type string name using TypeID of events
     function getTypeName(typeID) {
         // find the user type that equals to the typeID
         const user = userTypeList.find(user => user.key === typeID);

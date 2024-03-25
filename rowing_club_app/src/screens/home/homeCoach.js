@@ -242,12 +242,14 @@ export default function HomeScreen({ navigation }) {
             <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
                 <TextInput
                     placeholder="Overview"
+                    placeholderTextColor="grey"
                     value={newNotificationOverview}
                     onChangeText={text => setNewNotificationOverview(text)}
                     style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
                 />
                 <TextInput
                     placeholder="Description"
+                    placeholderTextColor="grey"
                     value={newNotificationDescription}
                     onChangeText={text => setNewNotificationDescription(text)}
                     style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
