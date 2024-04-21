@@ -23,6 +23,15 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    TimeContainer: {
+        backgroundColor: '#F0F0F0',
+        borderRadius: 20, // roundness
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
     RedButton: {
         backgroundColor: 'red',
         borderRadius: 8,
@@ -83,7 +92,7 @@ const Theme = StyleSheet.create({
     },
     //events page starts
     eventContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: '#D9D6D2',
         borderRadius: 10,
         padding: 20,
         margin: 10,
