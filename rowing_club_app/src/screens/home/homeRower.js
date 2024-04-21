@@ -276,8 +276,8 @@ export default function HomeScreen({ navigation }) {
                             const [day, time] = session.split(', ');
                             const dayTime = `${date}, ${time}`;
                             return (
-                                <View key={sessionIndex} style={[Theme.GreyOvalButton, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                    <Text style={{ color: 'white' }}>{time}</Text>
+                                <View key={sessionIndex} style={[Theme.TimeContainer, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                    <Text style={{ color: '#333333' }}>{time}</Text>
                                     {/* Pass the dayTime and session data to handleAttendanceSelection when an option is selected */}
                                     <SelectList
                                         setSelected={(val) => handleAttendanceSelection(dayTime, val)}
