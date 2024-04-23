@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
     const [userTypeList, setUserTypeList] = useState([]);
     const [isEditMode, setEditMode] = useState(false); // New state for edit mode
     const [selectedTypeID, setSelectedTypeID] = useState([]);
-    const [availabilityData, setAvailability] = useState({});
+    const [availabilityData, setAvailability] = useState([]);
 
 
     //modal states
@@ -57,7 +57,7 @@ export default function HomeScreen({ navigation }) {
     function getTypeIDByValue(value) {
         for (var i = 0; i < userTypeList.length; i++) {
             if (userTypeList[i].value === value) {
-                
+
                 return userTypeList[i].key;
             }
         }
@@ -75,11 +75,11 @@ export default function HomeScreen({ navigation }) {
 
     useEffect(() => {
         let typeID = getTypeIDByValue(selectedAgeGroup);
-        
+
         setSelectedTypeID(typeID);
-        
+
     }, [selectedAgeGroup]);
-    
+
 
     // FETCH CURRENT AVAILABILITY
     useEffect(() => {
@@ -105,21 +105,25 @@ export default function HomeScreen({ navigation }) {
 
             const availabilityList = [];
 
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                // let value = "";
+             querySnapshot.forEach((doc) => {
+            const data = doc.data();
 
-                // if (data.Attending && data.Attending.includes(global.user)) {
-                //     value = "Attending";
-                // } else if (data.Absent && data.Absent.includes(global.user)) {
-                //     value = "Absent";
-                // } else if (data.Sick && data.Sick.includes(global.user)) {
-                //     value = "Sick";
-                // } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
-                //     value = "Home Training";
-                // }
-                availabilityList.push({ dayTime: data.Session, typeId: data.TypeID});
+            // Check if properties exist before accessing their length
+            const attendingList = data.Attending ? [...data.Attending] : [];
+            const homeList = data["Home Training"] ? [...data["Home Training"]] : [];
+            const absentList = data.Absent ? [...data.Absent] : [];
+            const sickList = data.Sick ? [...data.Sick] : [];
+
+            // Push data into availabilityList
+            availabilityList.push({
+                dayTime: data.Session, 
+                typeId: data.TypeID, 
+                attending: attendingList,
+                home: homeList,
+                absent: absentList,
+                sick: sickList
             });
+        });
 
             setAvailability(availabilityList);
             console.log("Availability list:", availabilityList);
@@ -127,7 +131,7 @@ export default function HomeScreen({ navigation }) {
             console.error("Error fetching availability:", error);
         }
     };
-    
+
 
 
 
@@ -273,7 +277,7 @@ export default function HomeScreen({ navigation }) {
             />
             <Text style={Theme.h2}>
                 {"\n"}
-                {selectedAgeGroup.length === 0 ? `Age Group:`  : `Age Group: ${selectedAgeGroup}`}
+                {selectedAgeGroup.length === 0 ? `Age Group:` : `Age Group: ${selectedAgeGroup}`}
             </Text>
             <SelectList
                 style={Theme.maroonOvalButton}
@@ -282,7 +286,7 @@ export default function HomeScreen({ navigation }) {
                 placeholder='Age Group'
                 save="value"
                 search={false}
-                //defaultValue={initialSelectedValue}
+            //defaultValue={initialSelectedValue}
             />
             <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
@@ -325,6 +329,7 @@ export default function HomeScreen({ navigation }) {
         return weekdays.map((dayObj, index) => {
             const targetDate = new Date(dayObj.fullDate);
             targetDate.setDate(targetDate.getDate() + offset);
+            //console.log(availabilityData);
 
             const sessionsForDay = sessions.filter((s) => {
                 const [day] = s.split(', ');
@@ -339,6 +344,7 @@ export default function HomeScreen({ navigation }) {
                         sessionsForDay.map((session, sessionIndex) => (
                             <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text>{session.split(', ')[1]}</Text>
+                                
                             </View>
                         ))
                     ) : (
