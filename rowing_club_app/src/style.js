@@ -23,6 +23,15 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    TimeContainer: {
+        backgroundColor: '#F0F0F0',
+        borderRadius: 20, // roundness
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
     RedButton: {
         backgroundColor: 'red',
         borderRadius: 8,
@@ -81,9 +90,76 @@ const Theme = StyleSheet.create({
     view: {
         padding: 10,
     },
+
+    //Home edit
+    V1: {
+        padding: 10,
+        backgroundColor: 'white',
+      },
+      Hc: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Centers items evenly
+      },
+      coachContainer: {
+        flexDirection: 'column', // Set to column to align vertically
+        alignItems: 'Right', // Center the text
+      },
+      headerContainer: {
+        flexDirection: 'row', // Align horizontally
+        justifyContent: 'space-between', // Space evenly
+        alignItems: 'center', // Center vertically
+      },
+      buttonContainer: {
+        flex: 1, // Allows button to fill available space
+        alignItems: 'Center', // Centers items horizontally
+        justifyContent: 'center',
+      },
+    editButton: {
+        backgroundColor: 'yellow',
+        padding: 5, // Smaller padding for smaller buttons
+        borderRadius: 3,
+        borderWidth: 1,
+        borderColor: 'orange',
+      },
+      doneButton: {
+        backgroundColor: 'lightblue',
+        padding: 5, // Smaller padding for smaller buttons
+        borderRadius: 3,
+        borderWidth: 1,
+        borderColor: 'blue',
+      },
+      addButtonContainer: {
+        alignItems: 'center', // Center the 'Add +' button
+      },
+      addButton: {
+        padding: 5, // Smaller padding for smaller buttons
+        backgroundColor: 'green',
+        borderRadius: 3,
+      },
+      addButtonText: {
+        color: 'white',
+        fontSize: 16,
+      },
+      buttonText: {
+        color: 'black',
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontSize: 16,
+      },
+      notificationHeader: {
+        flexDirection: 'row', // Aligns the text and button horizontally
+        justifyContent: 'space-between', // Spaces the elements evenly
+        alignItems: 'center', // Centers them vertically
+      },
+    
+      deleteButton: {
+        padding: 5, // Add some padding to make it clickable
+        borderRadius: 10, // Optionally, a bit of rounding
+      },
+
     //events page starts
     eventContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: '#D9D6D2',
         borderRadius: 10,
         padding: 20,
         margin: 10,
