@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert } from 'react-native';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, addDoc, deleteDoc, doc} from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc } from "firebase/firestore";
 import Theme from '../../style';
 import { AntDesign } from '@expo/vector-icons'; // Import AntDesign for icons
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -13,11 +13,11 @@ export default function HomeScreen({ navigation }) {
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
-    const [selectedAgeGroup, setSelectedAgeGroup] = useState([]); 
+    const [selectedAgeGroup, setSelectedAgeGroup] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
     const [isEditMode, setEditMode] = useState(false); // New state for edit mode
-    const initialSelectedValue = userTypeList.length > 0 ? userTypeList[userTypeList.length - 1].value : null;
-    
+    const [initialSelectedValue, setInitialSelectedValue] = useState([]);
+
 
     //modal states
     const [isModalVisible, setModalVisible] = useState(false);
@@ -26,34 +26,34 @@ export default function HomeScreen({ navigation }) {
     //modal functions
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
-    
+
     // Edit Mode States
     const toggleEditMode = () => {
         setEditMode(!isEditMode); // Toggle edit mode
-      };
-    
-      const confirmDeletion = (notificationId) => {
+    };
+
+    const confirmDeletion = (notificationId) => {
         Alert.alert(
-          'Confirm Deletion',
-          'Are you sure you want to delete this notification?',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Delete', onPress: () => deleteNotification(notificationId) },
-          ],
-          { cancelable: true }
+            'Confirm Deletion',
+            'Are you sure you want to delete this notification?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Delete', onPress: () => deleteNotification(notificationId) },
+            ],
+            { cancelable: true }
         );
-      };
+    };
 
     const typeIDx = "AmU8s77q7TcDytflxrC8"; // id for over 18
     let typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
     const WeekPickerData = [
-        {key:'Current Week', value:'currentWeek'},
-        {key:'Next Week', value:'nextWeek'},
-    
-      ]
+        { key: 'Current Week', value: 'currentWeek' },
+        { key: 'Next Week', value: 'nextWeek' },
 
-      function getTypeIDByValue(value) {
+    ]
+
+    function getTypeIDByValue(value) {
         for (var i = 0; i < userTypeList.length; i++) {
             if (userTypeList[i].value === value) {
                 return userTypeList[i].key;
@@ -62,7 +62,17 @@ export default function HomeScreen({ navigation }) {
         return null;
     }
 
+    function getValueByTypeID(typeID) {
+        for (var i = 0; i < userTypeList.length; i++) {
+            if (userTypeList[i].key === typeID) {
+                return userTypeList[i].value;
+            }
+        }
+        return null;
+    }
     
+
+
 
     // get dropdown options
     useEffect(() => {
@@ -74,7 +84,7 @@ export default function HomeScreen({ navigation }) {
                 const userType = { ...doc.data(), id: doc.id };
                 if (userType.Type != "Coach") {
                     // add ID and descriptive name onto updatedUserTypeList via mapping
-                    updatedUserTypeList.push({key: userType.id, value: userType.Type});
+                    updatedUserTypeList.push({ key: userType.id, value: userType.Type });
                 }
             });
             // set the user type list to the updated version
@@ -93,18 +103,16 @@ export default function HomeScreen({ navigation }) {
                 var typeID = getTypeIDByValue(selectedAgeGroup);
                 if (attendanceData.TypeID === typeID) {
                     attendanceList.push(attendanceData);
-                    console.log ("attendance", attendanceList,"\n x");
                     addAttendance(attendanceList);
                     attendanceList = [];
-                    return; 
+                    return;
                 }
-                else if (selectedAgeGroup.length === 0){
+                else if (selectedAgeGroup.length === 0) {
                     attendanceList.push(attendanceData);
-                    console.log ("attendance2", attendanceList,"\n x");
                     addAttendance(attendanceList);
-                    attendanceList = []; 
+                    attendanceList = [];
                 }
-                
+
             });
         });
     }, [selectedAgeGroup]);
@@ -114,7 +122,7 @@ export default function HomeScreen({ navigation }) {
     useEffect(() => {
         console.log("Fetching notifications...");
         onSnapshot(collection(db, "Notification"), (snapshot) => {
-            let notificationList = [] 
+            let notificationList = []
             snapshot.docs.map((doc) => notificationList.push({ ...doc.data(), id: doc.id }))
             addNotification(notificationList)
         })
@@ -124,13 +132,13 @@ export default function HomeScreen({ navigation }) {
     //to Notification db
     const addNewNotification = async () => {
         try {
-          const docRef = await addDoc(collection(db, 'Notification'), {
-            Overview: newNotificationOverview,
-            Description: newNotificationDescription,
-          });
-          console.log('Notification added with ID: ', docRef.id);
+            const docRef = await addDoc(collection(db, 'Notification'), {
+                Overview: newNotificationOverview,
+                Description: newNotificationDescription,
+            });
+            console.log('Notification added with ID: ', docRef.id);
         } catch (error) {
-          console.error('Error adding notification: ', error);
+            console.error('Error adding notification: ', error);
         }
         closeModal();
         setNewNotificationOverview('');
@@ -140,7 +148,7 @@ export default function HomeScreen({ navigation }) {
     //DELETE NOTIFICATION
     //from Notification db
     const deleteNotification = async (notificationId) => {
-        
+
         try {
             await deleteDoc(doc(db, 'Notification', notificationId));
             console.log('Notification deleted successfully!');
@@ -153,40 +161,40 @@ export default function HomeScreen({ navigation }) {
     // (called in main return function)
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
-          <View style={Theme.notificationHeader}>
-            <Text style={Theme.h2}>{item.Overview}</Text>
-            {isEditMode && (
-              <TouchableOpacity onPress={() => confirmDeletion(item.id)} style={Theme.deleteButton}>
-                <AntDesign name="closecircle" size={24} color="#f52d56" />
-              </TouchableOpacity>
-            )}
-          </View>
-          <Text style={[Theme.body, { marginBottom: 15 }]}>{item.Description}</Text>
+            <View style={Theme.notificationHeader}>
+                <Text style={Theme.h2}>{item.Overview}</Text>
+                {isEditMode && (
+                    <TouchableOpacity onPress={() => confirmDeletion(item.id)} style={Theme.deleteButton}>
+                        <AntDesign name="closecircle" size={24} color="#f52d56" />
+                    </TouchableOpacity>
+                )}
+            </View>
+            <Text style={[Theme.body, { marginBottom: 15 }]}>{item.Description}</Text>
         </View>
-      );
+    );
 
     // DISPLAY NOTICITATION POPUP
     // (called in main return function)
     const renderNotificationPopup = () => (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
-            <TextInput
-              placeholder="Overview"
-              placeholderTextColor="grey"
-              value={newNotificationOverview}
-              onChangeText={text => setNewNotificationOverview(text)}
-              style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
-            />
-            <TextInput
-              placeholder="Description"
-              placeholderTextColor="grey"
-              value={newNotificationDescription}
-              onChangeText={text => setNewNotificationDescription(text)}
-              style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
-            />
-            <Button title="Add Notification" onPress={addNewNotification} />
-            <Button title="Close" onPress={closeModal} />
-          </View>
+            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+                <TextInput
+                    placeholder="Overview"
+                    placeholderTextColor="grey"
+                    value={newNotificationOverview}
+                    onChangeText={text => setNewNotificationOverview(text)}
+                    style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                />
+                <TextInput
+                    placeholder="Description"
+                    placeholderTextColor="grey"
+                    value={newNotificationDescription}
+                    onChangeText={text => setNewNotificationDescription(text)}
+                    style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                />
+                <Button title="Add Notification" onPress={addNewNotification} />
+                <Button title="Close" onPress={closeModal} />
+            </View>
         </View>
     );
 
@@ -205,13 +213,15 @@ export default function HomeScreen({ navigation }) {
                 save="value"
                 search={false}
             />
-            <Text style={Theme.h2}>{"\n"}Age Group:
+            <Text style={Theme.h2}>
+                {"\n"}
+                {selectedAgeGroup.length === 0 ? `Age Group: ${initialSelectedValue}`  : `Age Group: ${selectedAgeGroup}`}
             </Text>
             <SelectList
                 style={Theme.maroonOvalButton}
                 setSelected={(val) => setSelectedAgeGroup(val)}
                 data={userTypeList}
-                placeholder= 'Age Group'
+                placeholder='Age Group'
                 save="value"
                 search={false}
                 defaultValue={initialSelectedValue}
@@ -241,7 +251,7 @@ export default function HomeScreen({ navigation }) {
     const startOfWeek = new Date(currentDate);
     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
 
-    
+
     // makes weekdays list, storing all dates within the current week
     const weekdays = [];
     for (let i = 0; i < 7; i++) {
@@ -263,7 +273,7 @@ export default function HomeScreen({ navigation }) {
                 return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
             });
 
-             // prints weekday and training times
+            // prints weekday and training times
             return (
                 <View key={index} style={Theme.eventContainer}>
                     <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
@@ -286,57 +296,57 @@ export default function HomeScreen({ navigation }) {
     // Inside the main return function
     return (
         <FlatList
-          data={[
-            { sectionTitle: 'Notifications', data: notification },
-            { sectionTitle: 'Attendance', data: attendance },
-          ]}
-          renderItem={({ item }) => (
-            <View style={Theme.V1}>
-              <View style={Theme.coachContainer}>
-                <Text style={Theme.coachText}>Coach</Text>
-              </View>
-    
-              <View style={Theme.headerContainer}>
-                <Text style={Theme.title}>{item.sectionTitle}</Text>
-                {item.sectionTitle === 'Notifications' && (
-                  <View style={Theme.buttonContainer}>
-                    <TouchableOpacity
-                      style={isEditMode ? Theme.doneButton : Theme.editButton}
-                      onPress={toggleEditMode}
-                    >
-                      <Text style={Theme.buttonText}>{isEditMode ? 'Done' : 'Edit'}</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-    
-              <FlatList
-                data={item.sectionTitle === 'Notifications' ? notification : attendance}
-                renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
-                keyExtractor={(item) => item.id}
-              />
-    
-              {item.sectionTitle === 'Notifications' && isEditMode && (
-                <>
-                  <View style={Theme.addButtonContainer}>
-                    <TouchableOpacity onPress={openModal} style={Theme.addButton}>
-                      <Text style={Theme.addButtonText}>Add +</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <Modal
-                    visible={isModalVisible}
-                    onRequestClose={closeModal}
-                    transparent
-                    animationType="slide"
-                  >
-                    {renderNotificationPopup()}
-                  </Modal>
-                </>
-              )}
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
+            data={[
+                { sectionTitle: 'Notifications', data: notification },
+                { sectionTitle: 'Attendance', data: attendance },
+            ]}
+            renderItem={({ item }) => (
+                <View style={Theme.V1}>
+                    <View style={Theme.coachContainer}>
+                        <Text style={Theme.coachText}>Coach</Text>
+                    </View>
+
+                    <View style={Theme.headerContainer}>
+                        <Text style={Theme.title}>{item.sectionTitle}</Text>
+                        {item.sectionTitle === 'Notifications' && (
+                            <View style={Theme.buttonContainer}>
+                                <TouchableOpacity
+                                    style={isEditMode ? Theme.doneButton : Theme.editButton}
+                                    onPress={toggleEditMode}
+                                >
+                                    <Text style={Theme.buttonText}>{isEditMode ? 'Done' : 'Edit'}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
+
+                    <FlatList
+                        data={item.sectionTitle === 'Notifications' ? notification : attendance}
+                        renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
+                        keyExtractor={(item) => item.id}
+                    />
+
+                    {item.sectionTitle === 'Notifications' && isEditMode && (
+                        <>
+                            <View style={Theme.addButtonContainer}>
+                                <TouchableOpacity onPress={openModal} style={Theme.addButton}>
+                                    <Text style={Theme.addButtonText}>Add +</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <Modal
+                                visible={isModalVisible}
+                                onRequestClose={closeModal}
+                                transparent
+                                animationType="slide"
+                            >
+                                {renderNotificationPopup()}
+                            </Modal>
+                        </>
+                    )}
+                </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
         />
-      );
-  
-    };
+    );
+
+};
