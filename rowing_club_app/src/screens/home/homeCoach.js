@@ -72,17 +72,19 @@ export default function HomeScreen({ navigation }) {
                 var typeID = getTypeIDByValue(selectedAgeGroup);
                 if (attendanceData.TypeID === typeID) {
                     attendanceList.push(attendanceData);
+                    console.log ("attendance", attendanceList,"\n x");
                     addAttendance(attendanceList);
                     attendanceList = [];
                     return; 
                 }
-                else{
+                else if (selectedAgeGroup.length === 0){
                     attendanceList.push(attendanceData);
+                    console.log ("attendance2", attendanceList,"\n x");
                     addAttendance(attendanceList);
+                    attendanceList = []; 
                 }
                 
             });
-
         });
     }, [selectedAgeGroup]);
 
