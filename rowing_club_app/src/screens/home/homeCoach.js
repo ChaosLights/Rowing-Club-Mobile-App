@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert } from 'react-native';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
 import Theme from '../../style';
 import { AntDesign } from '@expo/vector-icons'; // Import AntDesign for icons
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -16,7 +16,8 @@ export default function HomeScreen({ navigation }) {
     const [selectedAgeGroup, setSelectedAgeGroup] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
     const [isEditMode, setEditMode] = useState(false); // New state for edit mode
-    const [initialSelectedValue, setInitialSelectedValue] = useState([]);
+    const [selectedTypeID, setSelectedTypeID] = useState([]);
+    const [availabilityData, setAvailability] = useState({});
 
 
     //modal states
@@ -56,6 +57,7 @@ export default function HomeScreen({ navigation }) {
     function getTypeIDByValue(value) {
         for (var i = 0; i < userTypeList.length; i++) {
             if (userTypeList[i].value === value) {
+                
                 return userTypeList[i].key;
             }
         }
@@ -70,6 +72,61 @@ export default function HomeScreen({ navigation }) {
         }
         return null;
     }
+
+    useEffect(() => {
+        let typeID = getTypeIDByValue(selectedAgeGroup);
+        
+        setSelectedTypeID(typeID);
+        
+    }, [selectedAgeGroup]);
+    
+
+    // FETCH CURRENT AVAILABILITY
+    useEffect(() => {
+        fetchAvailability();
+    }, [selectedTypeID]);
+
+    const fetchAvailability = async () => {
+        const currentDate = new Date();
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
+
+        const formattedStartOfWeek = startOfWeek.toLocaleDateString(undefined, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        try {
+            const q = query(collection(db, "Availability"), where("TypeID", "==", selectedTypeID), where("Session", ">=", formattedStartOfWeek));
+            console.log("xxxxxxxxxxxx:", selectedTypeID, selectedAgeGroup);
+            const querySnapshot = await getDocs(q);
+
+            const availabilityList = [];
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                // let value = "";
+
+                // if (data.Attending && data.Attending.includes(global.user)) {
+                //     value = "Attending";
+                // } else if (data.Absent && data.Absent.includes(global.user)) {
+                //     value = "Absent";
+                // } else if (data.Sick && data.Sick.includes(global.user)) {
+                //     value = "Sick";
+                // } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
+                //     value = "Home Training";
+                // }
+                availabilityList.push({ dayTime: data.Session, typeId: data.TypeID});
+            });
+
+            setAvailability(availabilityList);
+            console.log("Availability list:", availabilityList);
+        } catch (error) {
+            console.error("Error fetching availability:", error);
+        }
+    };
     
 
 
@@ -89,6 +146,7 @@ export default function HomeScreen({ navigation }) {
             });
             // set the user type list to the updated version
             setUserTypeList(updatedUserTypeList);
+            //console.log("userTypeID list:", updatedUserTypeList);
         });
     }, []);
 
@@ -215,7 +273,7 @@ export default function HomeScreen({ navigation }) {
             />
             <Text style={Theme.h2}>
                 {"\n"}
-                {selectedAgeGroup.length === 0 ? `Age Group: ${initialSelectedValue}`  : `Age Group: ${selectedAgeGroup}`}
+                {selectedAgeGroup.length === 0 ? `Age Group:`  : `Age Group: ${selectedAgeGroup}`}
             </Text>
             <SelectList
                 style={Theme.maroonOvalButton}
@@ -224,7 +282,7 @@ export default function HomeScreen({ navigation }) {
                 placeholder='Age Group'
                 save="value"
                 search={false}
-                defaultValue={initialSelectedValue}
+                //defaultValue={initialSelectedValue}
             />
             <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
