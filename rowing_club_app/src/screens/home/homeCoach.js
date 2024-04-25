@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, FlatList, Modal, Button, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert } from 'react-native';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, addDoc, deleteDoc, doc} from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
 import Theme from '../../style';
+import { AntDesign } from '@expo/vector-icons'; // Import AntDesign for icons
 import { SelectList } from 'react-native-dropdown-select-list'
+
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
@@ -11,9 +13,12 @@ export default function HomeScreen({ navigation }) {
     const [attendance, addAttendance] = useState([]);
     const [notification, addNotification] = useState([]);
     const [selectedWeek, setSelectedWeek] = useState('currentWeek'); // State to track selected week
-    const [selectedAgeGroup, setSelectedAgeGroup] = useState([]); 
+    const [selectedAgeGroup, setSelectedAgeGroup] = useState([]);
     const [userTypeList, setUserTypeList] = useState([]);
-    const initialSelectedValue = userTypeList.length > 0 ? userTypeList[userTypeList.length - 1].value : null;
+    const [isEditMode, setEditMode] = useState(false); // New state for edit mode
+    const [selectedTypeID, setSelectedTypeID] = useState([]);
+    const [availabilityData, setAvailability] = useState([]);
+
 
     //modal states
     const [isModalVisible, setModalVisible] = useState(false);
@@ -23,25 +28,112 @@ export default function HomeScreen({ navigation }) {
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
 
+    // Edit Mode States
+    const toggleEditMode = () => {
+        setEditMode(!isEditMode); // Toggle edit mode
+    };
+
+    const confirmDeletion = (notificationId) => {
+        Alert.alert(
+            'Confirm Deletion',
+            'Are you sure you want to delete this notification?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Delete', onPress: () => deleteNotification(notificationId) },
+            ],
+            { cancelable: true }
+        );
+    };
+
     const typeIDx = "AmU8s77q7TcDytflxrC8"; // id for over 18
     let typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
 
     const WeekPickerData = [
-        {key:'Current Week', value:'currentWeek'},
-        {key:'Next Week', value:'nextWeek'},
-    
-      ]
+        { key: 'Current Week', value: 'currentWeek' },
+        { key: 'Next Week', value: 'nextWeek' },
 
-      function getTypeIDByValue(value) {
+    ]
+
+    function getTypeIDByValue(value) {
         for (var i = 0; i < userTypeList.length; i++) {
             if (userTypeList[i].value === value) {
+
                 return userTypeList[i].key;
             }
         }
         return null;
     }
 
-    
+    function getValueByTypeID(typeID) {
+        for (var i = 0; i < userTypeList.length; i++) {
+            if (userTypeList[i].key === typeID) {
+                return userTypeList[i].value;
+            }
+        }
+        return null;
+    }
+
+    useEffect(() => {
+        let typeID = getTypeIDByValue(selectedAgeGroup);
+
+        setSelectedTypeID(typeID);
+
+    }, [selectedAgeGroup]);
+
+
+    // FETCH CURRENT AVAILABILITY
+    useEffect(() => {
+        fetchAvailability();
+    }, [selectedTypeID]);
+
+    const fetchAvailability = async () => {
+        const currentDate = new Date();
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
+
+        const formattedStartOfWeek = startOfWeek.toLocaleDateString(undefined, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        try {
+            const q = query(collection(db, "Availability"), where("TypeID", "==", selectedTypeID), where("Session", ">=", formattedStartOfWeek));
+            console.log("xxxxxxxxxxxx:", selectedTypeID, selectedAgeGroup);
+            const querySnapshot = await getDocs(q);
+
+            const availabilityList = [];
+
+             querySnapshot.forEach((doc) => {
+            const data = doc.data();
+
+            // Check if properties exist before accessing their length
+            const attendingList = data.Attending ? [...data.Attending] : [];
+            const homeList = data["Home Training"] ? [...data["Home Training"]] : [];
+            const absentList = data.Absent ? [...data.Absent] : [];
+            const sickList = data.Sick ? [...data.Sick] : [];
+
+            // Push data into availabilityList
+            availabilityList.push({
+                dayTime: data.Session, 
+                typeId: data.TypeID, 
+                attending: attendingList,
+                home: homeList,
+                absent: absentList,
+                sick: sickList
+            });
+        });
+
+            setAvailability(availabilityList);
+            console.log("Availability list:", availabilityList);
+        } catch (error) {
+            console.error("Error fetching availability:", error);
+        }
+    };
+
+
+
 
     // get dropdown options
     useEffect(() => {
@@ -53,11 +145,12 @@ export default function HomeScreen({ navigation }) {
                 const userType = { ...doc.data(), id: doc.id };
                 if (userType.Type != "Coach") {
                     // add ID and descriptive name onto updatedUserTypeList via mapping
-                    updatedUserTypeList.push({key: userType.id, value: userType.Type});
+                    updatedUserTypeList.push({ key: userType.id, value: userType.Type });
                 }
             });
             // set the user type list to the updated version
             setUserTypeList(updatedUserTypeList);
+            //console.log("userTypeID list:", updatedUserTypeList);
         });
     }, []);
 
@@ -74,15 +167,15 @@ export default function HomeScreen({ navigation }) {
                     attendanceList.push(attendanceData);
                     addAttendance(attendanceList);
                     attendanceList = [];
-                    return; 
+                    return;
                 }
-                else{
+                else if (selectedAgeGroup.length === 0) {
                     attendanceList.push(attendanceData);
                     addAttendance(attendanceList);
+                    attendanceList = [];
                 }
-                
-            });
 
+            });
         });
     }, [selectedAgeGroup]);
 
@@ -91,7 +184,7 @@ export default function HomeScreen({ navigation }) {
     useEffect(() => {
         console.log("Fetching notifications...");
         onSnapshot(collection(db, "Notification"), (snapshot) => {
-            let notificationList = [] 
+            let notificationList = []
             snapshot.docs.map((doc) => notificationList.push({ ...doc.data(), id: doc.id }))
             addNotification(notificationList)
         })
@@ -105,12 +198,10 @@ export default function HomeScreen({ navigation }) {
                 Overview: newNotificationOverview,
                 Description: newNotificationDescription,
             });
-
             console.log('Notification added with ID: ', docRef.id);
         } catch (error) {
             console.error('Error adding notification: ', error);
         }
-
         closeModal();
         setNewNotificationOverview('');
         setNewNotificationDescription('');
@@ -119,7 +210,7 @@ export default function HomeScreen({ navigation }) {
     //DELETE NOTIFICATION
     //from Notification db
     const deleteNotification = async (notificationId) => {
-        
+
         try {
             await deleteDoc(doc(db, 'Notification', notificationId));
             console.log('Notification deleted successfully!');
@@ -132,108 +223,17 @@ export default function HomeScreen({ navigation }) {
     // (called in main return function)
     const renderNotification = ({ item }) => (
         <View style={Theme.eventContainer}>
-            <Text style={Theme.h2}>{item.Overview}</Text>
+            <View style={Theme.notificationHeader}>
+                <Text style={Theme.h2}>{item.Overview}</Text>
+                {isEditMode && (
+                    <TouchableOpacity onPress={() => confirmDeletion(item.id)} style={Theme.deleteButton}>
+                        <AntDesign name="closecircle" size={24} color="#f52d56" />
+                    </TouchableOpacity>
+                )}
+            </View>
             <Text style={[Theme.body, { marginBottom: 15 }]}>{item.Description}</Text>
-            <View style={Theme.RedButton}>
-            <Button 
-                title="Delete" 
-                onPress={() => deleteNotification(item.id)}
-                color="white" 
-            />
-            </View>
-        </View>
-      );
-
-    // displays week titles
-    // and calls renderWeek function
-    // (called in main return function)
-    const renderAttendance = ({ item }) => (
-        <View style={Theme.view}>
-            <Text style={Theme.h2}>{"\n"}Week:
-            </Text>
-            <SelectList
-                style={Theme.maroonOvalButton}
-                setSelected={(val) => setSelectedWeek(val)}
-                data={WeekPickerData}
-                placeholder='Current Week'
-                save="value"
-                search={false}
-            />
-            <Text style={Theme.h2}>{"\n"}Age Group:
-            </Text>
-            <SelectList
-                style={Theme.maroonOvalButton}
-                setSelected={(val) => setSelectedAgeGroup(val)}
-                data={userTypeList}
-                placeholder= 'Age Group'
-                save="value"
-                search={false}
-                defaultValue={initialSelectedValue}
-            />
-            <Text style={Theme.h2}>{"\n"}Sessions:
-            </Text>
-            <View style={{ flexDirection: 'row' }}>
-                {selectedWeek === 'currentWeek' && (
-                    <View style={{ flex: 1 }}>
-                        <Text style={Theme.h3}>Current Week </Text>
-                        {renderWeek(item.Sessions, weekdays, 0)}
-                    </View>
-                )}
-                {selectedWeek === 'nextWeek' && (
-                    <View style={{ flex: 1 }}>
-                        <Text style={Theme.h3}>Next Week</Text>
-                        {renderWeek(item.Sessions, weekdays, 7)}
-                    </View>
-                )}
-            </View>
         </View>
     );
-
-    // DISPLAY TRAINING SESSIONS
-    // set current date, and date of the start of the week
-    const currentDate = new Date();
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
-
-    
-    // makes weekdays list, storing all dates within the current week
-    const weekdays = [];
-    for (let i = 0; i < 7; i++) {
-        const day = new Date(startOfWeek);
-        day.setDate(startOfWeek.getDate() + i);
-        const weekday = day.toLocaleDateString(undefined, { weekday: 'long' });
-        weekdays.push({ fullDate: day, weekday: weekday });
-    }
-
-    // displays all training info
-    // (called in renderAttendance function)
-    const renderWeek = (sessions, weekdays, offset) => {
-        return weekdays.map((dayObj, index) => {
-            const targetDate = new Date(dayObj.fullDate);
-            targetDate.setDate(targetDate.getDate() + offset);
-
-            const sessionsForDay = sessions.filter((s) => {
-                const [day] = s.split(', ');
-                return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
-            });
-
-             // prints weekday and training times
-            return (
-                <View key={index} style={Theme.eventContainer}>
-                    <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-                    {sessionsForDay.length > 0 ? (
-                        sessionsForDay.map((session, sessionIndex) => (
-                            <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text>{session.split(', ')[1]}</Text>
-                            </View>
-                        ))
-                    ) : (
-                        <Text>No session{"\n"}</Text>
-                    )}
-                </View>
-            );
-        });
-    };
 
     // DISPLAY NOTICITATION POPUP
     // (called in main return function)
@@ -260,40 +260,157 @@ export default function HomeScreen({ navigation }) {
         </View>
     );
 
+    // displays week titles
+    // and calls renderWeek function
+    // (called in main return function)
+    const renderAttendance = ({ item }) => (
+        <View style={Theme.view}>
+            <Text style={Theme.h2}>{"\n"}Week:
+            </Text>
+            <SelectList
+                style={Theme.maroonOvalButton}
+                setSelected={(val) => setSelectedWeek(val)}
+                data={WeekPickerData}
+                placeholder='Current Week'
+                save="value"
+                search={false}
+            />
+            <Text style={Theme.h2}>
+                {"\n"}
+                {selectedAgeGroup.length === 0 ? `Age Group:` : `Age Group: ${selectedAgeGroup}`}
+            </Text>
+            <SelectList
+                style={Theme.maroonOvalButton}
+                setSelected={(val) => setSelectedAgeGroup(val)}
+                data={userTypeList}
+                placeholder='Age Group'
+                save="value"
+                search={false}
+            //defaultValue={initialSelectedValue}
+            />
+            <Text style={Theme.h2}>{"\n"}Sessions:
+            </Text>
+            <View style={{ flexDirection: 'row' }}>
+                {selectedWeek === 'currentWeek' && (
+                    <View style={{ flex: 1 }}>
+                        <Text style={Theme.h3}>Current Week </Text>
+                        {renderWeek(item.Sessions, weekdays, 0)}
+                    </View>
+                )}
+                {selectedWeek === 'nextWeek' && (
+                    <View style={{ flex: 1 }}>
+                        <Text style={Theme.h3}>Next Week</Text>
+                        {renderWeek(item.Sessions, weekdays, 7)}
+                    </View>
+                )}
+            </View>
+        </View>
+    );
+
+    // DISPLAY TRAINING SESSIONS
+    // set current date, and date of the start of the week
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1));
+
+
+    // makes weekdays list, storing all dates within the current week
+    const weekdays = [];
+    for (let i = 0; i < 7; i++) {
+        const day = new Date(startOfWeek);
+        day.setDate(startOfWeek.getDate() + i);
+        const weekday = day.toLocaleDateString(undefined, { weekday: 'long' });
+        weekdays.push({ fullDate: day, weekday: weekday });
+    }
+
+    // displays all training info
+    // (called in renderAttendance function)
+    const renderWeek = (sessions, weekdays, offset) => {
+        return weekdays.map((dayObj, index) => {
+            const targetDate = new Date(dayObj.fullDate);
+            targetDate.setDate(targetDate.getDate() + offset);
+            //console.log(availabilityData);
+
+            const sessionsForDay = sessions.filter((s) => {
+                const [day] = s.split(', ');
+                return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
+            });
+
+            // prints weekday and training times
+            return (
+                <View key={index} style={Theme.eventContainer}>
+                    <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
+                    {sessionsForDay.length > 0 ? (
+                        sessionsForDay.map((session, sessionIndex) => (
+                            <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text>{session.split(', ')[1]}</Text>
+                                
+                            </View>
+                        ))
+                    ) : (
+                        <Text>No session{"\n"}</Text>
+                    )}
+                </View>
+            );
+        });
+    };
+
     // MAIN 
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
+    // Inside the main return function
     return (
-        
-        
         <FlatList
-        
-        
-          data={[
-            { sectionTitle: "Notifications", data: notification },
-            { sectionTitle: "Attendance", data: attendance }
-          ]}
-          renderItem={({ item }) => (
-            
-            <View style={Theme.view}>
-                <Text style={[Theme.h2, {flex: 10}]}>
-        { "Coach" }
-    </Text>
-                
-              <Text style={Theme.h1}>{item.sectionTitle}</Text>
-              <FlatList
-                data={item.data}
-                renderItem={item.sectionTitle === "Notifications" ? renderNotification : renderAttendance}
-                keyExtractor={item => item.id}
-              />
-              {item.sectionTitle === "Notifications" && (
-                <Button title="Add Notification" onPress={openModal} />
-              )}
-              <Modal visible={isModalVisible && item.sectionTitle === "Notifications"} onRequestClose={closeModal} transparent animationType="slide">
-                {renderNotificationPopup()}
-              </Modal>
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
+            data={[
+                { sectionTitle: 'Notifications', data: notification },
+                { sectionTitle: 'Attendance', data: attendance },
+            ]}
+            renderItem={({ item }) => (
+                <View style={Theme.V1}>
+                    <View style={Theme.coachContainer}>
+                        <Text style={Theme.coachText}>Coach</Text>
+                    </View>
+
+                    <View style={Theme.headerContainer}>
+                        <Text style={Theme.title}>{item.sectionTitle}</Text>
+                        {item.sectionTitle === 'Notifications' && (
+                            <View style={Theme.buttonContainer}>
+                                <TouchableOpacity
+                                    style={isEditMode ? Theme.doneButton : Theme.editButton}
+                                    onPress={toggleEditMode}
+                                >
+                                    <Text style={Theme.buttonText}>{isEditMode ? 'Done' : 'Edit'}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
+
+                    <FlatList
+                        data={item.sectionTitle === 'Notifications' ? notification : attendance}
+                        renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
+                        keyExtractor={(item) => item.id}
+                    />
+
+                    {item.sectionTitle === 'Notifications' && isEditMode && (
+                        <>
+                            <View style={Theme.addButtonContainer}>
+                                <TouchableOpacity onPress={openModal} style={Theme.addButton}>
+                                    <Text style={Theme.addButtonText}>Add +</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <Modal
+                                visible={isModalVisible}
+                                onRequestClose={closeModal}
+                                transparent
+                                animationType="slide"
+                            >
+                                {renderNotificationPopup()}
+                            </Modal>
+                        </>
+                    )}
+                </View>
+            )}
+            keyExtractor={(item, index) => index.toString()}
         />
     );
-}
+
+};
