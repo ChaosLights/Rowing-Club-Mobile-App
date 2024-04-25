@@ -4,12 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //screens
 import SettingsScreen from './settings';
 import PassChange from './passChange';
-// import Login from './login';
 
 //const: screen names
 const settingsName = 'settings';
 const passChangeName = 'passChange';
-// const loginName = 'login';
 
 //const: nav
 const Stack = createNativeStackNavigator();
@@ -19,7 +17,6 @@ export default function Settingscontainer() {
         <Stack.Navigator initialRouteName={settingsName} screenOptions={({headerShown:false})}>
             <Stack.Screen name={settingsName} component={SettingsScreen} />
             <Stack.Screen name={passChangeName} component={PassChange} />
-            {/* <Stack.Screen name={loginName} component={Login} /> */}
         </Stack.Navigator>
     );
 }
