@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, TouchableOpacity} from 'react-native';
 import Theme from '../../style';
 
 //const: screen names
@@ -11,15 +11,18 @@ export default function ProgressScreen({navigation}) {
             <Text style={Theme.title}>
                 Progress Page
             </Text>
+
             <Text style={Theme.body}>
-                {"\n"}{"\n"}
-                (Don't need to implement this page yet. Just implement addTraining.js. 
-                This page is just to nagivate to the add training page)
+                {"\n"}
+                Training data presentation feature to be implemented in future updates.
             </Text>
-            <Button
-                title="Add New Training Record"
-                onPress={() => navigation.navigate(addTrainingName)}
-            />
+
+
+            {/* To change password */}
+            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate(addTrainingName)}>
+            <Text style={Theme.navButtonFont}>Add New Training Record</Text>
+            </TouchableOpacity>
+            
         </View>
     )
 }
