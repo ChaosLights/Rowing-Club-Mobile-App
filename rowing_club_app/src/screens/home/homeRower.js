@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore";import Theme from '../../style';
+import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore"; import Theme from '../../style';
 export default function HomeScreen({ navigation }) {
     //CONSTS
     const [attendance, addAttendance] = useState([]);
@@ -61,16 +61,16 @@ export default function HomeScreen({ navigation }) {
                 let value = "";
 
                 if (data.Attending && data.Attending.includes(global.user)) {
-                value = "Attending";
+                    value = "Attending";
                 } else if (data.Absent && data.Absent.includes(global.user)) {
-                value = "Absent";
+                    value = "Absent";
                 } else if (data.Sick && data.Sick.includes(global.user)) {
-                value = "Sick";
+                    value = "Sick";
                 } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
-                value = "Home Training";
+                    value = "Home Training";
                 }
                 availabilityList.push({ dayTime: data.Session, value });
-                });
+            });
 
             setAvailability(availabilityList);
             console.log("Availability list:", availabilityList);
@@ -80,12 +80,12 @@ export default function HomeScreen({ navigation }) {
     };
 
     useEffect(() => {
-    // Update selected availability when availability state changes
-    const initialSelectedAvailability = {};
-    availability.forEach(item => {
-    initialSelectedAvailability[item.dayTime] = item.value;
-    });
-    setSelectedAvailability(initialSelectedAvailability);
+        // Update selected availability when availability state changes
+        const initialSelectedAvailability = {};
+        availability.forEach(item => {
+            initialSelectedAvailability[item.dayTime] = item.value;
+        });
+        setSelectedAvailability(initialSelectedAvailability);
     }, [availability]);
 
 
@@ -144,12 +144,13 @@ export default function HomeScreen({ navigation }) {
             console.log("Session document reference:", sessionDocRef);
 
             let sessionData = {
-                                Session: dayTime,
-                                TypeID: typeID,
-                                "Home Training": [],
-                                Sick: [],
-                                Absent: [],
-                                Attending: [],};
+                Session: dayTime,
+                TypeID: typeID,
+                "Home Training": [],
+                Sick: [],
+                Absent: [],
+                Attending: [],
+            };
             // Fetch the existing session data from Firestore
             const sessionDocSnap = await getDoc(sessionDocRef);
             if (sessionDocSnap.exists()) {
@@ -157,33 +158,33 @@ export default function HomeScreen({ navigation }) {
             }
 
             // Check if the selected value is already the same as the current value in the database
-                        if (sessionData && sessionData[value] && sessionData[value].includes(global.user)) {
-                            // Value is already selected, no need to perform updates
-                            console.log("Attendance value is already the same, no updates needed.");
-                            return;
-                        }
+            if (sessionData && sessionData[value] && sessionData[value].includes(global.user)) {
+                // Value is already selected, no need to perform updates
+                console.log("Attendance value is already the same, no updates needed.");
+                return;
+            }
 
-                        // Create an update object
-                        const updateField = { [value]: arrayUnion(global.user) };
+            // Create an update object
+            const updateField = { [value]: arrayUnion(global.user) };
 
-                        // Determine the old field based on the existing session data
-                        let oldField;
-                        if (sessionData) {
-                            if (sessionData.Attending && sessionData.Attending.includes(global.user)) {
-                                oldField = "Attending";
-                            } else if (sessionData.Absent && sessionData.Absent.includes(global.user)) {
-                                oldField = "Absent";
-                            } else if (sessionData.Sick && sessionData.Sick.includes(global.user)) {
-                                oldField = "Sick";
-                            } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(global.user)) {
-                                oldField = "Home Training";
-                            }
-                        }
+            // Determine the old field based on the existing session data
+            let oldField;
+            if (sessionData) {
+                if (sessionData.Attending && sessionData.Attending.includes(global.user)) {
+                    oldField = "Attending";
+                } else if (sessionData.Absent && sessionData.Absent.includes(global.user)) {
+                    oldField = "Absent";
+                } else if (sessionData.Sick && sessionData.Sick.includes(global.user)) {
+                    oldField = "Sick";
+                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(global.user)) {
+                    oldField = "Home Training";
+                }
+            }
 
-                        // Remove the user ID from the old field if it exists
-                        if (oldField) {
-                            updateField[oldField] = arrayRemove(global.user);
-                        }
+            // Remove the user ID from the old field if it exists
+            if (oldField) {
+                updateField[oldField] = arrayRemove(global.user);
+            }
 
             await setDoc(sessionDocRef, sessionData, { merge: true });
             console.log("Session document created or updated successfully.");
@@ -276,8 +277,8 @@ export default function HomeScreen({ navigation }) {
                             const [day, time] = session.split(', ');
                             const dayTime = `${date}, ${time}`;
                             return (
-                                <View key={sessionIndex} style={[Theme.GreyOvalButton, { flexDirection: 'row', justifyContent: 'space-between' }]}>
-                                    <Text style={{ color: 'white' }}>{time}</Text>
+                                <View key={sessionIndex} style={[Theme.TimeContainer, { flexDirection: 'row', justifyContent: 'space-between' }]}>
+                                    <Text style={{ color: '#333333' }}>{time}</Text>
                                     {/* Pass the dayTime and session data to handleAttendanceSelection when an option is selected */}
                                     <SelectList
                                         setSelected={(val) => handleAttendanceSelection(dayTime, val)}
