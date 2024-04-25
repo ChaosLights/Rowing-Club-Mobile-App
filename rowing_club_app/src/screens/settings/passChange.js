@@ -18,11 +18,11 @@ export default function PassChange() {
         }
 
         if (newPassword !== confirmPassword) {
-            Alert.alert('New password and confirm password aado not match');
+            Alert.alert('New password and confirm password do not match');
             return;
         }
 
-        const passwordDocumentId = 'ZcF4gkJykIoiwl593D6U';
+        const passwordDocumentId = 'FWBWX7EOw75rwE20cQD2';
 
         try {
             const passwordDocRef = doc(db, 'Passwords', passwordDocumentId);
