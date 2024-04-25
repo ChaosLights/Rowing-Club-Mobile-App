@@ -14,7 +14,7 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
-    settingButton: {
+    navButton: {
       paddingVertical: 10,
       paddingHorizontal: 20,
       backgroundColor: 'maroon',
@@ -24,7 +24,7 @@ const Theme = StyleSheet.create({
       shadowRadius: 1, //IOS
       elevation: 2, // Android
     },
-    settingButtonFont: {
+    navButtonFont: {
       color: 'white',
       fontSize: 16,
       fontWeight: 'bold',
