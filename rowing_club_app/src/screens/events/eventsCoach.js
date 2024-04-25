@@ -197,7 +197,7 @@ export default function EventsCoach({ navigation }) {
     // main
   return (
     <View style={Theme.container}>
-      <View style={Theme.contentContainer}>
+      <View style={Theme.view}>
         {/* dropdown selection for different rower types */}
         <MultipleSelectList
           setSelected={(val) => setSelected(val)}
