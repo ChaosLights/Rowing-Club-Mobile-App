@@ -85,9 +85,9 @@ const Theme = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-       h1: { 
-        fontSize: 20,
-        fontWeight: 'bold',
+    h1: { 
+      fontSize: 20,
+      fontWeight: 'bold',
     },
     h2: {
         fontSize: 15,
@@ -179,7 +179,7 @@ const Theme = StyleSheet.create({
         padding: 20,
         margin: 10,
         marginBottom: 5,
-        width: '95%',
+        width: '100%',
         alignSelf: 'center',
     },
     optionBarButton: {
@@ -208,7 +208,7 @@ const Theme = StyleSheet.create({
         position: 'relative',
     },
     dropdownContainer: {
-        width: '90%',
+        width: '100%',
         alignSelf: 'center',
         marginTop: 15,
     },

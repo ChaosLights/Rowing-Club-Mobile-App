@@ -65,7 +65,10 @@ export default function EventsRower({ navigation }) {
 
     // main
     return (
-        <View style={Theme.container}>
+        <View style={Theme.view}>
+            <Text style={Theme.title}>
+                Progress Page
+            </Text>
             <Text style={Theme.body}>{"\n"}</Text>
             <FlatList data={rowerEvents} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
