@@ -5,7 +5,7 @@ import { db } from '../../config/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 const login = 'login';
 
-export default function SettingsRower({ navigation }) {
+export default function PassChange() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,13 +55,6 @@ export default function SettingsRower({ navigation }) {
         console.log('New password:', newPassword);
     };
 
-    const handleLogout = () => {
-        console.log('User logged out');
-        navigation.navigate(login);
-
-
-    };
-
     return (
         <View style={Theme.view}>
             <Text style={Theme.title}>Change Password</Text>
@@ -95,10 +88,6 @@ export default function SettingsRower({ navigation }) {
             <View style={{marginBottom: 10}} />
             <TouchableOpacity style={[Theme.maroonOvalButton, {marginTop: 10}]} onPress={handleChangePassword}>
                 <Text style={Theme.optionText}>Change Password</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={Theme.maroonOvalButton} onPress={handleLogout}>
-                <Text style={Theme.optionText}>Logout</Text>
             </TouchableOpacity>
         </View>
     );

@@ -14,6 +14,21 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    settingButton: {
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      backgroundColor: 'maroon',
+      shadowColor: 'rgba(0,0,0, .4)', // IOS
+      shadowOffset: { height: 1, width: 1 }, // IOS
+      shadowOpacity: 1, // IOS
+      shadowRadius: 1, //IOS
+      elevation: 2, // Android
+    },
+    settingButtonFont: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
     GreyOvalButton: {
         backgroundColor: 'grey',
         borderRadius: 20, // roundness
