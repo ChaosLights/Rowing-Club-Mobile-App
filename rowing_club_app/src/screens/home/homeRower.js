@@ -141,7 +141,6 @@ export default function HomeScreen({ navigation }) {
         try {
             // Attempt to create the document reference
             const sessionDocRef = doc(db, "Availability", `${typeID}-${dayTime}`);
-            console.log("Session document reference:", sessionDocRef);
 
             let sessionData = {
                 Session: dayTime,
