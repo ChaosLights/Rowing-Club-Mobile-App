@@ -18,13 +18,9 @@ export default function HomeScreen({ navigation }) {
         if (global.userTypeID == "YDYsOFRCBMqhFpDn1buu") {
             // set returning content to coach screen
             setContent(<HomeCoach />);
-            console.log("COACH");
         } else {
             //// set returning content to rower screen
             setContent(<HomeRower />);
-            console.log("ROWER");
-            console.log("Test 1: " + global.userTypeID);
-            console.log("YDYsOFRCBMqhFpDn1buu");
         }
 
     }, [global.userTypeID]);
