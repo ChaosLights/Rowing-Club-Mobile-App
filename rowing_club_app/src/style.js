@@ -168,8 +168,8 @@ const Theme = StyleSheet.create({
       },
     
     deleteButton: {
-        padding: 5, // Add some padding to make it clickable
-        borderRadius: 10, // Optionally, a bit of rounding
+      position: 'absolute',
+      right: 0,
     },
 
     //events page starts
@@ -238,11 +238,17 @@ const Theme = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
+    floatingCross: {
+      position: 'absolute',
+      right: 0,
+    },
     //floating button starts
     floatingButtonContainer: {
         position: 'absolute',
         bottom: 20,
         right: 20,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     circle1: {
         backgroundColor: 'maroon',
@@ -251,7 +257,7 @@ const Theme = StyleSheet.create({
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginLeft: 20,
     },
     //floating button ends
     //events page ends
