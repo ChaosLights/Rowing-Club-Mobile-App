@@ -100,30 +100,30 @@ export default function HomeScreen({ navigation }) {
 
         try {
             const q = query(collection(db, "Availability"), where("TypeID", "==", selectedTypeID), where("Session", ">=", formattedStartOfWeek));
-            console.log("xxxxxxxxxxxx:", selectedTypeID, selectedAgeGroup);
+            console.log("Age Group Selected:", selectedTypeID, selectedAgeGroup);
             const querySnapshot = await getDocs(q);
 
             const availabilityList = [];
 
-             querySnapshot.forEach((doc) => {
-            const data = doc.data();
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
 
-            // Check if properties exist before accessing their length
-            const attendingList = data.Attending ? [...data.Attending] : [];
-            const homeList = data["Home Training"] ? [...data["Home Training"]] : [];
-            const absentList = data.Absent ? [...data.Absent] : [];
-            const sickList = data.Sick ? [...data.Sick] : [];
+                // Check if properties exist before accessing their length
+                const attendingList = data.Attending ? [...data.Attending] : [];
+                const homeList = data["Home Training"] ? [...data["Home Training"]] : [];
+                const absentList = data.Absent ? [...data.Absent] : [];
+                const sickList = data.Sick ? [...data.Sick] : [];
 
-            // Push data into availabilityList
-            availabilityList.push({
-                dayTime: data.Session, 
-                typeId: data.TypeID, 
-                attending: attendingList,
-                home: homeList,
-                absent: absentList,
-                sick: sickList
+                // Push data into availabilityList
+                availabilityList.push({
+                    dayTime: data.Session, 
+                    typeId: data.TypeID, 
+                    attending: attendingList,
+                    home: homeList,
+                    absent: absentList,
+                    sick: sickList
+                });
             });
-        });
 
             setAvailability(availabilityList);
             console.log("Availability list:", availabilityList);
@@ -329,24 +329,26 @@ export default function HomeScreen({ navigation }) {
         return weekdays.map((dayObj, index) => {
             const targetDate = new Date(dayObj.fullDate);
             targetDate.setDate(targetDate.getDate() + offset);
-            //console.log(availabilityData);
-
+    
             const sessionsForDay = sessions.filter((s) => {
                 const [day] = s.split(', ');
                 return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
             });
-
+    
             // prints weekday and training times
             return (
                 <View key={index} style={Theme.eventContainer}>
                     <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                     {sessionsForDay.length > 0 ? (
-                        sessionsForDay.map((session, sessionIndex) => (
-                            <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text>{session.split(', ')[1]}</Text>
-                                
-                            </View>
-                        ))
+                        sessionsForDay.map((session, sessionIndex) => {
+                            const displayedDateTime = `${targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}, ${session.split(', ')[1]}`;
+                            return (
+                                <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text>{session.split(', ')[1]}</Text>
+                                    <Text>{displayedDateTime}</Text>
+                                </View>
+                            );
+                        })
                     ) : (
                         <Text>No session{"\n"}</Text>
                     )}
@@ -354,6 +356,7 @@ export default function HomeScreen({ navigation }) {
             );
         });
     };
+    
 
     // MAIN 
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
@@ -366,9 +369,6 @@ export default function HomeScreen({ navigation }) {
             ]}
             renderItem={({ item }) => (
                 <View style={Theme.V1}>
-                    <View style={Theme.coachContainer}>
-                        <Text style={Theme.coachText}>Coach</Text>
-                    </View>
 
                     <View style={Theme.headerContainer}>
                         <Text style={Theme.title}>{item.sectionTitle}</Text>

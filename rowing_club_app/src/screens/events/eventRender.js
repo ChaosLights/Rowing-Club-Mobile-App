@@ -1,46 +1,40 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import Theme from '../../style';
+import * as util from './eventsUtil';
+import { AntDesign } from '@expo/vector-icons'; // Import AntDesign for icons
 
-// render function for event title
-export function renderTitle(item, editEvent) {
-    if (item == editEvent) {
-        // const [title, setTitle] = useState(item.Title);
-        return (
-            <TextInput
-                editable
-                style={[Theme.textInput, {flex: 10, marginRight: 5}]}
-                // onChange={setTitle}
-                value={item.Title}
-            />
-        )
-    }
+
+// RENDER EVENT FLATLIST
+// Render function for event title
+export function renderTitle(item, showDelete, toggleEventUpdate) {
     return (
-        <Text style={[Theme.h2, {flex: 10}]}>
-            { item.Title }
+        <View>
+            <Text style={[Theme.h2, {flex: 10}]}>
+                { item.Title }
+            </Text>
+            {showDelete && (
+                <TouchableOpacity onPress={() => util.deleteEvent(item.id, toggleEventUpdate)} style={Theme.floatingCross}>
+                    <AntDesign name="closecircle" size={24} color="#f52d56" />
+                </TouchableOpacity>
+            )}
+        </View>
+    )
+}
+// Render function for event date
+export function renderDate(item) {
+    return (
+        <Text style={Theme.body}>
+            {dateFormat(item.Date)}
         </Text>
     )
 }
-
-// render function for event edit button
-export function renderEdit(item, editEvent, setEditEvent) {
-    if (item == editEvent) {
-        return (
-            <TouchableOpacity style={{flex: 2}} onPress={() => setEditEvent()}>
-                <Text style={{fontSize: 15 }}>Done</Text>
-            </TouchableOpacity>
-        )
-    }
-    return (
-        <TouchableOpacity style={{flex: 1}} onPress={() => setEditEvent(item)}>
-            <Text style={{fontSize: 15 }}>Edit</Text>
-        </TouchableOpacity>
-    )
+// get date in format
+function dateFormat(date) {
+    return new Date(date.seconds * 1000).toLocaleString();
 }
-
-// render function for event event age group
-export function renderGroup(item, editEvent, userTypeList) {
+// Render function for event event age group
+export function renderGroup(item, userTypeList) {
     // function to get user type string name using TypeID of events
     function getTypeName(typeID) {
         // find the user type that equals to the typeID
@@ -52,15 +46,6 @@ export function renderGroup(item, editEvent, userTypeList) {
         // if user cannot be found
         console.error("Queried user type does not exist");
     }
-
-    if (item == editEvent) {
-        return (
-            <TextInput
-            style={[Theme.textInput, {flex: 10, marginRight: 5}]}
-            value={"Group: " + getTypeName(item.TypeID)}
-        />
-        )
-    }
     return (
         <Text style={Theme.body}>
             {"Group: "}
@@ -68,41 +53,8 @@ export function renderGroup(item, editEvent, userTypeList) {
         </Text>
     )
 }
-
-// render function for event description
+// Render function for event description
 export function renderDesc(item, showDelete) {
-    if(showDelete) {
-        return (
-            <View style={Theme.delButtonContainer}>
-                <TouchableOpacity style={[Theme.delButton, {marginTop: 10}]} onPress={null}>
-                    <Text style={Theme.delButtonFont}>Delete</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    } else {
-        return (
-            <Text style={Theme.body}>
-                {"\n"}
-                {item.Description}
-            </Text>
-        )
-    }
-
-    editEvent = showDelete
-    if (item == editEvent) {
-        return (
-            <View>
-                <Text style={Theme.body}>
-                    {"\n"}
-                </Text>
-                <TextInput
-                    multiline
-                    style={[Theme.textInput, {flex: 10, marginRight: 5}]}
-                    value={item.Description}
-                />
-            </View>
-        )
-    }
     return (
         <Text style={Theme.body}>
             {"\n"}
@@ -110,3 +62,70 @@ export function renderDesc(item, showDelete) {
         </Text>
     )
 }
+
+// Handling button animation
+export const popupShow = (icon1, icon2) => {
+    Animated.timing(icon1, {
+        toValue: 80,
+        duration: 250,
+        useNativeDriver: false,
+    }).start();
+    Animated.timing(icon2, {
+        toValue: -80,
+        duration: 250,
+        useNativeDriver: false,
+    }).start();
+}
+export const popupHide = (icon1, icon2) => {
+    Animated.timing(icon1, {
+        toValue: 160,
+        duration: 250,
+        useNativeDriver: false,
+    }).start();
+    Animated.timing(icon2, {
+        toValue: 80,
+        duration: 200,
+        useNativeDriver: false,
+    }).start();
+}
+
+// Render function for add event input
+const inputWindow = () => (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+            {/* Title */}
+            <TextInput
+                placeholder="Title"
+                placeholderTextColor="grey"
+                value={newEventTitle}
+                onChangeText={text => setNewEventTitle(text)}
+                style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+            />
+            {/* Date */}
+            <TouchableOpacity onPress={toggleDatePicker}>
+                <Text> Set Date </Text>
+                {/* TODO: IMPLEMENT */}
+            </TouchableOpacity>
+
+            {/* User Type */}
+            <SelectList
+                setSelected={val => setNewEventUserType(val)}
+                data={userTypeList}
+                boxStyles={{marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                save="key"
+            />
+            {/* Description */}
+            <TextInput
+                placeholder="Description"
+                placeholderTextColor="grey"
+                multiline
+                value={newEventDescription}
+                onChangeText={text => setNewEventDescription(text)}
+                style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+            />
+            {/* Add & Close buttons */}
+            <Button title="Add Event" onPress={addEvents} />
+            <Button title="Close" onPress={closeModal} />
+        </View>
+    </View>
+);
