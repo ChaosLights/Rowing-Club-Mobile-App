@@ -70,7 +70,25 @@ export function renderGroup(item, editEvent, userTypeList) {
 }
 
 // render function for event description
-export function renderDesc(item, editEvent) {
+export function renderDesc(item, showDelete) {
+    if(showDelete) {
+        return (
+            <View style={Theme.delButtonContainer}>
+                <TouchableOpacity style={[Theme.delButton, {marginTop: 10}]} onPress={null}>
+                    <Text style={Theme.delButtonFont}>Delete</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    } else {
+        return (
+            <Text style={Theme.body}>
+                {"\n"}
+                {item.Description}
+            </Text>
+        )
+    }
+
+    editEvent = showDelete
     if (item == editEvent) {
         return (
             <View>

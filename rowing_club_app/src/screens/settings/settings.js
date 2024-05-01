@@ -6,7 +6,7 @@ import Theme from '../../style';
 const passChangeName = 'passChange';
 
 export default function SettingsScreen({navigation}) {
-    // Nottingham Rowing & Union Club website URL
+    // Nottingham & Union Rowing Club website URL
     const url = "https://nurc.co.uk"
 
     // function to open the website

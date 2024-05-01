@@ -167,10 +167,10 @@ const Theme = StyleSheet.create({
         alignItems: 'center', // Centers them vertically
       },
     
-      deleteButton: {
+    deleteButton: {
         padding: 5, // Add some padding to make it clickable
         borderRadius: 10, // Optionally, a bit of rounding
-      },
+    },
 
     //events page starts
     eventContainer: {
@@ -189,7 +189,7 @@ const Theme = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'maroon',
         borderRadius: 40,
-        marginTop: 10,
+        margin: 10,
         marginBottom: 10,
         paddingVertical: 10,
         paddingHorizontal: 20,
@@ -215,6 +215,28 @@ const Theme = StyleSheet.create({
     textInput: {
         fontSize: 15,
         borderWidth: 1,
+    },
+    delButton: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: 'maroon',
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 2, // Android
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 180,
+    },
+    delButtonFont: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    delButtonContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     //floating button starts
     floatingButtonContainer: {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {View, Text, Button, TouchableOpacity} from 'react-native';
 import Theme from '../../style';
 
@@ -6,6 +7,15 @@ import Theme from '../../style';
 const addTrainingName = 'AddTraining';
 
 export default function ProgressScreen({navigation}) {
+    const [button, setButton] = useState("");
+    useEffect(() => {
+        if(global.userTypeID === "YDYsOFRCBMqhFpDn1buu"){
+            setButton("Record Image Data");
+        }else{
+            setButton("Add New Training Record");
+        }
+    }, [global.userTypeID]);
+
     return (
         <View style={Theme.view}>
             <Text style={Theme.title}>
@@ -18,11 +28,10 @@ export default function ProgressScreen({navigation}) {
             </Text>
 
 
-            {/* To change password */}
+            {/* To add training image or record data */}
             <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate(addTrainingName)}>
-            <Text style={Theme.navButtonFont}>Add New Training Record</Text>
+                <Text style={Theme.navButtonFont}>{button}</Text>
             </TouchableOpacity>
-            
         </View>
     )
 }
