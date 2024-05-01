@@ -13,7 +13,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "886dfc4c-360a-4d71-832b-8f5db0739dae"
+      }
+    }
   },
   "name": "rowing_club_app"
 }
