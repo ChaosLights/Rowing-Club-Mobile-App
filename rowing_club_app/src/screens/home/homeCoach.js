@@ -330,23 +330,26 @@ export default function HomeScreen({ navigation }) {
             const targetDate = new Date(dayObj.fullDate);
             targetDate.setDate(targetDate.getDate() + offset);
             //console.log(availabilityData);
-
+    
             const sessionsForDay = sessions.filter((s) => {
                 const [day] = s.split(', ');
                 return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
             });
-
+    
             // prints weekday and training times
             return (
                 <View key={index} style={Theme.eventContainer}>
                     <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                     {sessionsForDay.length > 0 ? (
-                        sessionsForDay.map((session, sessionIndex) => (
-                            <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text>{session.split(', ')[1]}</Text>
-                                
-                            </View>
-                        ))
+                        sessionsForDay.map((session, sessionIndex) => {
+                            const displayedDateTime = `${targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}, ${session.split(', ')[1]}`;
+                            return (
+                                <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text>{session.split(', ')[1]}</Text>
+                                    <Text>{displayedDateTime}</Text>
+                                </View>
+                            );
+                        })
                     ) : (
                         <Text>No session{"\n"}</Text>
                     )}
@@ -354,6 +357,7 @@ export default function HomeScreen({ navigation }) {
             );
         });
     };
+    
 
     // MAIN 
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
