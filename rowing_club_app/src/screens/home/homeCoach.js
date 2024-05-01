@@ -100,7 +100,7 @@ export default function HomeScreen({ navigation }) {
 
         try {
             const q = query(collection(db, "Availability"), where("TypeID", "==", selectedTypeID), where("Session", ">=", formattedStartOfWeek));
-            console.log("xxxxxxxxxxxx:", selectedTypeID, selectedAgeGroup);
+            console.log("Age Group Selected:", selectedTypeID, selectedAgeGroup);
             const querySnapshot = await getDocs(q);
 
             const availabilityList = [];
@@ -366,9 +366,7 @@ export default function HomeScreen({ navigation }) {
             ]}
             renderItem={({ item }) => (
                 <View style={Theme.V1}>
-                    <View style={Theme.coachContainer}>
-                        <Text style={Theme.coachText}>Coach</Text>
-                    </View>
+                    
 
                     <View style={Theme.headerContainer}>
                         <Text style={Theme.title}>{item.sectionTitle}</Text>
