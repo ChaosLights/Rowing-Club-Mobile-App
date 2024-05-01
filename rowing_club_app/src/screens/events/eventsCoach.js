@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, Modal, TouchableOpacity, TextInput, Button, Animated} from 'react-native';
+import { View, Text, FlatList, Modal, TouchableOpacity, TextInput, Button, Animated, Alert } from 'react-native';
 import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
 import { DatePicker } from 'react-native-date-picker';
 import { db } from '../../config/firebase';
@@ -77,6 +77,9 @@ export default function EventsCoach({ navigation }) {
         setPop(false);
         eventRender.popupHide(icon1, icon2)
     }
+    // function getDatePicker() {
+    //     return <DatePicker date={newEventDate} onDateChange={setNewEventDate} />
+    // }
     // RENDER: Input window
     const inputWindow = () => (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -93,7 +96,7 @@ export default function EventsCoach({ navigation }) {
                 <TouchableOpacity>
                     <Text> Set Date </Text>
                     {/* TODO: IMPLEMENT */}
-                    {/* onPress={toggleDatePicker} */}
+                    {/* onPress={getDatePicker} */}
                 </TouchableOpacity>
 
                 {/* User Type */}
@@ -122,30 +125,36 @@ export default function EventsCoach({ navigation }) {
 
     // DATABASE: Add new event
     const addNewEvent = async () => {
+        // check field inputs
+        if((newEventTitle == "") || (newEventUserType == "")
+            || (newEventDate == "") || (newEventDescription == "")) {
+            Alert.alert(
+                'Empty Fields',
+                'Please fill in the required fields to add an event.',
+                [
+                {text: 'OK'},
+                ]
+            );
+            return
+        }
+        // add event
         try {
-            // const docRef = await addDoc(collection(db, 'Events'), {
-            //     Title: newEventTitle,
-            //     Date: newEventDate,
-            //     TypeID: newEventUserType
-            //     Description: newEventDescription,
-            // });
             const docRef = await addDoc(collection(db, 'Event'), {
                 Title: newEventTitle,
                 Date: (new  Date()),
+                // Date: (newEventDate),
                 TypeID: newEventUserType,
                 Description: newEventDescription,
-                TypeID: newEventUserType
             });
-            console.log('Event added with ID: ', docRef.id);
         } catch (error) {
             console.error('Error adding event: ', error);
         }
         setModalVisibility(false);
+        toggleEventUpdate();
         setNewEventTitle('');
         setNewEventDate(new Date());
         setNewEventUserType('');
         setNewEventDescription('');
-        toggleEventUpdate();
     };
 
 

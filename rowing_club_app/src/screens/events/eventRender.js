@@ -14,7 +14,7 @@ export function renderTitle(item, showDelete, toggleEventUpdate) {
                 { item.Title }
             </Text>
             {showDelete && (
-                <TouchableOpacity onPress={() => util.deleteEvent(item.id, toggleEventUpdate)} style={Theme.floatingCross}>
+                <TouchableOpacity onPress={() => util.confirmDeletion(item.id, toggleEventUpdate)} style={Theme.floatingCross}>
                     <AntDesign name="closecircle" size={24} color="#f52d56" />
                 </TouchableOpacity>
             )}
