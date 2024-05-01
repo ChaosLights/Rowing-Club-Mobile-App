@@ -1,7 +1,6 @@
-import React from 'react';
-import Theme from '../../style';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
+import { Alert } from 'react-native';
 
 // Fetch Events
 export const fetchEvents = async (selection, setEvents) => {
@@ -27,9 +26,19 @@ export const fetchEvents = async (selection, setEvents) => {
     setEvents(eventList);
 }
 
-
-
-// Button 2 Function: Delete events
+// Button 2: Confirmation for event delete
+export const confirmDeletion = (eventID, toggleeventUpdate) => {
+    Alert.alert(
+        'Confirm Deletion',
+        'Are you sure you want to delete this notification?',
+        [
+            { text: 'Cancel', style: 'cancel' },
+            { text: 'Delete', onPress: () => deleteEvent(eventID, toggleeventUpdate) },
+        ],
+        { cancelable: true }
+    );
+};
+// Delete events
 export const deleteEvent = async (eventID, toggleeventUpdate) => {
     try {
         await deleteDoc(doc(db, 'Event', eventID));

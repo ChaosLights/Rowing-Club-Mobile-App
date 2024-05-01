@@ -193,12 +193,23 @@ export default function HomeScreen({ navigation }) {
     //ADD NEW NOTICICATION
     //to Notification db
     const addNewNotification = async () => {
+         // check field inputs
+         if((newNotificationOverview == "") || (newNotificationDescription == "")) {
+         Alert.alert(
+             'Empty Fields',
+             'Please fill in the required fields to add an event.',
+             [
+             {text: 'OK'},
+             ]
+         );
+         return
+     }
+     // add event
         try {
             const docRef = await addDoc(collection(db, 'Notification'), {
                 Overview: newNotificationOverview,
                 Description: newNotificationDescription,
             });
-            console.log('Notification added with ID: ', docRef.id);
         } catch (error) {
             console.error('Error adding notification: ', error);
         }
