@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //screens
 import SettingsScreen from './settings';
-import Login from './login';
+import Login from '../auth/login';
 
 
 //const: screen names

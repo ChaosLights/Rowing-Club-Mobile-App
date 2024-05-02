@@ -1,67 +1,55 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
-import { db } from '../../config/firebase';
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
-const login = 'login';
-
-
+import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
+import { AuthContext } from '../../contexts/authContext';
 
 export default function SettingsRower({ navigation }) {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleChangePassword = async () => {
+    // { userUID } = useContext(AuthContext); // Assuming you are passing the user's UID for use.
+    const auth = getAuth();
 
-        if (currentPassword === '' || newPassword === '' || confirmPassword === '') {
+    const handleChangePassword = async () => {
+        if (!currentPassword || !newPassword || !confirmPassword) {
             Alert.alert('Please fill in all fields');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            Alert.alert('New password and confirm password aado not match');
+            Alert.alert('New password and confirm password do not match');
             return;
         }
 
-        const passwordDocumentId = 'ZcF4gkJykIoiwl593D6U';
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
 
-        try {
-            const passwordDocRef = doc(db, 'Passwords', passwordDocumentId);
-            const passwordDocSnap = await getDoc(passwordDocRef);
-
-            if (!passwordDocSnap.exists()) {
-                Alert.alert('No password document found')
-                return;
-            }
-        
-
-            const storedPassword = passwordDocSnap.data().currentUserPassword;
-
-            if (storedPassword !== currentPassword) {
-                Alert.alert('Current password is incorrect');
-                return;
-            }
-
-            await updateDoc(passwordDocRef, {
-                currentUserPassword: newPassword,
+        reauthenticateWithCredential(user, credential).then(() => {
+            updatePassword(user, newPassword).then(() => {
+                Alert.alert('Success', 'Password updated successfully!');
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+            }).catch((error) => {
+                console.error("Error updating password: ", error);
+                Alert.alert('Failed to update password', error.message);
             });
-
-            Alert.alert('Password updated successfully');
-
-        } catch (error) {
-            console.error("Error updating password: ", error);
-            Alert.alert('There was a problem updating the password.');
-        }
-
-        console.log('New password:', newPassword);
+        }).catch((error) => {
+            console.error("Error re-authenticating: ", error);
+            Alert.alert('Re-authentication failed', error.message);
+        });
     };
 
     const handleLogout = () => {
-        console.log('User logged out');
-        navigation.navigate(login);
-
-
+        signOut(auth).then(() => {
+            // User signed out
+            console.log('User logged out');
+            navigation.navigate('login');
+        }).catch((error) => {
+            console.error('Error signing out: ', error);
+        });
     };
 
     return (
