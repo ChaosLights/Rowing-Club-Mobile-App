@@ -7,7 +7,6 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 
-
 export default function HomeScreen({ navigation }) {
     //CONSTS
     // attendance schedule and notifications states
