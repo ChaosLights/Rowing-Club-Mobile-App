@@ -204,7 +204,7 @@ export default function HomeScreen({ navigation }) {
          );
          return
      }
-     // add event
+     // add notification
         try {
             const docRef = await addDoc(collection(db, 'Notification'), {
                 Overview: newNotificationOverview,
