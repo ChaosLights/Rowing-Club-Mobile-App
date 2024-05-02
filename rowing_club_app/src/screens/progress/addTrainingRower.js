@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import * as FileSystem from 'expo-file-system';
 import { db } from '../../config/firebase';
 import { collection, addDoc } from 'firebase/firestore';
-import { userId } from '../settings/login';
+import { userId } from '../auth/login';
 
 export default function ImageScreenRower() {
     const [image, setImage] = useState(null);
