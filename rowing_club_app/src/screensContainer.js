@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //screens
@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 
 export default function ScreensContainer() {
     return(
-        <NavigationContainer>
+
             <Tab.Navigator 
                 initialRouteName={homeName}
                 screenOptions = {({route}) => ({
@@ -50,6 +50,6 @@ export default function ScreensContainer() {
                 <Tab.Screen name={settingsContainerName} component={Settingscontainer}/>
             </Tab.Navigator>
 
-        </NavigationContainer>
+        
     );
 }
