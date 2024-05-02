@@ -5,7 +5,7 @@ import * as util from './eventsUtil';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 
-// RENDER EVENT FLATLIST
+// RENDER: COACH EVENTS FLATLIST
 // Render function for event title
 export function renderTitle(item, showDelete, toggleEventUpdate) {
     return (
@@ -59,7 +59,7 @@ export function renderDesc(item, showDelete) {
     )
 }
 
-// RENDER EDIT BUTTONS
+// RENDER: EDIT BUTTONS
 // render edit event button
 export function editButton(pop, popIn, popOut) {
     return (
