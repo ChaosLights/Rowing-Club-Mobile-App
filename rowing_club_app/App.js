@@ -23,7 +23,6 @@ export default function App() {
     const q = query(collection(db, "User"), where("__name__", "==", global.user));
     const querySnapshot = onSnapshot(q, (snapshot) => {
       global.userTypeID = snapshot.docs[0].data().TypeID
-      console.log("Test 2: " + userTypeID);
     });
  
     // return cleanup function
