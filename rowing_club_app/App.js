@@ -11,7 +11,7 @@ export default function App() {
   global.user = "FWBWX7EOw75rwE20cQD2" //Coach
   //global.user = "0Iz45PGQ70hFnUpo6loC" //14-15 (Jason)
   //global.user = "YRhW9fMSA0hd6IixgLaO" //16-17 (Freddy)
-  // global.user = "njxPjxAazoa9feL0eeKF" //18 and Older (Diana)
+  //global.user = "njxPjxAazoa9feL0eeKF" //18 and Older (Diana)
   // global.user = "hGSQNMnQa4Bjt0zb0L5i" //18 and Older (Jack)
 
   //const
