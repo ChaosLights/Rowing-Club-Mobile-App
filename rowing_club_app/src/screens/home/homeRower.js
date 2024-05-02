@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
     // FETCH CURRENT AVAILABILITY
     useEffect(() => {
         fetchAvailability();
-    }, []);
+    }, [selectedWeek]);
 
     const fetchAvailability = async () => {
         const currentDate = new Date();
@@ -86,7 +86,7 @@ export default function HomeScreen({ navigation }) {
             initialSelectedAvailability[item.dayTime] = item.value;
         });
         setSelectedAvailability(initialSelectedAvailability);
-    }, [availability]);
+    }, [availability, selectedWeek]);
 
 
     //GET GROUP ATTENDANCE SCHEDULE
