@@ -78,9 +78,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>400m: {record.fourHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgFourHM[twoKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgFourHM[twoKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -89,9 +89,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>800m: {record.eightHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgEightHM[twoKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgEightHM[twoKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -100,9 +100,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>1200m: {record.twelveHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgTwelveHM[twoKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgTwelveHM[twoKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -111,9 +111,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>1600m: {record.sixteenHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgSixteenHM[twoKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgSixteenHM[twoKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -122,9 +122,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>2000m: {record.twentyHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgTwentyHM[twoKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgTwentyHM[twoKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -179,9 +179,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>1000m: {record.oneKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgOneKM[fiveKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgOneKM[fiveKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -190,9 +190,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>2000m: {record.twoKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgTwoKM[fiveKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgTwoKM[fiveKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -201,9 +201,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>3000m: {record.threeKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgThreeKM[fiveKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgThreeKM[fiveKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -212,9 +212,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>4000m: {record.fourKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgFourKM[fiveKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgFourKM[fiveKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -223,9 +223,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>5000m: {record.fiveKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgFiveKM[fiveKMData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgFiveKM[fiveKMData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }
@@ -263,9 +263,9 @@ function TrainingDataView() {
                                 <Text style = {{marginRight: 10}}>Distance: {record.distance}</Text>
                                 {index != thirtyMinData.length-1 ? (
                                     avgProgress[thirtyMinData.length-2-index] < 0 ? (
-                                        <Icon name="arrow-up" size={15} color="green"/>
+                                        <Icon name="arrow-up" size={15} color="red"/>
                                     ) : avgProgress[thirtyMinData.length-2-index] > 0 ? (
-                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="red"/>
+                                        <Icon style={{marginTop: 2}} name="arrow-down" size={15} color="green"/>
                                     ) : null
                                 ) : null
                                 }

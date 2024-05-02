@@ -9,7 +9,7 @@ export default function EventsScreen({ navigation }) {
 
     // check if user is coach or rower
     useEffect(() => {
-        if (global.userTypeID === "YDYsOFRCBMqhFpDn1buu") {
+        if (global.userTypeID === "FWBWX7EOw75rwE20cQD2") {
             // set returning content to coach screen
             setContent(<EventsCoach />);
         } else {
