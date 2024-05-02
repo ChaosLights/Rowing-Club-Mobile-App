@@ -1,19 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
+import { AuthContext } from '../../contexts/authContext';
 import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
 
-export default function EventsScreen({ navigation }) {
-    //userType = "Coach"
-    userType = "14-15"
+export default function HomeScreen({ navigation }) {
+    const { isCoach } = useContext(AuthContext); // Directly using isCoach from AuthContext
 
-    if(userType == "Coach") {
-        return (
-            <HomeCoach/>
-        );
-    } else {
-        return (
-            <HomeRower/>
-        );
-    }
+    // Since isCoach is managed globally, directly render based on its value.
+    return isCoach ? <HomeCoach navigation={navigation} /> : <HomeRower navigation={navigation} />;
 }
