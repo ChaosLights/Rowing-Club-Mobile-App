@@ -2,9 +2,8 @@ import React from 'react';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import Theme from '../../style';
 import * as util from './eventsUtil';
-import { AntDesign } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 
 // RENDER EVENT FLATLIST
 // Render function for event title
@@ -16,7 +15,7 @@ export function renderTitle(item, showDelete, toggleEventUpdate) {
             </Text>
             {showDelete && (
                 <TouchableOpacity onPress={() => util.confirmDeletion(item.id, toggleEventUpdate)} style={Theme.floatingCross}>
-                    <AntDesign name="closecircle" size={24} color="#f52d56" />
+                    <Ionicons name="close-circle-outline" size={28} color="maroon" />
                 </TouchableOpacity>
             )}
         </View>
@@ -61,6 +60,19 @@ export function renderDesc(item, showDelete) {
 }
 
 // RENDER EDIT BUTTONS
+// render edit event button
+export function editButton(pop, popIn, popOut) {
+    return (
+        <TouchableOpacity
+            style={Theme.circleFill}
+            onPress={() => {
+                pop === false ? popIn() : popOut();
+            }}
+        >
+            <Feather name={pop ? 'edit-3' : 'edit-2'} size={20} color="#FFFFFF"/>
+        </TouchableOpacity>
+    )
+}
 // render add event button
 export function plusButton(icon, selected, setModalVisibility) {
     if(selected) {

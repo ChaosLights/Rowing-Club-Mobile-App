@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
 import Theme from '../../style';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign for icons
 import { SelectList } from 'react-native-dropdown-select-list'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 
 
 export default function HomeScreen({ navigation }) {
@@ -238,7 +239,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={Theme.h2}>{item.Overview}</Text>
                 {isEditMode && (
                     <TouchableOpacity onPress={() => confirmDeletion(item.id)} style={Theme.deleteButton}>
-                        <AntDesign name="closecircle" size={24} color="#f52d56" />
+                        <Ionicons name="close-circle-outline" size={28} color="maroon" />
                     </TouchableOpacity>
                 )}
             </View>
@@ -285,6 +286,10 @@ export default function HomeScreen({ navigation }) {
                 placeholder='Current Week'
                 save="value"
                 search={false}
+                boxStyles={{ backgroundColor: 'maroon' }}
+                dropdownStyles={{ backgroundColor: 'maroon' }}
+                dropdownTextStyles={{ color: 'white' }}
+                inputStyles={{ color: 'white' }}
             />
             <Text style={Theme.h2}>
                 {"\n"}
@@ -297,6 +302,10 @@ export default function HomeScreen({ navigation }) {
                 placeholder='Age Group'
                 save="value"
                 search={false}
+                boxStyles={{ backgroundColor: 'maroon' }}
+                dropdownStyles={{ backgroundColor: 'maroon' }}
+                dropdownTextStyles={{ color: 'white' }}
+                inputStyles={{ color: 'white' }}
             //defaultValue={initialSelectedValue}
             />
             <Text style={Theme.h2}>{"\n"}Sessions:
@@ -386,10 +395,10 @@ export default function HomeScreen({ navigation }) {
                         {item.sectionTitle === 'Notifications' && (
                             <View style={Theme.buttonContainer}>
                                 <TouchableOpacity
-                                    style={isEditMode ? Theme.doneButton : Theme.editButton}
+                                    style={Theme.editCircle}
                                     onPress={toggleEditMode}
                                 >
-                                    <Text style={Theme.buttonText}>{isEditMode ? 'Done' : 'Edit'}</Text>
+                                    <Feather name={isEditMode ? 'edit-3' : 'edit-2'} size={20} color="#FFFFFF"/>
                                 </TouchableOpacity>
                             </View>
                         )}
@@ -404,8 +413,11 @@ export default function HomeScreen({ navigation }) {
                     {item.sectionTitle === 'Notifications' && isEditMode && (
                         <>
                             <View style={Theme.addButtonContainer}>
-                                <TouchableOpacity onPress={openModal} style={Theme.addButton}>
-                                    <Text style={Theme.addButtonText}>Add +</Text>
+                                <TouchableOpacity
+                                    style={Theme.addCircle}
+                                    onPress={openModal}
+                                >
+                                    <Ionicons name={isModalVisible ? 'duplicate' : 'duplicate-outline'} size={20} color="#FFFFFF"/>
                                 </TouchableOpacity>
                             </View>
                             <Modal
