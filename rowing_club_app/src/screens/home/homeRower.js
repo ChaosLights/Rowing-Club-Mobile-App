@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
     // FETCH CURRENT AVAILABILITY
     useEffect(() => {
         fetchAvailability();
-    }, []);
+    }, [selectedWeek]);
 
     const fetchAvailability = async () => {
         const currentDate = new Date();
@@ -80,13 +80,14 @@ export default function HomeScreen({ navigation }) {
     };
 
     useEffect(() => {
-        // Update selected availability when availability state changes
+        // Update selected availability when availability or selected week changes
         const initialSelectedAvailability = {};
         availability.forEach(item => {
             initialSelectedAvailability[item.dayTime] = item.value;
         });
         setSelectedAvailability(initialSelectedAvailability);
-    }, [availability]);
+    }, [availability, selectedWeek]);
+    
 
 
     //GET GROUP ATTENDANCE SCHEDULE
@@ -132,8 +133,9 @@ export default function HomeScreen({ navigation }) {
 
     // Function to handle attendance selection
     const handleAttendanceSelection = async (dayTime, value) => {
+        
         console.log(`Session ${dayTime} attendance set to: ${value}`);
-        setSessionAttendance(prevState => ({
+        setSelectedAvailability(prevState => ({
             ...prevState,
             [dayTime]: value
         }));
