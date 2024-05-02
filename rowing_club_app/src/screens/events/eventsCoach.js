@@ -1,14 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, Modal, TouchableOpacity, TextInput, Button, Animated, Alert } from 'react-native';
+import { View, FlatList, Modal, TouchableOpacity, TextInput, Button, Animated } from 'react-native';
 import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
-import { DatePicker } from 'react-native-date-picker';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, query, where, orderBy, addDoc, deleteDoc, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, addDoc } from "firebase/firestore";
 import Theme from '../../style';
 import * as eventRender from './eventRender';
 import * as util from './eventsUtil';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function EventsCoach({ navigation }) {
     // date list constants
@@ -25,11 +26,10 @@ export default function EventsCoach({ navigation }) {
     const [icon1] = useState(new Animated.Value(160));
     const [icon2] = useState(new Animated.Value(80));
     const [pop, setPop] = useState(false);
-
     // Input window constants
     const [modalVisibility, setModalVisibility] = useState(false);
+    const [newStringDate, setNewStringDate] = useState("");
     const [newEventTitle, setNewEventTitle] = useState('');
-    const [newEventDate, setNewEventDate] = useState(new Date());
     const [newEventUserType, setNewEventUserType] = useState('');
     const [newEventDescription, setNewEventDescription] = useState('');
 
@@ -77,9 +77,6 @@ export default function EventsCoach({ navigation }) {
         setPop(false);
         eventRender.popupHide(icon1, icon2)
     }
-    // function getDatePicker() {
-    //     return <DatePicker date={newEventDate} onDateChange={setNewEventDate} />
-    // }
     // RENDER: Input window
     const inputWindow = () => (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
@@ -93,12 +90,17 @@ export default function EventsCoach({ navigation }) {
                     style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
                 />
                 {/* Date */}
-                <TouchableOpacity>
-                    <Text> Set Date </Text>
-                    {/* TODO: IMPLEMENT */}
-                    {/* onPress={getDatePicker} */}
-                </TouchableOpacity>
-
+                <TextInputMask
+                    placeholder="HH:MM, DD/MM/YYYY"
+                    placeholderTextColor="grey"
+                    type={'datetime'}
+                    options={{
+                    format: 'HH:mm, DD/MM/YYYY'
+                    }}
+                    value={newStringDate}
+                    style={Theme.TextInputMask}
+                    onChangeText={setNewStringDate}
+                />
                 {/* User Type */}
                 <SelectList
                     setSelected={val => setNewEventUserType(val)}
@@ -126,23 +128,19 @@ export default function EventsCoach({ navigation }) {
     // DATABASE: Add new event
     const addNewEvent = async () => {
         // check field inputs
-        if((newEventTitle == "") || (newEventUserType == "")
-            || (newEventDate == "") || (newEventDescription == "")) {
-            Alert.alert(
-                'Empty Fields',
-                'Please fill in the required fields to add an event.',
-                [
-                {text: 'OK'},
-                ]
-            );
+        if(util.checkEmpty(newEventTitle, newEventUserType, newStringDate, newEventDescription)) {
+            return
+        }
+        // check date format is correct
+        if (!util.checkDateFormat(newStringDate)) {
             return
         }
         // add event
         try {
+            newStringDate
             const docRef = await addDoc(collection(db, 'Event'), {
                 Title: newEventTitle,
-                Date: (new  Date()),
-                // Date: (newEventDate),
+                Date: (util.stringToTimestamp(newStringDate)),
                 TypeID: newEventUserType,
                 Description: newEventDescription,
             });
@@ -152,11 +150,10 @@ export default function EventsCoach({ navigation }) {
         setModalVisibility(false);
         toggleEventUpdate();
         setNewEventTitle('');
-        setNewEventDate(new Date());
+        setNewStringDate('');
         setNewEventUserType('');
         setNewEventDescription('');
     };
-
 
     // MAIN
     return(
@@ -179,25 +176,17 @@ export default function EventsCoach({ navigation }) {
             {/* Component: edit buttons */}
             <View style={Theme.floatingButtonContainer}>
                 {/* Button 1: Add events */}
-                <Animated.View style={[Theme.circle1, { left: icon1 }]}>
-                  <TouchableOpacity onPress={() => setModalVisibility(true)}>
-                      <Icon name="plus" size={25} color="#FFFF" />
-                  </TouchableOpacity>
-                </Animated.View>
+                {eventRender.plusButton(icon1, modalVisibility, setModalVisibility)}
                 {/* Button 2: Remove events */}
-                <Animated.View style={[Theme.circle1, { left: icon2 }]}>
-                    <TouchableOpacity onPress={() => toggleShowDelete()}>
-                        <Icon name="trash" size={25} color="#FFFF" />
-                    </TouchableOpacity>
-                </Animated.View>
+                {eventRender.deleteButton(icon2, showDelete, toggleShowDelete)}
                 {/* Button 3: Show buttons */}
                 <TouchableOpacity
-                    style={Theme.circle1}
+                    style={Theme.circleFill}
                     onPress={() => {
                         pop === false ? popIn() : popOut();
                     }}
                 >
-                    <Icon name="pencil" size={25} color="#FFFF" />
+                    <Ionicons name="ellipsis-vertical" size={25} color="#FFFF"/>
                 </TouchableOpacity>
             </View>
 

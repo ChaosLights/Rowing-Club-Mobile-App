@@ -15,19 +15,19 @@ const Theme = StyleSheet.create({
         marginBottom: 10,
     },
     navButton: {
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      backgroundColor: 'maroon',
-      shadowColor: 'rgba(0,0,0, .4)', // IOS
-      shadowOffset: { height: 1, width: 1 }, // IOS
-      shadowOpacity: 1, // IOS
-      shadowRadius: 1, //IOS
-      elevation: 2, // Android
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: 'maroon',
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 2, // Android
     },
     navButtonFont: {
-      color: 'white',
-      fontSize: 16,
-      fontWeight: 'bold',
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     GreyOvalButton: {
         backgroundColor: 'grey',
@@ -66,15 +66,15 @@ const Theme = StyleSheet.create({
         borderBottomColor: 'black',
     },
     circle: {
-     backgroundColor: '#f52d56',
-     width: 60,
-     height: 60,
-     position: 'absolute',
-     bottom: 40,
-     right: 40,
-     borderRadius: 50,
-     justifyContent: 'center',
-     alignItems: 'center',
+        backgroundColor: '#f52d56',
+        width: 60,
+        height: 60,
+        position: 'absolute',
+        bottom: 40,
+        right: 40,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     optionBarButton: {
         marginRight: 50,
@@ -110,66 +110,66 @@ const Theme = StyleSheet.create({
     V1: {
         padding: 10,
         backgroundColor: 'white',
-      },
-      Hc: {
+    },
+    Hc: {
         flexDirection: 'row',
         justifyContent: 'space-between', // Centers items evenly
-      },
-      coachContainer: {
+    },
+    coachContainer: {
         flexDirection: 'column', // Set to column to align vertically
         alignItems: 'Right', // Center the text
-      },
-      headerContainer: {
+    },
+    headerContainer: {
         flexDirection: 'row', // Align horizontally
         justifyContent: 'space-between', // Space evenly
         alignItems: 'center', // Center vertically
-      },
-      buttonContainer: {
+    },
+    buttonContainer: {
         flex: 1, // Allows button to fill available space
         alignItems: 'Center', // Centers items horizontally
         justifyContent: 'center',
-      },
+    },
     editButton: {
         backgroundColor: 'yellow',
         padding: 5, // Smaller padding for smaller buttons
         borderRadius: 3,
         borderWidth: 1,
         borderColor: 'orange',
-      },
-      doneButton: {
+    },
+    doneButton: {
         backgroundColor: 'lightblue',
         padding: 5, // Smaller padding for smaller buttons
         borderRadius: 3,
         borderWidth: 1,
         borderColor: 'blue',
-      },
-      addButtonContainer: {
+    },
+    addButtonContainer: {
         alignItems: 'center', // Center the 'Add +' button
-      },
-      addButton: {
+    },
+    addButton: {
         padding: 5, // Smaller padding for smaller buttons
         backgroundColor: 'green',
         borderRadius: 3,
-      },
-      addButtonText: {
+    },
+    addButtonText: {
         color: 'white',
         fontSize: 16,
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: 'black',
         justifyContent: 'center',
         textAlign: 'center',
         fontSize: 16,
-      },
-      notificationHeader: {
+    },
+    notificationHeader: {
         flexDirection: 'row', // Aligns the text and button horizontally
         justifyContent: 'space-between', // Spaces the elements evenly
         alignItems: 'center', // Centers them vertically
-      },
+    },
     
     deleteButton: {
-      position: 'absolute',
-      right: 0,
+        position: 'absolute',
+        right: 0,
     },
 
     //events page starts
@@ -216,31 +216,33 @@ const Theme = StyleSheet.create({
         fontSize: 15,
         borderWidth: 1,
     },
-    delButton: {
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+    TextInputMask: {
+        fontSize: 15,
+        borderWidth: 1,
+        padding: 6,
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    dateButton: {
+        paddingVertical: 5,
         backgroundColor: 'maroon',
-        shadowColor: 'rgba(0,0,0, .4)', // IOS
-        shadowOffset: { height: 1, width: 1 }, // IOS
-        shadowOpacity: 1, // IOS
-        shadowRadius: 1, //IOS
-        elevation: 2, // Android
         justifyContent: 'center',
         alignItems: 'center',
-        width: 180,
+        width: '100%',
     },
-    delButtonFont: {
+    dateButtonFont: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: 'bold',
     },
-    delButtonContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
+    dateButtonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 10,
     },
     floatingCross: {
-      position: 'absolute',
-      right: 0,
+        position: 'absolute',
+        right: 0,
     },
     //floating button starts
     floatingButtonContainer: {
@@ -250,7 +252,16 @@ const Theme = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    circle1: {
+    circleFill: {
+        backgroundColor: 'maroon',
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 20,
+    },
+    circle: {
         backgroundColor: 'maroon',
         width: 60,
         height: 60,

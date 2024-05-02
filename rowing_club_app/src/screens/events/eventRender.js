@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import Theme from '../../style';
 import * as util from './eventsUtil';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign for icons
-
+import { AntDesign } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 // RENDER EVENT FLATLIST
 // Render function for event title
@@ -25,13 +26,9 @@ export function renderTitle(item, showDelete, toggleEventUpdate) {
 export function renderDate(item) {
     return (
         <Text style={Theme.body}>
-            {dateFormat(item.Date)}
+            {util.timestampToString(item.Date)}
         </Text>
     )
-}
-// get date in format
-function dateFormat(date) {
-    return new Date(date.seconds * 1000).toLocaleString();
 }
 // Render function for event event age group
 export function renderGroup(item, userTypeList) {
@@ -63,7 +60,47 @@ export function renderDesc(item, showDelete) {
     )
 }
 
-// Handling button animation
+// RENDER EDIT BUTTONS
+// render add event button
+export function plusButton(icon, selected, setModalVisibility) {
+    if(selected) {
+        return (
+            <Animated.View style={[Theme.circleFill, { left: icon }]}>
+                <TouchableOpacity onPress={() => setModalVisibility(true)}>
+                    <Ionicons name="duplicate" size={25} color="#FFFF"/>
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    } else {
+        return (
+            <Animated.View style={[Theme.circle, { left: icon }]}>
+                <TouchableOpacity onPress={() => setModalVisibility(true)}>
+                    <Ionicons name="duplicate-outline" size={25} color="#FFFF"/>
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    }
+}// render add delete button
+export function deleteButton(icon, selected, toggleShowDelete) {
+    if(selected) {
+        return (
+            <Animated.View style={[Theme.circleFill, { left: icon }]}>
+                    <TouchableOpacity onPress={() => toggleShowDelete()}>
+                        <Ionicons name="trash" size={25} color="#FFFF" />
+                    </TouchableOpacity>
+                </Animated.View>
+        )
+    } else {
+        return (
+            <Animated.View style={[Theme.circleFill, { left: icon }]}>
+                <TouchableOpacity onPress={() => toggleShowDelete()}>
+                    <Ionicons name="trash-outline" size={25} color="#FFFF" />
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    }
+}
+// Handling buttons animation
 export const popupShow = (icon1, icon2) => {
     Animated.timing(icon1, {
         toValue: 80,
@@ -88,44 +125,3 @@ export const popupHide = (icon1, icon2) => {
         useNativeDriver: false,
     }).start();
 }
-
-// Render function for add event input
-const inputWindow = () => (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
-            {/* Title */}
-            <TextInput
-                placeholder="Title"
-                placeholderTextColor="grey"
-                value={newEventTitle}
-                onChangeText={text => setNewEventTitle(text)}
-                style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
-            />
-            {/* Date */}
-            <TouchableOpacity onPress={toggleDatePicker}>
-                <Text> Set Date </Text>
-                {/* TODO: IMPLEMENT */}
-            </TouchableOpacity>
-
-            {/* User Type */}
-            <SelectList
-                setSelected={val => setNewEventUserType(val)}
-                data={userTypeList}
-                boxStyles={{marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
-                save="key"
-            />
-            {/* Description */}
-            <TextInput
-                placeholder="Description"
-                placeholderTextColor="grey"
-                multiline
-                value={newEventDescription}
-                onChangeText={text => setNewEventDescription(text)}
-                style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
-            />
-            {/* Add & Close buttons */}
-            <Button title="Add Event" onPress={addEvents} />
-            <Button title="Close" onPress={closeModal} />
-        </View>
-    </View>
-);
