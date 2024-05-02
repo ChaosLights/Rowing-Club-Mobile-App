@@ -133,6 +133,9 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
+    
+    
+
     const getAttendingByDayTime = (inputDayTime) => {
         // Filter the availabilityData list to find an item with the same dayTime
         const matchingItem = availabilityData.find(item => item.dayTime === inputDayTime);
@@ -158,7 +161,7 @@ export default function HomeScreen({ navigation }) {
             );
         } else {
             // If no matching item is found, return an empty string
-            return (<Text style={Theme.h3}>No Data</Text>);
+            return (<Text style={Theme.inputLabel}>-</Text>);
         }
     };
     
@@ -396,8 +399,8 @@ export default function HomeScreen({ navigation }) {
                             const displayedDateTime = `${targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}, ${session.split(', ')[1]}`;
                             return (
                                 <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={Theme.h2}>{session.split(', ')[1]}</Text>
-                                    <Text>{getAttendingByDayTime(displayedDateTime)}</Text>
+                                    <Text style={[{flex:1}, Theme.h2]}>{session.split(', ')[1]}</Text>
+                                    <Text style={{flex:1}}>{getAttendingByDayTime(displayedDateTime)}</Text>
                                 </View>
                             );
                         })
@@ -406,8 +409,6 @@ export default function HomeScreen({ navigation }) {
                     )}
                 </View>
             );
-
-            
         });
     };
     
