@@ -133,6 +133,20 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
+    const getAttendingByDayTime = (inputDayTime) => {
+        // Filter the availabilityData list to find an item with the same dayTime
+        const matchingItem = availabilityData.find(item => item.dayTime === inputDayTime);
+    
+        // If a matching item is found, return its attending list
+        if (matchingItem) {
+            return matchingItem.attending.join("\n");
+        } else {
+            // If no matching item is found, return an empty array
+            return [];
+        }
+    };
+    
+
 
 
 
@@ -354,6 +368,7 @@ export default function HomeScreen({ navigation }) {
                 const [day] = s.split(', ');
                 return day === targetDate.toLocaleDateString(undefined, { weekday: 'long' });
             });
+            
     
             // prints weekday and training times
             return (
@@ -365,7 +380,7 @@ export default function HomeScreen({ navigation }) {
                             return (
                                 <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text>{session.split(', ')[1]}</Text>
-                                    <Text>{displayedDateTime}</Text>
+                                    <Text>{getAttendingByDayTime(displayedDateTime)}</Text>
                                 </View>
                             );
                         })
@@ -374,6 +389,8 @@ export default function HomeScreen({ navigation }) {
                     )}
                 </View>
             );
+
+            
         });
     };
     
