@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert, StyleSheet } from 'react-native';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
 import Theme from '../../style';
@@ -139,12 +139,29 @@ export default function HomeScreen({ navigation }) {
     
         // If a matching item is found, return its attending list
         if (matchingItem) {
-            return matchingItem.attending.join("\n");
+            return (
+                <Text>
+                    <Text style={Theme.inputLabel}>Attending:</Text>{"\n"}
+                    {matchingItem.attending.join("\n")}
+                    {"\n\n"}
+                    <Text style={Theme.inputLabel}>Absent:</Text>{"\n"}
+                    {matchingItem.absent.join("\n")}
+                    {"\n\n"}
+                    <Text style={Theme.inputLabel}>Sick:</Text>{"\n"}
+                    {matchingItem.sick.join("\n")}
+                    {"\n\n"}
+                    <Text style={Theme.inputLabel}>Home Training:</Text>{"\n"}
+                    {matchingItem.home.join("\n")}
+                    {"\n\n"}
+
+                </Text>
+            );
         } else {
-            // If no matching item is found, return an empty array
-            return [];
+            // If no matching item is found, return an empty string
+            return (<Text style={Theme.h3}>No Data</Text>);
         }
     };
+    
     
 
 
@@ -373,13 +390,13 @@ export default function HomeScreen({ navigation }) {
             // prints weekday and training times
             return (
                 <View key={index} style={Theme.eventContainer}>
-                    <Text style={Theme.h3}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
+                    <Text style={Theme.h2}>{targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                     {sessionsForDay.length > 0 ? (
                         sessionsForDay.map((session, sessionIndex) => {
                             const displayedDateTime = `${targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}, ${session.split(', ')[1]}`;
                             return (
                                 <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text>{session.split(', ')[1]}</Text>
+                                    <Text style={Theme.h2}>{session.split(', ')[1]}</Text>
                                     <Text>{getAttendingByDayTime(displayedDateTime)}</Text>
                                 </View>
                             );

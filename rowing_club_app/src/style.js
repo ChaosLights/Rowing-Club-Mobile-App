@@ -262,6 +262,15 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 20,
     },
+    inputLabel: {
+        fontSize: 16,
+        width: 65,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        marginRight: 10,
+        color: 'maroon',
+        justifyContent: 'center',
+    },
     //floating button ends
     //events page ends
 });
