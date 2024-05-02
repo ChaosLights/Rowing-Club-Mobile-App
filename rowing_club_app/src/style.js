@@ -129,31 +129,8 @@ const Theme = StyleSheet.create({
         alignItems: 'Center', // Centers items horizontally
         justifyContent: 'center',
     },
-    editButton: {
-        backgroundColor: 'yellow',
-        padding: 5, // Smaller padding for smaller buttons
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'orange',
-    },
-    doneButton: {
-        backgroundColor: 'lightblue',
-        padding: 5, // Smaller padding for smaller buttons
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: 'blue',
-    },
     addButtonContainer: {
         alignItems: 'center', // Center the 'Add +' button
-    },
-    addButton: {
-        padding: 5, // Smaller padding for smaller buttons
-        backgroundColor: 'green',
-        borderRadius: 3,
-    },
-    addButtonText: {
-        color: 'white',
-        fontSize: 16,
     },
     buttonText: {
         color: 'black',
@@ -166,10 +143,25 @@ const Theme = StyleSheet.create({
         justifyContent: 'space-between', // Spaces the elements evenly
         alignItems: 'center', // Centers them vertically
     },
-    
     deleteButton: {
         position: 'absolute',
         right: 0,
+    },
+    editCircle: {
+        backgroundColor: 'maroon',
+        padding: 10,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        right: 0,
+    },
+    addCircle: {
+        backgroundColor: 'maroon',
+        padding: 10,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     //events page starts

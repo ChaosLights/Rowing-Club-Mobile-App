@@ -7,8 +7,6 @@ import { collection, onSnapshot, addDoc } from "firebase/firestore";
 import Theme from '../../style';
 import * as eventRender from './eventRender';
 import * as util from './eventsUtil';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { TextInputMask } from 'react-native-masked-text';
 
 export default function EventsCoach({ navigation }) {
@@ -180,14 +178,7 @@ export default function EventsCoach({ navigation }) {
                 {/* Button 2: Remove events */}
                 {eventRender.deleteButton(icon2, showDelete, toggleShowDelete)}
                 {/* Button 3: Show buttons */}
-                <TouchableOpacity
-                    style={Theme.circleFill}
-                    onPress={() => {
-                        pop === false ? popIn() : popOut();
-                    }}
-                >
-                    <Ionicons name="ellipsis-vertical" size={25} color="#FFFF"/>
-                </TouchableOpacity>
+                {eventRender.editButton(pop, popIn, popOut)}
             </View>
 
             {/* Component: Popup for add events */}
