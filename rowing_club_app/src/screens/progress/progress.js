@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {View, Text, Button, TouchableOpacity} from 'react-native';
 import Theme from '../../style';
+import * as progresRender from './progressRender'
 
 //const: screen names
 const addTrainingName = 'AddTraining';
@@ -21,17 +22,21 @@ export default function ProgressScreen({navigation}) {
             <Text style={Theme.title}>
                 Progress Page
             </Text>
-
-            <Text style={Theme.body}>
-                {"\n"}
-                Training data presentation feature to be implemented in future updates.
-            </Text>
-
-
+            
             {/* To add training image or record data */}
             <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate(addTrainingName)}>
                 <Text style={Theme.navButtonFont}>{button}</Text>
             </TouchableOpacity>
+
+            {/* Show Progress Data */}
+            {progresRender.renderData()}
         </View>
     )
 }
+
+// function getTraining() {
+//     if(global.userTypeID == YDYsOFRCBMqhFpDn1buu) {
+//         return
+//     }
+//     return (progresRender.renderData())
+// }

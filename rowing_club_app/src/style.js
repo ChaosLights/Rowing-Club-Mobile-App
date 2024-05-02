@@ -264,6 +264,45 @@ const Theme = StyleSheet.create({
     },
     //floating button ends
     //events page ends
+
+    // Progres page
+
+    tabsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 20,
+    },
+    tab: {
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 10,
+        borderBottomWidth: 2,
+        borderBottomColor: 'transparent',
+    },
+    activeTab: {
+        borderBottomColor: '#800000',
+    },
+    tabText: {
+        color: 'black',
+    },
+    contentContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    entryContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    }
 });
 
 export default Theme;
