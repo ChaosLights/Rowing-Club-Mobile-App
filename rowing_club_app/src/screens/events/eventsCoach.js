@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList, Modal, TouchableOpacity, TextInput, Button, Pressable, Platform} from 'react-native';
 import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
-import { DatePicker } from 'react-native-date-picker';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
 import Theme from '../../style';
