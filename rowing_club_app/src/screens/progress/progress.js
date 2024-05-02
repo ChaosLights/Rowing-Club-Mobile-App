@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Button} from 'react-native';
 import Theme from '../../style';
+import * as progresRender from './progressRender'
 
 //const: screen names
 const addTrainingName = 'AddTraining';
@@ -20,6 +21,14 @@ export default function ProgressScreen({navigation}) {
                 title="Add New Training Record"
                 onPress={() => navigation.navigate(addTrainingName)}
             />
+            {progresRender.renderData()}
         </View>
     )
 }
+
+// function getTraining() {
+//     if(global.userTypeID == YDYsOFRCBMqhFpDn1buu) {
+//         return
+//     }
+//     return (progresRender.renderData())
+// }
