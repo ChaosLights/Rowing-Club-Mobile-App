@@ -79,10 +79,28 @@ export function checkDateFormat(stringDate) {
     return true
 }
 
-// DATE FORMATING
-// Get date to string from firebase
-export function timestampToString(date) {
-    return new Date(date.seconds * 1000).toLocaleString();
+// DATE FORMATINGS
+// Get date to string from timestamp
+export function timestampToString(timestamp) {
+    // create date object
+    const date = timestamp.toDate();
+    // format date
+    const dateString = date.toLocaleDateString(undefined, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    // format time
+    const timeString = new Intl.DateTimeFormat('en-UK', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: false
+    }).format(date);;
+    // add string together
+    const retDate = dateString + ", " + timeString
+  
+    return retDate; // "Monday, April 29, 2024, 9:00 AM/PM"
 }
 // Check if string date is in the correct
 export function checkStringDate(stringDate) {
@@ -115,7 +133,7 @@ export function checkStringDate(stringDate) {
 
     return true
 }
-// Get date from string to firebase
+// Get date from string to time stamp
 export const stringToTimestamp = (dateTimeStr) => {
     // split date and time
     const [time, dateStr] = dateTimeStr.split(',').map(str => str.trim());

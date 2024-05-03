@@ -87,8 +87,6 @@ export default function HomeScreen({ navigation }) {
         });
         setSelectedAvailability(initialSelectedAvailability);
     }, [availability, selectedWeek]);
-    
-
 
     //GET GROUP ATTENDANCE SCHEDULE
     //from RecuringSchedule db
