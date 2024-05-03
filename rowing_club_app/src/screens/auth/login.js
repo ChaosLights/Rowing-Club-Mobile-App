@@ -33,13 +33,13 @@ export default function Login( {navigation} ) {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={Theme.title} >Rowing App</Text>
             <TextInput
-                style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginVertical: 10 }}
+                style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginVertical: 10, paddingLeft: 10 }}
                 placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
             />
             <TextInput
-                style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
+                style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginBottom: 10, paddingLeft: 10 }}
                 placeholder="Password"
                 secureTextEntry={true}
                 value={password}
