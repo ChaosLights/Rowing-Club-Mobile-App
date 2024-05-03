@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Theme from '../../style';
 
-export function renderData() {
+export function renderRower() {
     return (
         <ScrollView>
             <SafeAreaView>
@@ -15,11 +15,187 @@ export function renderData() {
         </ScrollView>
     )
 }
+export function renderCoach() {
+    return (
+        <ScrollView>
+            <SafeAreaView>
+                <View style={{height: 1, backgroundColor: '#E0E0E0', marginVertical: 10}} />
+                <CoachView/>
+            </SafeAreaView>
+        </ScrollView>
+    )
+}
+function CoachView() {
+    const [rowerData, setRowerData] = useState([]);
+    useEffect(() => {
+        async function fetchLatestData() {
+            try {
+                const dataRef = collection(db, "TrainingData");
+                const q = query(dataRef, orderBy("time", "desc"));
+                let snapshot = await getDocs(q);
+                let rowerDocs = [];
+                let map = new Map();
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const userId = data.UserId;
+                    const type = data.Type;
+                    let id = `${userId}-${type}`;
+                    if(!map.has(id))
+                    {
+                        rowerDocs.push(data);
+                        map.set(id, true);
+                    }
+                })
+                setRowerData(rowerDocs);
+            } catch (error) {
+                console.log("Error fetching data:" + error);
+            }
+        }
+        fetchLatestData();
+    }, [global.user])
+
+    function TwoKMView() {
+        const twoKMData = rowerData.filter(record => record.Type === '2km');
+        return (
+            <View>
+                {twoKMData.map((record, index) => {
+                    return (
+                        <View style={Theme.entryContainer} key={index}>
+                            <Text>Time: {new Date(record.time).toLocaleDateString("en-US", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                            })}
+                            </Text>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Rower ID: {record.UserId}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Type: {record.Type}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>400m: {record.fourHM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>800m: {record.eightHM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>1200m: {record.twelveHM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>1600m: {record.sixteenHM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>2000m: {record.twentyHM}</Text>
+                            </View>
+                        </View>
+                    )
+                })}
+            </View>
+        )
+    }
+
+    function FiveKMView() {
+        const twoKMData = rowerData.filter(record => record.Type === '5km');
+        return (
+            <View>
+                {twoKMData.map((record, index) => {
+                    return (
+                        <View style={Theme.entryContainer} key={index}>
+                            <Text>Time: {new Date(record.time).toLocaleDateString("en-US", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                            })}
+                            </Text>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Rower ID: {record.UserId}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Type: {record.Type}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>1000m: {record.oneKM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>2000m: {record.twoKM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>3000m: {record.threeKM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>4000m: {record.fourKM}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>5000m: {record.fiveKM}</Text>
+                            </View>
+                        </View>
+                    )
+                })}
+            </View>
+        )
+    }
+
+    function DistanceView() {
+        const twoKMData = rowerData.filter(record => record.Type === '30min');
+        return (
+            <View>
+                {twoKMData.map((record, index) => {
+                    return (
+                        <View style={Theme.entryContainer} key={index}>
+                            <Text>Time: {new Date(record.time).toLocaleDateString("en-US", {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                            })}
+                            </Text>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Rower ID: {record.UserId}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Type: {record.Type}</Text>
+                            </View>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                                <Text style = {{marginRight: 10}}>Distance: {record.distance}</Text>
+                            </View>
+                        </View>
+                    )
+                })}
+            </View>
+        )
+    }
+
+    const [selectedTab, setSelectedTab] = useState('2000M');
+
+    return (
+        <View style={Theme.container}>
+            <View style={Theme.tabsContainer}>
+                {['2000M', '5000M', '30 Mins'].map((tab) => (
+                <TouchableOpacity
+                    key={tab}
+                    style={[Theme.tab, selectedTab === tab && Theme.activeTab]}
+                    onPress={() => setSelectedTab(tab)}
+                >
+                    <Text style={Theme.tabText}>{`${tab}`}</Text>
+                </TouchableOpacity>
+                ))}
+            </View>
+            {rowerData.length > 0 &&
+            <View style={Theme.contentContainer}>
+                {selectedTab == '2000M' && <TwoKMView/>}
+                {selectedTab == '5000M' && <FiveKMView/>}
+                {selectedTab == '30 Mins' && <DistanceView/>}
+            </View>
+            }
+        </View>
+    )
+}
 
 function TrainingDataView() {
     const [trainingData, setTrainingData] = useState([]);
+    console.log(1);
     useEffect(() => {
-        async function fetchData() {
+        async function fetchTrainingData() {
             try {
                 let data = [];
                 const q = query(collection(db, "TrainingData"), where("UserId", "==", global.user), orderBy("time", "desc"));
@@ -29,11 +205,11 @@ function TrainingDataView() {
                 });
                 setTrainingData(data);
             } catch (error) {
-                console.log("Error fetching data:"+error);
+                console.log("Error fetching data:" + error);
             }
         }
-        fetchData();
-    }, []);
+        fetchTrainingData();
+    }, [global.user]);
 
     function TwoKMView(){
         const twoKMData = trainingData.filter(record => record.Type === '2km');

@@ -29,7 +29,7 @@ export default function ProgressScreen({navigation}) {
             </TouchableOpacity>
 
             {/* Show Progress Data */}
-            {progresRender.renderData()}
+            {global.userTypeID != "YDYsOFRCBMqhFpDn1buu" ? progresRender.renderRower() : progresRender.renderCoach()}
         </View>
     )
 }

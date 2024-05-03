@@ -294,6 +294,7 @@ const Theme = StyleSheet.create({
         borderRadius: 10,
         padding: 15,
         marginBottom: 10,
+        paddingBottom: 30,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
