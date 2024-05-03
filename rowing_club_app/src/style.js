@@ -288,6 +288,7 @@ const Theme = StyleSheet.create({
     contentContainer: {
         marginTop: 20,
         alignItems: 'center',
+        paddingBottom: 80,
     },
     entryContainer: {
         backgroundColor: '#FFFFFF',

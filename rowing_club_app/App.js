@@ -12,7 +12,7 @@ export default function App() {
   //global.user = "0Iz45PGQ70hFnUpo6loC" //14-15 (Jason)
   //global.user = "YRhW9fMSA0hd6IixgLaO" //16-17 (Freddy)
   // global.user = "njxPjxAazoa9feL0eeKF" //18 and Older (Diana)
-  // global.user = "hGSQNMnQa4Bjt0zb0L5i" //18 and Older (Jack)
+  //global.user = "hGSQNMnQa4Bjt0zb0L5i" //18 and Older (Jack)
 
   //const
   global.userTypeID
@@ -23,11 +23,12 @@ export default function App() {
     const q = query(collection(db, "User"), where("__name__", "==", global.user));
     const querySnapshot = onSnapshot(q, (snapshot) => {
       global.userTypeID = snapshot.docs[0].data().TypeID
+      console.log("Test 2: " + userTypeID);
     });
  
     // return cleanup function
     return () => querySnapshot(); 
-  }, [global.user]);
+}, [global.user]);
 
   return (
     <ScreensContainer/>
