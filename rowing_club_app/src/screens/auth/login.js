@@ -12,8 +12,6 @@ export default function Login( {navigation} ) {
 
     // function to handle login
     const handleLogin = async () => {
-        console.log('handleLogin');
-        const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in

@@ -1,19 +1,30 @@
 import React from 'react';
 import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { AuthContext } from '../../contexts/authContext';
 
 export default function HomeScreen({ navigation }) {
+    // authentication const
+    const auth = getAuth();
+    const { userUID } = useContext(AuthContext);
+    const { userID } = useContext(AuthContext);
     // const
     const [content, setContent] = useState();
 
+    //check if logged in
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigation.replace('Login');
+            }
+        });
 
-    //global.userTypeID = "YDYsOFRCBMqhFpDn1buu" //coach
-    global.userTypeID = "AmU8s77q7TcDytflxrC8" //rower 18 and over
-    //global.userTypeID = "OyhnLJNs0fEJ0eBT6266" //rower 16-17
-    //global.userTypeID = "Onulbd9Ck9DoxPDN1bZ1" //rower 14-15
+        return () => unsubscribe(); // Cleanup on unmount
+    }, []);
 
-    // check if user is coach or rower
+    // set correct content
     useEffect(() => {
         if (global.userTypeID == "YDYsOFRCBMqhFpDn1buu") {
             // set returning content to coach screen

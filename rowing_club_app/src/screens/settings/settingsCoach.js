@@ -65,7 +65,10 @@ export default function SettingsCoach({ navigation }) {
     }
 };
 
-    const handleLogout = () => {
+    // function to handle logout
+    const handleLogout = async () => {
+        const auth = getAuth();
+        console.log('HandleLogout');
         signOut(auth).then(() => {
             console.log('User logged out');
             navigation.replace('Login');
@@ -73,6 +76,7 @@ export default function SettingsCoach({ navigation }) {
             console.error('Error signing out: ', error);
         });
     };
+
     const Logout = () => {
         () => navigation.replace('Login');
     }
