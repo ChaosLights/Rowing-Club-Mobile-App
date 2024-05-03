@@ -1,22 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
 import { db } from '../../config/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 const login = 'login';
-import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
-import { AuthContext } from '../../contexts/authContext';
 
-export default function SettingsRower({ navigation }) {
+export default function PassChange() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    // { userUID } = useContext(AuthContext); // Assuming you are passing the user's UID for use.
-    const auth = getAuth();
-
     const handleChangePassword = async () => {
-        if (!currentPassword || !newPassword || !confirmPassword) {
+
+        if (currentPassword === '' || newPassword === '' || confirmPassword === '') {
             Alert.alert('Please fill in all fields');
             return;
         }
@@ -26,33 +22,37 @@ export default function SettingsRower({ navigation }) {
             return;
         }
 
-        const user = auth.currentUser;
-        const credential = EmailAuthProvider.credential(user.email, currentPassword);
+        const passwordDocumentId = 'FWBWX7EOw75rwE20cQD2';
 
-        reauthenticateWithCredential(user, credential).then(() => {
-            updatePassword(user, newPassword).then(() => {
-                Alert.alert('Success', 'Password updated successfully!');
-                setCurrentPassword('');
-                setNewPassword('');
-                setConfirmPassword('');
-            }).catch((error) => {
-                console.error("Error updating password: ", error);
-                Alert.alert('Failed to update password', error.message);
+        try {
+            const passwordDocRef = doc(db, 'Passwords', passwordDocumentId);
+            const passwordDocSnap = await getDoc(passwordDocRef);
+
+            if (!passwordDocSnap.exists()) {
+                Alert.alert('No password document found')
+                return;
+            }
+        
+
+            const storedPassword = passwordDocSnap.data().currentUserPassword;
+
+            if (storedPassword !== currentPassword) {
+                Alert.alert('Current password is incorrect');
+                return;
+            }
+
+            await updateDoc(passwordDocRef, {
+                currentUserPassword: newPassword,
             });
-        }).catch((error) => {
-            console.error("Error re-authenticating: ", error);
-            Alert.alert('Re-authentication failed', error.message);
-        });
-    };
 
-    const handleLogout = () => {
-        signOut(auth).then(() => {
-            // User signed out
-            console.log('User logged out');
-            navigation.replace('Login');
-        }).catch((error) => {
-            console.error('Error signing out: ', error);
-        });
+            Alert.alert('Password updated successfully');
+
+        } catch (error) {
+            console.error("Error updating password: ", error);
+            Alert.alert('There was a problem updating the password.');
+        }
+
+        console.log('New password:', newPassword);
     };
 
     return (
@@ -88,10 +88,6 @@ export default function SettingsRower({ navigation }) {
             <View style={{marginBottom: 10}} />
             <TouchableOpacity style={[Theme.maroonOvalButton, {marginTop: 10}]} onPress={handleChangePassword}>
                 <Text style={Theme.optionText}>Change Password</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={Theme.maroonOvalButton} onPress={handleLogout}>
-                <Text style={Theme.optionText}>Logout</Text>
             </TouchableOpacity>
         </View>
     );

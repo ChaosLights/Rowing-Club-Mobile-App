@@ -6,12 +6,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/home/home';
 import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
-import Settingscontainer from './screens/settings/settingscontainer';
+import SettingsContainer from './screens/settings/settingsContainer';
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';
 const progressContainerName = 'Progress';
-const settingsContainerName = 'Settings'
+const settingsContainerName = 'Settings';
 //const: nav
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +47,7 @@ export default function ScreensContainer() {
                 <Tab.Screen name={homeName} component={HomeScreen}/>
                 <Tab.Screen name={eventsName} component={EventsScreen}/>
                 <Tab.Screen name={progressContainerName} component={ProgressContainer}/>
-                <Tab.Screen name={settingsContainerName} component={Settingscontainer}/>
+                <Tab.Screen name={settingsContainerName} component={SettingsContainer}/>
             </Tab.Navigator>
 
         

@@ -4,6 +4,7 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy} from "firebase/firestore";
 import Theme from '../../style';
+import * as util from './eventsUtil';
 
 export default function EventsRower({ navigation }) {
     // const
@@ -42,14 +43,14 @@ export default function EventsRower({ navigation }) {
         };
     }, [userTypeID]);
 
-    // for each event item
+    // RENDER
     const renderItem = ({ item }) => (
         <View style={Theme.eventContainer}>
             <Text style={Theme.h2}>
                 {item.Title}
             </Text>
             <Text style={Theme.body}>
-                {dateFormat(item.Date)}
+                {util.timestampToString(item.Date)}
             </Text>
             <Text style={Theme.body}>
                 {"\n"}
@@ -58,15 +59,10 @@ export default function EventsRower({ navigation }) {
         </View>
     );
 
-    // get date in format
-    function dateFormat(date) {
-        return new Date(date.seconds * 1000).toLocaleString();
-    }
-
-    // main
+    // MAIN
     return (
-        <View style={Theme.container}>
-            <Text style={Theme.body}>{"\n"}</Text>
+        <View style={Theme.view}>
+            {/* <Text style={Theme.body}>{"\n"}</Text> */}
             <FlatList data={rowerEvents} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
     );

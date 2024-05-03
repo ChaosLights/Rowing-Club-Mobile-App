@@ -14,8 +14,32 @@ const Theme = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    navButton: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: 'maroon',
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 2, // Android
+    },
+    navButtonFont: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
     GreyOvalButton: {
         backgroundColor: 'grey',
+        borderRadius: 20, // roundness
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    TimeContainer: {
+        backgroundColor: '#F0F0F0',
         borderRadius: 20, // roundness
         paddingVertical: 10,
         paddingHorizontal: 20,
@@ -42,15 +66,15 @@ const Theme = StyleSheet.create({
         borderBottomColor: 'black',
     },
     circle: {
-     backgroundColor: '#f52d56',
-     width: 60,
-     height: 60,
-     position: 'absolute',
-     bottom: 40,
-     right: 40,
-     borderRadius: 50,
-     justifyContent: 'center',
-     alignItems: 'center',
+        backgroundColor: '#f52d56',
+        width: 60,
+        height: 60,
+        position: 'absolute',
+        bottom: 40,
+        right: 40,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     optionBarButton: {
         marginRight: 50,
@@ -61,9 +85,9 @@ const Theme = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-       h1: { 
-        fontSize: 20,
-        fontWeight: 'bold',
+    h1: { 
+      fontSize: 20,
+      fontWeight: 'bold',
     },
     h2: {
         fontSize: 15,
@@ -81,14 +105,73 @@ const Theme = StyleSheet.create({
     view: {
         padding: 10,
     },
+
+    //Home edit
+    V1: {
+        padding: 10,
+        backgroundColor: 'white',
+    },
+    Hc: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Centers items evenly
+    },
+    coachContainer: {
+        flexDirection: 'column', // Set to column to align vertically
+        alignItems: 'Right', // Center the text
+    },
+    headerContainer: {
+        flexDirection: 'row', // Align horizontally
+        justifyContent: 'space-between', // Space evenly
+        alignItems: 'center', // Center vertically
+    },
+    buttonContainer: {
+        flex: 1, // Allows button to fill available space
+        alignItems: 'Center', // Centers items horizontally
+        justifyContent: 'center',
+    },
+    addButtonContainer: {
+        alignItems: 'center', // Center the 'Add +' button
+    },
+    buttonText: {
+        color: 'black',
+        justifyContent: 'center',
+        textAlign: 'center',
+        fontSize: 16,
+    },
+    notificationHeader: {
+        flexDirection: 'row', // Aligns the text and button horizontally
+        justifyContent: 'space-between', // Spaces the elements evenly
+        alignItems: 'center', // Centers them vertically
+    },
+    deleteButton: {
+        position: 'absolute',
+        right: 0,
+    },
+    editCircle: {
+        backgroundColor: 'maroon',
+        padding: 10,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        right: 0,
+    },
+    addCircle: {
+        backgroundColor: 'maroon',
+        padding: 10,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
     //events page starts
     eventContainer: {
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        backgroundColor: '#D9D6D2',
         borderRadius: 10,
         padding: 20,
         margin: 10,
         marginBottom: 5,
-        width: '95%',
+        width: '100%',
         alignSelf: 'center',
     },
     optionBarButton: {
@@ -98,7 +181,7 @@ const Theme = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'maroon',
         borderRadius: 40,
-        marginTop: 10,
+        margin: 10,
         marginBottom: 10,
         paddingVertical: 10,
         paddingHorizontal: 20,
@@ -117,7 +200,7 @@ const Theme = StyleSheet.create({
         position: 'relative',
     },
     dropdownContainer: {
-        width: '90%',
+        width: '100%',
         alignSelf: 'center',
         marginTop: 15,
     },
@@ -125,23 +208,111 @@ const Theme = StyleSheet.create({
         fontSize: 15,
         borderWidth: 1,
     },
+    TextInputMask: {
+        fontSize: 15,
+        borderWidth: 1,
+        padding: 6,
+        borderRadius: 5,
+        marginBottom: 10,
+    },
+    dateButton: {
+        paddingVertical: 5,
+        backgroundColor: 'maroon',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+    dateButtonFont: {
+        color: 'white',
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    dateButtonContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 10,
+    },
+    floatingCross: {
+        position: 'absolute',
+        right: 0,
+    },
     //floating button starts
     floatingButtonContainer: {
         position: 'absolute',
         bottom: 20,
         right: 20,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    circle1: {
+    circleFill: {
         backgroundColor: 'maroon',
         width: 60,
         height: 60,
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginLeft: 20,
+    },
+    circle: {
+        backgroundColor: 'maroon',
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 20,
+    },
+    inputLabel: {
+        fontSize: 16,
+        width: 65,
+        fontWeight: 'bold',
+        textAlign: 'left',
+        marginRight: 10,
+        color: 'maroon',
+        justifyContent: 'center',
     },
     //floating button ends
     //events page ends
+
+    // Progres page
+
+    tabsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 20,
+    },
+    tab: {
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: 10,
+        borderBottomWidth: 2,
+        borderBottomColor: 'transparent',
+    },
+    activeTab: {
+        borderBottomColor: '#800000',
+    },
+    tabText: {
+        color: 'black',
+    },
+    contentContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+        paddingBottom: 80,
+    },
+    entryContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    }
 });
 
 export default Theme;

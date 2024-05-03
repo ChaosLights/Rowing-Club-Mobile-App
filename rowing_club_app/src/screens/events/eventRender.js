@@ -1,44 +1,37 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Animated } from 'react-native';
 import Theme from '../../style';
+import * as util from './eventsUtil';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 
-// render function for event title
-export function renderTitle(item, editEvent) {
-    if (item == editEvent) {
-        return (
-            <TextInput
-                editable
-                style={[Theme.textInput, {flex: 10, marginRight: 5}]}
-                value={item.Title}
-            />
-        )
-    }
+// RENDER: COACH EVENTS FLATLIST
+// Render function for event title
+export function renderTitle(item, showDelete, toggleEventUpdate) {
     return (
-        <Text style={[Theme.h2, {flex: 10}]}>
-            { item.Title }
+        <View>
+            <Text style={[Theme.h2, {flex: 10}]}>
+                { item.Title }
+            </Text>
+            {showDelete && (
+                <TouchableOpacity onPress={() => util.confirmDeletion(item.id, toggleEventUpdate)} style={Theme.floatingCross}>
+                    <Ionicons name="close-circle-outline" size={28} color="maroon" />
+                </TouchableOpacity>
+            )}
+        </View>
+    )
+}
+// Render function for event date
+export function renderDate(item) {
+    return (
+        <Text style={Theme.body}>
+            {util.timestampToString(item.Date)}
         </Text>
     )
 }
-
-// render function for event edit button
-export function renderEdit(item, editEvent, setEditEvent) {
-    if (item == editEvent) {
-        return (
-            <TouchableOpacity style={{flex: 2}} onPress={() => setEditEvent()}>
-                <Text style={{fontSize: 15 }}>Done</Text>
-            </TouchableOpacity>
-        )
-    }
-    return (
-        <TouchableOpacity style={{flex: 1}} onPress={() => setEditEvent(item)}>
-            <Text style={{fontSize: 15 }}>Edit</Text>
-        </TouchableOpacity>
-    )
-}
-
-// render function for event event age group
-export function renderGroup(item, editEvent, userTypeList) {
-    // get the type string name using TypeID of events
+// Render function for event event age group
+export function renderGroup(item, userTypeList) {
+    // function to get user type string name using TypeID of events
     function getTypeName(typeID) {
         // find the user type that equals to the typeID
         const user = userTypeList.find(user => user.key === typeID);
@@ -49,15 +42,6 @@ export function renderGroup(item, editEvent, userTypeList) {
         // if user cannot be found
         console.error("Queried user type does not exist");
     }
-
-    if (item == editEvent) {
-        return (
-            <TextInput
-            style={[Theme.textInput, {flex: 10, marginRight: 5}]}
-            value={"Group: " + getTypeName(item.TypeID)}
-        />
-        )
-    }
     return (
         <Text style={Theme.body}>
             {"Group: "}
@@ -65,27 +49,91 @@ export function renderGroup(item, editEvent, userTypeList) {
         </Text>
     )
 }
-
-// render function for event description
-export function renderDesc(item, editEvent) {
-    if (item == editEvent) {
-        return (
-            <View>
-                <Text style={Theme.body}>
-                    {"\n"}
-                </Text>
-                <TextInput
-                    multiline
-                    style={[Theme.textInput, {flex: 10, marginRight: 5}]}
-                    value={item.Description}
-                />
-            </View>
-        )
-    }
+// Render function for event description
+export function renderDesc(item, showDelete) {
     return (
         <Text style={Theme.body}>
             {"\n"}
             {item.Description}
         </Text>
     )
+}
+
+// RENDER: EDIT BUTTONS
+// render edit event button
+export function editButton(pop, popIn, popOut) {
+    return (
+        <TouchableOpacity
+            style={Theme.circleFill}
+            onPress={() => {
+                pop === false ? popIn() : popOut();
+            }}
+        >
+            <Feather name={pop ? 'edit-3' : 'edit-2'} size={20} color="#FFFFFF"/>
+        </TouchableOpacity>
+    )
+}
+// render add event button
+export function plusButton(icon, selected, setModalVisibility) {
+    if(selected) {
+        return (
+            <Animated.View style={[Theme.circleFill, { left: icon }]}>
+                <TouchableOpacity onPress={() => setModalVisibility(true)}>
+                    <Ionicons name="duplicate" size={25} color="#FFFF"/>
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    } else {
+        return (
+            <Animated.View style={[Theme.circle, { left: icon }]}>
+                <TouchableOpacity onPress={() => setModalVisibility(true)}>
+                    <Ionicons name="duplicate-outline" size={25} color="#FFFF"/>
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    }
+}// render add delete button
+export function deleteButton(icon, selected, toggleShowDelete) {
+    if(selected) {
+        return (
+            <Animated.View style={[Theme.circleFill, { left: icon }]}>
+                    <TouchableOpacity onPress={() => toggleShowDelete()}>
+                        <Ionicons name="trash" size={25} color="#FFFF" />
+                    </TouchableOpacity>
+                </Animated.View>
+        )
+    } else {
+        return (
+            <Animated.View style={[Theme.circleFill, { left: icon }]}>
+                <TouchableOpacity onPress={() => toggleShowDelete()}>
+                    <Ionicons name="trash-outline" size={25} color="#FFFF" />
+                </TouchableOpacity>
+            </Animated.View>
+        )
+    }
+}
+// Handling buttons animation
+export const popupShow = (icon1, icon2) => {
+    Animated.timing(icon1, {
+        toValue: 80,
+        duration: 250,
+        useNativeDriver: false,
+    }).start();
+    Animated.timing(icon2, {
+        toValue: -80,
+        duration: 250,
+        useNativeDriver: false,
+    }).start();
+}
+export const popupHide = (icon1, icon2) => {
+    Animated.timing(icon1, {
+        toValue: 160,
+        duration: 250,
+        useNativeDriver: false,
+    }).start();
+    Animated.timing(icon2, {
+        toValue: 80,
+        duration: 200,
+        useNativeDriver: false,
+    }).start();
 }

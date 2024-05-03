@@ -1,123 +1,190 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, TextInput} from 'react-native';
-import { MultipleSelectList } from 'react-native-dropdown-select-list'
+import { View, FlatList, Modal, TouchableOpacity, TextInput, Button, Animated } from 'react-native';
+import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, query, where, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, addDoc } from "firebase/firestore";
 import Theme from '../../style';
 import * as eventRender from './eventRender';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import * as util from './eventsUtil';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function EventsCoach({ navigation }) {
-    // const
-    const [coachEvents, setEvents] = useState([]);
-    const [selected, setSelected] = useState([]);
+    // date list constants
     const [userTypeList, setUserTypeList] = useState([]);
-    const [editEvent, setEditEvent] = useState();
-//    const [title, setTitle] = useState(""); //for add event function
-//    const [description, setDescription] = useState(""); //for add event function
+    const [selection, setSelection] = useState([]);
+    const [events, setEvents] = useState([]);
+    // data bools
+    const [showDelete, setShowDelete] = useState(false);
+    const toggleShowDelete = () => setShowDelete(!showDelete);
+    const [eventUpdate, setEventUpdate] = useState(false);
+    const toggleEventUpdate = () => setEventUpdate(!eventUpdate);
 
-    // get dropdown options
+    // Popup constants
+    const [icon1] = useState(new Animated.Value(160));
+    const [icon2] = useState(new Animated.Value(80));
+    const [pop, setPop] = useState(false);
+    // Input window constants
+    const [modalVisibility, setModalVisibility] = useState(false);
+    const [newStringDate, setNewStringDate] = useState("");
+    const [newEventTitle, setNewEventTitle] = useState('');
+    const [newEventUserType, setNewEventUserType] = useState('');
+    const [newEventDescription, setNewEventDescription] = useState('');
+
+    // QUARY DATA: Get user types for dropdown options
     useEffect(() => {
-        // get UserType table
+        let updatedUserTypeList = [];
+        // get `UserType` documents
         const querySnapshot = onSnapshot(collection(db, "UserType"), (snapshot) => {
-            let updatedUserTypeList = [];
             // for each non-coach user type
             snapshot.docs.forEach((doc) => {
-                const userType = { ...doc.data(), id: doc.id };
-                if (userType.Type != "Coach") {
-                    // add ID and descriptive name onto updatedUserTypeList via mapping
-                    updatedUserTypeList.push({key: userType.id, value: userType.Type});
+                const userType = {...doc.data(), id: doc.id};
+                if(userType.Type != "Coach") {
+                    // add mapped ID and description name of user types
+                    updatedUserTypeList.push({key: userType.id, value: userType.Type})
                 }
             });
-            // set the user type list to the updated version
+            // set user type list to the updated version
             setUserTypeList(updatedUserTypeList);
         });
 
         // return cleanup function
         return () => querySnapshot();
     }, []);
-
-    // fetch events for selected age group
-    const fetchEvents = () => {
-        let eventList = [];
-        // for each selected age group from the dropdown
-        selected.forEach(ageGroup => {
-            // query events for certain age group
-            const q = query(collection(db, "Event"),
-                where("TypeID", "==", ageGroup),
-                orderBy("Date", "desc") // order by latest event for at the top
-            );
-            // add queried events onto eventList
-            const querySnapshot = onSnapshot(q, (snapshot) => {
-                snapshot.docs.map((doc) => eventList.push({ ...doc.data(), id: doc.id }));
-                // sort newly added events by date
-                eventList.sort((a, b) => b.Date - a.Date);
-                // re-set events array to include new events
-                setEvents(eventList);
-            });
-        })
-    };
-
-    // show each event item will be rendered
+    // QUARY DATA: Get events for selected data types
+    useEffect(() => {
+        util.fetchEvents(selection, setEvents);
+    }, [selection, eventUpdate]);
+    
+    // RENDER: Events
     const renderItem = ({ item }) => (
+        // const [event, setEvent] = useState([item.Title, item.Date, item.TypeID]);
         <View style={Theme.eventContainer}>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-                {eventRender.renderTitle(item, editEvent)}
-                {eventRender.renderEdit(item, editEvent, setEditEvent)}
+            {eventRender.renderTitle(item, showDelete, toggleEventUpdate)}
+            {eventRender.renderDate(item)}
+            {eventRender.renderGroup(item, userTypeList)}
+            {eventRender.renderDesc(item, showDelete)}
+        </View>
+    );
+    //RENDER: Popup animation
+    const popIn = () => {
+        setPop(true);
+        eventRender.popupShow(icon1, icon2)
+    }
+    const popOut = () => {
+        setPop(false);
+        eventRender.popupHide(icon1, icon2)
+    }
+    // RENDER: Input window
+    const inputWindow = () => (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: '80%' }}>
+                {/* Title */}
+                <TextInput
+                    placeholder="Title"
+                    placeholderTextColor="grey"
+                    value={newEventTitle}
+                    onChangeText={text => setNewEventTitle(text)}
+                    style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                />
+                {/* Date */}
+                <TextInputMask
+                    placeholder="HH:MM, DD/MM/YYYY"
+                    placeholderTextColor="grey"
+                    type={'datetime'}
+                    options={{
+                    format: 'HH:mm, DD/MM/YYYY'
+                    }}
+                    value={newStringDate}
+                    style={Theme.TextInputMask}
+                    onChangeText={setNewStringDate}
+                />
+                {/* User Type */}
+                <SelectList
+                    setSelected={val => setNewEventUserType(val)}
+                    search={false}
+                    data={userTypeList}
+                    boxStyles={{marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                    save="key"
+                />
+                {/* Description */}
+                <TextInput
+                    placeholder="Description"
+                    placeholderTextColor="grey"
+                    multiline
+                    value={newEventDescription}
+                    onChangeText={text => setNewEventDescription(text)}
+                    style={{ marginBottom: 10, borderWidth: 1, padding: 8, borderRadius: 5 }}
+                />
+                {/* Add & Close buttons */}
+                <Button title="Add Event" onPress={addNewEvent} />
+                <Button title="Close" onPress={() => setModalVisibility(false)} />
             </View>
-            <Text style={Theme.body}>
-                {dateFormat(item.Date)}
-            </Text>
-            {eventRender.renderGroup(item, editEvent, userTypeList)}
-            {eventRender.renderDesc(item, editEvent)}
         </View>
     );
 
-    // get date in format
-    function dateFormat(date) {
-        return new Date(date.seconds * 1000).toLocaleString();
-    }
-
-    // tried implementing add event feature
-    const addEvents = async () => {
-//      try {
-//        await db.collection("Event").add({
-//          Title: title,
-//          Description: description,
-//        });
-//
-//        setTitle("");
-//        setDescription("");
-//
-//      } catch (error) {
-//        console.error("Error adding event: ", error);
-//      }
+    // DATABASE: Add new event
+    const addNewEvent = async () => {
+        // check field inputs
+        if(util.checkEmpty(newEventTitle, newEventUserType, newStringDate, newEventDescription)) {
+            return
+        }
+        // check date format is correct
+        if (!util.checkDateFormat(newStringDate)) {
+            return
+        }
+        // add event
+        try {
+            newStringDate
+            const docRef = await addDoc(collection(db, 'Event'), {
+                Title: newEventTitle,
+                Date: (util.stringToTimestamp(newStringDate)),
+                TypeID: newEventUserType,
+                Description: newEventDescription,
+            });
+        } catch (error) {
+            console.error('Error adding event: ', error);
+        }
+        setModalVisibility(false);
+        toggleEventUpdate();
+        setNewEventTitle('');
+        setNewStringDate('');
+        setNewEventUserType('');
+        setNewEventDescription('');
     };
 
-    // main
-  return (
-    <View style={Theme.container}>
-        <View style={Theme.contentContainer}>
-            <MultipleSelectList // dropdown for different rower types
-              setSelected={(val) => setSelected(val)}
-              search={false}
-              data={userTypeList}
-              boxStyles={Theme.dropdownContainer}
-              save="key"
-            />
-            <View style={Theme.optionBar}>
-              <TouchableOpacity style={Theme.optionBarButton} onPress={fetchEvents}>
-                <Text style={Theme.optionText}>Search</Text>
-              </TouchableOpacity>
+    // MAIN
+    return(
+        <View style={Theme.container}>
+            {/* View */}
+            <View style={Theme.view}>
+                {/* dropdown selection for rower types */}
+                <MultipleSelectList
+                    setSelected={(val) => setSelection(val)}
+                    search={false}
+                    data={userTypeList}
+                    boxStyles={Theme.dropdownContainer}
+                    save="key"
+                />
+
+                {/* Show events */}
+                <FlatList contentContainerStyle={{ paddingBottom: 180 }} data={events} renderItem={renderItem} keyExtractor={(item) => item.id} />
             </View>
-            <FlatList data={coachEvents} renderItem={renderItem} keyExtractor={(item) => item.id} />
-         </View>
-        <View style={Theme.floatingButtonContainer}>
-            <TouchableOpacity style={Theme.circle1} onPress={addEvents}>
-              <Icon name="plus" size={25} color="#FFFF" />
-            </TouchableOpacity>
+
+            {/* Component: edit buttons */}
+            <View style={Theme.floatingButtonContainer}>
+                {/* Button 1: Add events */}
+                {eventRender.plusButton(icon1, modalVisibility, setModalVisibility)}
+                {/* Button 2: Remove events */}
+                {eventRender.deleteButton(icon2, showDelete, toggleShowDelete)}
+                {/* Button 3: Show buttons */}
+                {eventRender.editButton(pop, popIn, popOut)}
+            </View>
+
+            {/* Component: Popup for add events */}
+            <Modal visible={modalVisibility} onRequestClose={() => setModalVisibility(false)} transparent animationType="slide">
+                {inputWindow()}
+            </Modal>
         </View>
-    </View>
-  );
+    );
 }

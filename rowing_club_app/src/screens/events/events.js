@@ -18,5 +18,6 @@ export default function EventsScreen({ navigation }) {
         }
     }, [global.userTypeID]);
 
+
     return content;
 }

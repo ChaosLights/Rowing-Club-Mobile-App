@@ -68,7 +68,7 @@ export default function SettingsCoach({ navigation }) {
     const handleLogout = () => {
         signOut(auth).then(() => {
             console.log('User logged out');
-            navigation.navigate('login');
+            navigation.replace('Login');
         }).catch((error) => {
             console.error('Error signing out: ', error);
         });

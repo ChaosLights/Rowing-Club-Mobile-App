@@ -1,16 +1,25 @@
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-import { storage } from '../../config/firebase';
+import { db, storage } from '../../config/firebase';
 import { ref, uploadBytes } from 'firebase/storage'
-import React, { useState } from 'react';
+import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
 import * as FileSystem from 'expo-file-system';
-import { db } from '../../config/firebase';
-import { collection, addDoc } from 'firebase/firestore';
 import { userId } from '../auth/login';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default function ImageScreenRower() {
+    return (
+        <ScrollView>
+            <SafeAreaView>
+                <UploadImageView/>
+                <View style={{height: 1, backgroundColor: '#E0E0E0', marginVertical: 10}} />
+            </SafeAreaView>
+        </ScrollView>
+    )
+}
+function UploadImageView() {
     const [image, setImage] = useState(null);
-    const [uploading, setUploading] = useState(false);
     
     const pickImage = async () => {
         let permLib = await ImagePicker.getMediaLibraryPermissionsAsync();
@@ -64,7 +73,6 @@ export default function ImageScreenRower() {
         }
     }
     const uploadMedia = async() => {
-        setUploading(true);
         try {
             //Handle image uploading
             const { uri } = await FileSystem.getInfoAsync(image);
@@ -82,59 +90,48 @@ export default function ImageScreenRower() {
             });
 
             const filename = image.substring(image.lastIndexOf('/') + 1);
-            const storageRef = ref(storage, "images/"+filename);
+            const storageRef = ref(storage, "images/"+global.user+"/"+filename);
 
             await uploadBytes(storageRef, blob);
-            setUploading(false);
             Alert.alert('Photo Uploaded');
             setImage(null);
-            //Handle firebase uploading
-            const docRef = await addDoc(collection(db, "ImageInput"), {
-                ImageName: filename,
-                UserId: userId,
-            });
         } catch (error) {
-            console.error(error);
             alert('Cannot upload empty image!');
-            setUploading(false);
         }
     };
-    
+
     return (
-        <ScrollView>
-            <SafeAreaView style={style.container}>
-                <TouchableOpacity style={style.selectButton} onPress={pickImage}>
-                    <Text style={style.buttonText}>Pick an Image</Text>
+        <View>
+            <View style={style.container}>
+                <TouchableOpacity style={{marginRight: 20}} onPress={takeImage}>
+                    <View>
+                        <Icon name="camera" size={60} color="#800000"/>
+                    </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={style.selectButton} onPress={takeImage}>
-                    <Text style={style.buttonText}>Take an Image</Text>
+                <TouchableOpacity onPress={pickImage}>
+                    <View>
+                        <Icon name="image" size={60} color="#800000"/>
+                    </View>
                 </TouchableOpacity>
-                <View style={style.imageContainer}>
-                    {image && <Image
-                        source={{ uri: image }}
-                        style={{ width: 300, height: 300 }}
-                    />}
-                    <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
-                        <Text style={style.buttonText}>Upload Image</Text>
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
-        </ScrollView>
+            </View>
+            <View style={style.imageContainer}>
+                {image && <Image
+                    source={{ uri: image }}
+                    style={{ width: 300, height: 300 }}
+                />}
+                <TouchableOpacity style={style.uploadButton} onPress={uploadMedia}>
+                    <Text style={style.buttonText}>Upload</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     )
 }
 
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    selectButton: {
-        borderRadius: 5,
-        marginBottom: 10,
-        width: 150,
-        height: 80,
-        backgroundColor: '#800000', //maroon coloured button
+        marginTop: 5,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -145,7 +142,7 @@ const style = StyleSheet.create({
     },
     uploadButton: {
         borderRadius: 5,
-        width: 130,
+        width: 100,
         height: 50,
         backgroundColor: '#800000', //maroon coloured button
         alignItems: 'center',
@@ -153,8 +150,7 @@ const style = StyleSheet.create({
         margin: 20,
     },
     imageContainer: {
-        marginTop: 30,
-        marginBottom: 50,
+        marginTop: 10,
         alignItems: 'center',
     }
 });
