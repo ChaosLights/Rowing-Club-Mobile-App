@@ -1,28 +1,21 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../contexts/authContext';
+import React from 'react';
 import HomeRower from './homeRower';
 import HomeCoach from './homeCoach';
 import { useState, useEffect } from 'react';
 
 export default function HomeScreen({ navigation }) {
-    //check if logged in
-    // if(AuthContext.userUID == null) {
-    //     navigation.replace('Login');
-    // }
-    const { userUID } = useContext(AuthContext);
-    const { userID } = useContext(AuthContext);
-    useEffect(() => {
-        console.log("TO HOME PAGE")
-        console.log(userUID)
-        console.log(userID)
-    }, [userUID]);
-
     // const
-    const { isCoach } = useContext(AuthContext); // check if user type is coach
     const [content, setContent] = useState();
 
+
+    //global.userTypeID = "YDYsOFRCBMqhFpDn1buu" //coach
+    global.userTypeID = "AmU8s77q7TcDytflxrC8" //rower 18 and over
+    //global.userTypeID = "OyhnLJNs0fEJ0eBT6266" //rower 16-17
+    //global.userTypeID = "Onulbd9Ck9DoxPDN1bZ1" //rower 14-15
+
+    // check if user is coach or rower
     useEffect(() => {
-        if (isCoach) {
+        if (global.userTypeID == "YDYsOFRCBMqhFpDn1buu") {
             // set returning content to coach screen
             setContent(<HomeCoach />);
         } else {
@@ -30,7 +23,9 @@ export default function HomeScreen({ navigation }) {
             setContent(<HomeRower />);
         }
 
-    }, [isCoach]);
+    }, [global.userTypeID]);
 
     return content;
+
 }
+
