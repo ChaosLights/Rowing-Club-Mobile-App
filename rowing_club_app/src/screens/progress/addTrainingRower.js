@@ -5,7 +5,11 @@ import { ref, uploadBytes } from 'firebase/storage'
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import React, { useState, useEffect } from 'react';
 import * as FileSystem from 'expo-file-system';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { db } from '../../config/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { userId } from '../auth/login';
+
+//import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default function ImageScreenRower() {
     return (

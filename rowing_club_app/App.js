@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { useState, useEffect } from 'react';
 import { db } from './src/config/firebase.js';
 // rowing_club_app/src/config/firebase.js
@@ -34,3 +34,55 @@ export default function App() {
     <ScreensContainer/>
   );
 }
+*/
+
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text } from 'react-native'; // Added imports for View and Text
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { AuthProvider } from './src/contexts/authContext';
+import ScreensContainer from './src/screensContainer';
+import LoginScreen from './src/screens/auth/login';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Use a method to update context here if needed
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, []);
+
+  if (loading) {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading...</Text></View>;
+  }
+
+  return (
+    <AuthProvider>
+      <NavigationContainer>
+        {isAuthenticated ? (
+          <ScreensContainer />
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    </AuthProvider>
+  );
+}
+
+

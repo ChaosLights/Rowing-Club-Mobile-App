@@ -1,11 +1,27 @@
-import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity, Alert, Linking } from 'react-native';
-import Theme from '../../style';
+import React, { useContext } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { AuthContext } from '../../contexts/authContext';
+import SettingsCoach from './settingsCoach';
+import SettingsRower from './settingsRower';
+
+//import React, { useCallback } from 'react';
+//import { View, Text, TouchableOpacity, Alert, Linking } from 'react-native';
+//import Theme from '../../style';
 
 //const: screen names
-const passChangeName = 'passChange';
+//const passChangeName = 'passChange';
 
-export default function SettingsScreen({navigation}) {
+export default function SettingsScreen({ navigation }) {
+    const { isCoach } = useContext(AuthContext);
+
+    if (isCoach === undefined) { // Waiting for isCoach to be determined
+        return <ActivityIndicator size="large" />;
+    }
+
+    return isCoach ? <SettingsCoach navigation={navigation} /> : <SettingsRower navigation={navigation} />;
+}
+
+/*export default function SettingsScreen({navigation}) {
     // Nottingham & Union Rowing Club website URL
     const url = "https://nurc.co.uk"
 
@@ -25,15 +41,15 @@ export default function SettingsScreen({navigation}) {
 
     return (
         <View style={Theme.view}>
-            {/* To change password */}
+            //{ To change password }
             <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate(passChangeName)}>
             <Text style={Theme.navButtonFont}>Change Password</Text>
             </TouchableOpacity>
 
-            {/* To website */}
+            //{ To website }
             <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={openWebsite}>
             <Text style={Theme.navButtonFont}>Visit Club Website</Text>
             </TouchableOpacity>
         </View>
     )
-}
+}*/

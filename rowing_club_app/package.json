@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@expo/webpack-config": "^19.0.0",
     "@react-native-community/checkbox": "^0.5.17",
     "@react-native-community/datetimepicker": "7.6.1",
@@ -29,6 +30,7 @@
     "react-native-checkbox": "^2.0.0",
     "react-native-date-picker": "^5.0.2",
     "react-native-dropdown-select-list": "^2.0.5",
+    "react-native-gesture-handler": "~2.14.0",
     "react-native-masked-text": "^1.13.0",
     "react-native-modal": "^13.0.1",
     "react-native-modern-datepicker": "^1.0.0-beta.91",

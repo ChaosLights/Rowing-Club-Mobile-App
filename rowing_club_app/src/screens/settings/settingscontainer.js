@@ -3,7 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //screens
 import SettingsScreen from './settings';
-import PassChange from './passChange';
+import Login from '../auth/login';
+
+//import PassChange from './passChange';
 
 //const: screen names
 const settingsName = 'settings';

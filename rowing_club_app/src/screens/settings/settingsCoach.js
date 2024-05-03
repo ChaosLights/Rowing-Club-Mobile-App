@@ -1,82 +1,77 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
-import { db } from '../../config/firebase';
-import { doc, updateDoc, getDoc, collection, addDoc } from 'firebase/firestore';
-const login = 'login';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export default function SettingsCoach({ navigation }) {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [newUsername, setNewUsername] = useState('');
+    const [newEmail, setNewEmail] = useState('');
     const [newUserPassword, setNewUserPassword] = useState('');
 
+    // Initialize Firebase Auth
+    const auth = getAuth();
+
     const handleChangePassword = async () => {
-        if (currentPassword === '' || newPassword === '' || confirmPassword === '') {
-            Alert.alert('Please fill in all fields');
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            Alert.alert('Error', 'Please fill in all fields.');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            Alert.alert('New password and confirm password do not match');
+            Alert.alert('Error', 'Passwords do not match');
             return;
         }
 
-        const passwordDocumentId = 'ZcF4gkJykIoiwl593D6U';
-
         try {
-            const passwordDocRef = doc(db, 'Passwords', passwordDocumentId);
-            const passwordDocSnap = await getDoc(passwordDocRef);
-
-            if (!passwordDocSnap.exists()) {
-                Alert.alert('No password document found');
-                return;
-            }
-
-            const storedPassword = passwordDocSnap.data().currentUserPassword;
-
-            if (storedPassword !== currentPassword) {
-                Alert.alert('Current password is incorrect');
-                return;
-            }
-
-            await updateDoc(passwordDocRef, {
-                currentUserPassword: newPassword,
-            });
-
-            Alert.alert('Password updated successfully');
+            const user = auth.currentUser;
+            const credential = EmailAuthProvider.credential(user.email, currentPassword);
+            await reauthenticateWithCredential(user, credential);
+            await updatePassword(user, newPassword);
+            Alert.alert('Success', 'Password updated successfully!');
+            // Clearing input fields
+            setCurrentPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
         } catch (error) {
-            console.error("Error updating password: ", error);
-            Alert.alert('There was a problem updating the password.');
+            console.error("Error during password update: ", error);
+            Alert.alert('Error', error.message);
         }
     };
 
+    
     const handleAddUser = async () => {
-        if (!newUsername || !newUserPassword) {
+        if (!newEmail || !newUserPassword) {
             Alert.alert('Error', 'Please fill in all the required fields.');
             return;
         }
 
-        try {
-            await addDoc(collection(db, 'User'), {
-                Username: newUsername,
-                Password: newUserPassword,
-                // Additional fields if need be
-            });
+    // Basic validation for email format
+    if (!newEmail.includes('@')) {
+        Alert.alert('Error', 'Invalid email format.');
+        return;
+    }
 
-            Alert.alert('Success', 'User added successfully!');
-            setNewUsername('');
-            setNewUserPassword('');
-        } catch (error) {
-            console.error("Error adding user: ", error);
-            Alert.alert('Error', 'There was a problem adding the new user.');
-        }
-    };
+    try {
+        await createUserWithEmailAndPassword(auth, newEmail, newUserPassword);
+        Alert.alert('Success', 'User added successfully!');
+        // Clearing input fields
+        setNewEmail('');
+        setNewUserPassword('');
+    } catch (error) {
+        console.error("Error adding user: ", error);
+        Alert.alert('Error', error.message);
+    }
+};
 
     const handleLogout = () => {
-        console.log('User logged out');
-        navigation.navigate(login);
+        signOut(auth).then(() => {
+            console.log('User logged out');
+            navigation.navigate('login');
+        }).catch((error) => {
+            console.error('Error signing out: ', error);
+        });
     };
 
     return (
@@ -121,9 +116,9 @@ export default function SettingsCoach({ navigation }) {
             <View style={{marginBottom: 10}} />
             <TextInput
                 style={[Theme.input, Theme.underline]}
-                placeholder="New User's Username"
-                value={newUsername}
-                onChangeText={setNewUsername}
+                placeholder="New User's Email"
+                value={newEmail}
+                onChangeText={setNewEmail}
             />
             <View style={{marginBottom: 10}} />
             <TextInput
