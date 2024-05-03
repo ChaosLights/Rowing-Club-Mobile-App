@@ -73,6 +73,9 @@ export default function SettingsCoach({ navigation }) {
             console.error('Error signing out: ', error);
         });
     };
+    const Logout = () => {
+        () => navigation.replace('Login');
+    }
 
     return (
         <View style={Theme.view}>
@@ -135,7 +138,7 @@ export default function SettingsCoach({ navigation }) {
             
             {/* Logout button */}
             <View style={{marginBottom: 20}} />
-            <TouchableOpacity style={Theme.maroonOvalButton} onPress={handleLogout}>
+            <TouchableOpacity style={Theme.maroonOvalButton} onPress={() => navigation.replace('Home')}>
                 <Text style={Theme.optionText}>Logout</Text>
             </TouchableOpacity>
         </View>

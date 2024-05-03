@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
                 setUserUID(user.uid); // Set user UID in global context
                 
                 // Navigate to 'home' screen after successful login
-                navigation.replace('ScreenContainer');
+                navigation.replace('ScreenContainer', { screen: 'Login'});
             })
             .catch((error) => {
                 // Handle Errors here.

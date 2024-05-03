@@ -1,6 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity, Alert, Linking } from 'react-native';
 import { AuthContext } from '../../contexts/authContext';
+import { useState, useEffect } from 'react';
 import SettingsCoach from './settingsCoach';
 import SettingsRower from './settingsRower';
 import Theme from '../../style';
@@ -41,11 +42,25 @@ const passChangeName = 'passChange';
 //     )
 // }
 export default function SettingsScreen({ navigation }) {
+    // const
     const { isCoach } = useContext(AuthContext);
+    const [content, setContent] = useState();
 
-    if (isCoach === undefined) { // Waiting for isCoach to be determined
+    // Waiting for isCoach to be determined
+    if (isCoach === undefined) {
         return <ActivityIndicator size="large" />;
     }
 
-    return isCoach ? <SettingsCoach navigation={navigation} /> : <SettingsRower navigation={navigation} />;
+    // set returning content to coach screen
+    useEffect(() => {
+        if (isCoach) {
+            setContent(<SettingsCoach />);
+        } else {
+            //// set returning content to rower screen
+            setContent(<SettingsRower />);
+        }
+
+    }, [isCoach]);
+
+    return content;
 }
