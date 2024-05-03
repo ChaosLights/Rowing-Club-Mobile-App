@@ -31,8 +31,20 @@ import { useState, useEffect } from 'react';
 // }
 
 export default function HomeScreen({ navigation }) {
-    const { isCoach } = useContext(AuthContext); // Directly using isCoach from AuthContext
+    // const
+    const { isCoach } = useContext(AuthContext); // Checking if user type is coach
+    const [content, setContent] = useState();
 
-    // Since isCoach is managed globally, directly render based on its value.
-    return isCoach ? <HomeCoach navigation={navigation} /> : <HomeRower navigation={navigation} />;
+    useEffect(() => {
+        if (isCoach) {
+            // set returning content to coach screen
+            setContent(<HomeCoach />);
+        } else {
+            //// set returning content to rower screen
+            setContent(<HomeRower />);
+        }
+
+    }, [global.userTypeID]);
+
+    return content;
 }
