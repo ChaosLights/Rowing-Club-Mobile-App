@@ -5,16 +5,23 @@ import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firesto
 
 // Creating a React context with default values
 export const AuthContext = createContext({
-    userUID: null,      // This will hold the UID of the logged-in user
-    setUserUID: () => {}, // Function to update the userUID
-    isCoach: false,     // Boolean flag to indicate if the user is a coach
-    setIsCoach: () => {} // Function to update the isCoach flag
+    // User ID for Authentication
+    userUID: null,
+    setUserUID: () => {},
+    // Boolean to indicate if user is coach
+    isCoach: false,
+    setIsCoach: () => {},
+    // User document ID for data querying
+    userID: null,
+    setUserID: () => {},
 });
 
 // Component provides the auth context values to its children
 export const AuthProvider = ({ children }) => {
+    // const
     const [userUID, setUserUID] = useState(null); // State to hold user's UID
     const [isCoach, setIsCoach] = useState(false); // State to indicate if the user is a coach
+    const [userID, setUserID] = useState(null); // State to hold user's ID
 
     useEffect(() => {
         const fetchUserType = async () => {
@@ -28,19 +35,17 @@ export const AuthProvider = ({ children }) => {
 
                 if (!querySnapshot.empty) {
                     // Assuming the userUID is unique, take the first document found
-                    const userDoc = querySnapshot.docs[0];
-                    const typeID = userDoc.data().TypeID;
+                    const doc = querySnapshot.docs[0];
+                    const typeID = doc.data().TypeID;
 
-                    // Fetch the document from 'UserType' collection that matches the typeID
-                    const userTypeDocRef = doc(db, 'UserType', typeID);
-                    const userTypeDocSnap = await getDoc(userTypeDocRef);
-
-                    // Set isCoach to true if the type is "Coach", otherwise false
-                    if (userTypeDocSnap.exists() && userTypeDocSnap.data().Type === "Coach") {
+                    // Set isCoach
+                    if (typeID == "YDYsOFRCBMqhFpDn1buu") {
                         setIsCoach(true);
                     } else {
                         setIsCoach(false);
                     }
+                    // Set userID
+                    setUserID(doc.id);
                 }
             } catch (error) {
                 console.error("Error fetching user type:", error);
@@ -53,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
     // Provides the userUID, setUserUID, isCoach, and setIsCoach to any children
     return (
-        <AuthContext.Provider value={{ userUID, setUserUID, isCoach, setIsCoach }}>
+        <AuthContext.Provider value={{ userUID, setUserUID, isCoach, setIsCoach, userID, setUserID }}>
             {children}
         </AuthContext.Provider>
       );

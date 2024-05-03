@@ -41,26 +41,29 @@ import { View, Text } from 'react-native'; // Added imports for View and Text
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthProvider } from './src/contexts/authContext';
-import ScreensContainer from './src/screensContainer';
+// import ScreensContainer from './src/screensContainer';
+import ScreensContainer from './src/screensContainerTEST';
 import LoginScreen from './src/screens/auth/login';
+// import LoginScreen from './src/screens/auth/loginTEST';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Stack = createStackNavigator();
 
 export default function App() {
     // const
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [authenticated, setAuthenticated] = useState(false);
 
-    // check authenticatino
+    // check authentication to set initial content
     useEffect(() => {
         const auth = getAuth();
+        setLoading(true)
+
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Use a method to update context here if needed
-                setIsAuthenticated(true);
+                setAuthenticated(true);
             } else {
-                setIsAuthenticated(false);
+                setAuthenticated(false);
             }
             setLoading(false);
         });
@@ -73,30 +76,69 @@ export default function App() {
         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading...</Text></View>;
     }
 
-    // // OLD
-    // return (
-    //     <AuthProvider>
-    //         <NavigationContainer>
-    //             {isAuthenticated ? (
-    //                 <ScreensContainer />
-    //             ) : (
-    //                 <Stack.Navigator>
-    //                     <Stack.Screen name="Login" component={LoginScreen} />
-    //                 </Stack.Navigator>
-    //             )}
-    //         </NavigationContainer>
-    //     </AuthProvider>
-    // );
-
-    // return login or home, depending on authentication
+    // Main
     return (
         <AuthProvider>
             <NavigationContainer>
-            <Stack.Navigator {...{initialRouteName: isAuthenticated ? "ScreenContainer" : "ScreenContainer"}} screenOptions={({headerShown:false})}>
-                <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="ScreenContainer" component={ScreensContainer} />
-            </Stack.Navigator>
+                <Stack.Navigator {...{initialRouteName: authenticated ? "Login" : "Login"}} screenOptions={({headerShown:false})} >
+                    <Stack.Screen name="Login" component={LoginScreen} />
+                    <Stack.Screen name="ScreensContainer" component={ScreensContainer} />
+                </Stack.Navigator>
             </NavigationContainer>
         </AuthProvider>
     )
 }
+
+// export function Appp() {
+//     // const
+//     const [isAuthenticated, setIsAuthenticated] = useState(false);
+//     const [loading, setLoading] = useState(true);
+
+//     // check authenticatino
+//     useEffect(() => {
+//         const auth = getAuth();
+//         const unsubscribe = onAuthStateChanged(auth, (user) => {
+//             if (user) {
+//                 // Use a method to update context here if needed
+//                 setIsAuthenticated(true);
+//             } else {
+//                 setIsAuthenticated(false);
+//             }
+//             setLoading(false);
+//         });
+
+//         return () => unsubscribe(); // Cleanup on unmount
+//     }, []);
+
+//     // Show loading while authentication is being performed
+//     if (loading) {
+//         return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading...</Text></View>;
+//     }
+
+//     // // OLD
+//     // return (
+//     //     <AuthProvider>
+//     //         <NavigationContainer>
+//     //             {isAuthenticated ? (
+//     //                 <ScreensContainer />
+//     //             ) : (
+//     //                 <Stack.Navigator>
+//     //                     <Stack.Screen name="Login" component={LoginScreen} />
+//     //                 </Stack.Navigator>
+//     //             )}
+//     //         </NavigationContainer>
+//     //     </AuthProvider>
+//     // );
+
+//     // return login or home, depending on authentication
+//     return (
+//         <AuthProvider>
+//             <NavigationContainer>
+//                 <Stack.Navigator {...{initialRouteName: isAuthenticated ? "ScreenContainer" : "ScreenContainer"}} screenOptions={({headerShown:false})} >
+//                     <Stack.Screen name="Login" component={LoginScreen} />
+//                     <Stack.Screen name="ScreenContainer" component={ScreensContainer} />
+//                 </Stack.Navigator>
+//             </NavigationContainer>
+//         </AuthProvider>
+//     )
+// }

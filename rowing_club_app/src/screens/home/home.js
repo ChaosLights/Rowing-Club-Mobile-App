@@ -9,6 +9,13 @@ export default function HomeScreen({ navigation }) {
     // if(AuthContext.userUID == null) {
     //     navigation.replace('Login');
     // }
+    const { userUID } = useContext(AuthContext);
+    const { userID } = useContext(AuthContext);
+    useEffect(() => {
+        console.log("TO HOME PAGE")
+        console.log(userUID)
+        console.log(userID)
+    }, [userUID]);
 
     // const
     const { isCoach } = useContext(AuthContext); // check if user type is coach

@@ -138,7 +138,7 @@ export default function SettingsCoach({ navigation }) {
             
             {/* Logout button */}
             <View style={{marginBottom: 20}} />
-            <TouchableOpacity style={Theme.maroonOvalButton} onPress={() => navigation.replace('Home')}>
+            <TouchableOpacity style={Theme.maroonOvalButton} onPress={() => handleLogout()}>
                 <Text style={Theme.optionText}>Logout</Text>
             </TouchableOpacity>
         </View>

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { AuthContext } from '../../contexts/authContext';
 import Theme from '../../style'
@@ -9,6 +9,19 @@ export default function Login( {navigation} ) {
     const [password, setPassword] = useState('');
     const { setUserUID } = useContext(AuthContext);
     const auth = getAuth();
+
+    // Initial Login check
+    useEffect(() => {
+        // const unsubscribe = onAuthStateChanged(auth, (user) => {
+        //     if (user) {
+        //         navigation.replace('ScreenContainer');
+        //     } else {
+        //         navigation.replace('Login');
+        //     }
+        // });
+
+        // return () => unsubscribe(); // Cleanup on unmount
+    }, []);
 
     // function to handle login
     const handleLogin = async () => {
@@ -31,7 +44,7 @@ export default function Login( {navigation} ) {
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={Theme.title} >Rowing App</Text>
+            <Text>Login Page</Text>
             <TextInput
                 style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginVertical: 10 }}
                 placeholder="Email"
