@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore"; import Theme from '../../style';
+import { AuthContext } from '../../contexts/authContext';
+
+
 export default function HomeScreen({ navigation }) {
     //CONSTS
     const [attendance, addAttendance] = useState([]);
@@ -14,10 +17,7 @@ export default function HomeScreen({ navigation }) {
 
     const [selectedAvailability, setSelectedAvailability] = useState({});
 
-    //const typeID = "AmU8s77q7TcDytflxrC8"; // id for over 18
-    //const typeID = "Onulbd9Ck9DoxPDN1bZ1"; //id for 14-15
-
-    const typeID = global.userTypeID;
+    const { typeID, userID } = useContext(AuthContext);
 
     const AttendancePickerData = [
         { key: 'Not Attending', value: 'Absent' },
@@ -60,13 +60,13 @@ export default function HomeScreen({ navigation }) {
                 const data = doc.data();
                 let value = "";
 
-                if (data.Attending && data.Attending.includes(global.user)) {
+                if (data.Attending && data.Attending.includes(userID)) {
                     value = "Attending";
-                } else if (data.Absent && data.Absent.includes(global.user)) {
+                } else if (data.Absent && data.Absent.includes(userID)) {
                     value = "Absent";
-                } else if (data.Sick && data.Sick.includes(global.user)) {
+                } else if (data.Sick && data.Sick.includes(userID)) {
                     value = "Sick";
-                } else if (data["Home Training"] && data["Home Training"].includes(global.user)) {
+                } else if (data["Home Training"] && data["Home Training"].includes(userID)) {
                     value = "Home Training";
                 }
                 availabilityList.push({ dayTime: data.Session, value });
@@ -103,7 +103,7 @@ export default function HomeScreen({ navigation }) {
                 }
             });
         });
-    }, []);
+    }, [typeID]);
 
     //GET NOTIFIACTIONS
     //from Notification db
@@ -157,32 +157,32 @@ export default function HomeScreen({ navigation }) {
             }
 
             // Check if the selected value is already the same as the current value in the database
-            if (sessionData && sessionData[value] && sessionData[value].includes(global.user)) {
+            if (sessionData && sessionData[value] && sessionData[value].includes(userID)) {
                 // Value is already selected, no need to perform updates
                 console.log("Attendance value is already the same, no updates needed.");
                 return;
             }
 
             // Create an update object
-            const updateField = { [value]: arrayUnion(global.user) };
+            const updateField = { [value]: arrayUnion(userID) };
 
             // Determine the old field based on the existing session data
             let oldField;
             if (sessionData) {
-                if (sessionData.Attending && sessionData.Attending.includes(global.user)) {
+                if (sessionData.Attending && sessionData.Attending.includes(userID)) {
                     oldField = "Attending";
-                } else if (sessionData.Absent && sessionData.Absent.includes(global.user)) {
+                } else if (sessionData.Absent && sessionData.Absent.includes(userID)) {
                     oldField = "Absent";
-                } else if (sessionData.Sick && sessionData.Sick.includes(global.user)) {
+                } else if (sessionData.Sick && sessionData.Sick.includes(userID)) {
                     oldField = "Sick";
-                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(global.user)) {
+                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(userID)) {
                     oldField = "Home Training";
                 }
             }
 
             // Remove the user ID from the old field if it exists
             if (oldField) {
-                updateField[oldField] = arrayRemove(global.user);
+                updateField[oldField] = arrayRemove(userID);
             }
 
             await setDoc(sessionDocRef, sessionData, { merge: true });
@@ -214,7 +214,7 @@ export default function HomeScreen({ navigation }) {
                 dropdownTextStyles={{ color: 'white' }}
                 inputStyles={{ color: 'white' }}
             />
-            <Text style={Theme.h2}>{"\n"}Sessions: {global.user}
+            <Text style={Theme.h2}>{"\n"}Sessions: {userID}
             </Text>
             <View style={{ flexDirection: 'row' }}>
                 {selectedWeek === 'Current week' && (

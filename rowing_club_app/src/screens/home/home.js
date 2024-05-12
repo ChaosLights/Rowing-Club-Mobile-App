@@ -8,8 +8,7 @@ import { AuthContext } from '../../contexts/authContext';
 export default function HomeScreen({ navigation }) {
     // authentication const
     const auth = getAuth();
-    const { userUID } = useContext(AuthContext);
-    const { userID } = useContext(AuthContext);
+    const { userUID, isCoach, userID } = useContext(AuthContext);
     // const
     const [content, setContent] = useState();
 
@@ -26,15 +25,18 @@ export default function HomeScreen({ navigation }) {
 
     // set correct content
     useEffect(() => {
-        if (global.userTypeID == "YDYsOFRCBMqhFpDn1buu") {
+        if (isCoach) {
             // set returning content to coach screen
+            console.log("coach");
             setContent(<HomeCoach />);
+            
         } else {
             //// set returning content to rower screen
+            console.log("rower");
             setContent(<HomeRower />);
         }
 
-    }, [global.userTypeID]);
+    }, [isCoach]);
 
     return content;
 
