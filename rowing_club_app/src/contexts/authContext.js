@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     const [userUID, setUserUID] = useState(null); // State to hold user's UID
     const [isCoach, setIsCoach] = useState(false); // State to indicate if the user is a coach
     const [userID, setUserID] = useState(null); // State to hold user's ID
+    const [typeID, setTypeID] = useState(null); //State holds user's TypeID
 
     useEffect(() => {
         const fetchUserType = async () => {
@@ -44,6 +45,9 @@ export const AuthProvider = ({ children }) => {
                     } else {
                         setIsCoach(false);
                     }
+                    //set TypeID
+                    setTypeID(typeID);
+
                     // Set userID
                     setUserID(doc.id);
                 }
@@ -58,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 
     // Provides the userUID, setUserUID, isCoach, and setIsCoach to any children
     return (
-        <AuthContext.Provider value={{ userUID, setUserUID, isCoach, setIsCoach, userID, setUserID }}>
+        <AuthContext.Provider value={{ userUID, setUserUID, isCoach, setIsCoach, userID, setUserID, typeID, setTypeID }}>
             {children}
         </AuthContext.Provider>
       );
