@@ -5,6 +5,12 @@ const Theme = StyleSheet.create({
         fontSize: 26,
         fontWeight: 'bold',
     },
+    maroontitle: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: 'maroon',
+        paddingHorizontal: 10,
+    },
     maroonOvalButton: {
         backgroundColor: 'maroon',
         borderRadius: 20, // roundness
@@ -60,6 +66,11 @@ const Theme = StyleSheet.create({
         paddingHorizontal: 10, // Adjust padding horizontally
         paddingVertical: 5, // Adjust padding vertically
         alignSelf: 'center',
+    },
+    line: {
+        height: 1, // Adjust the height as needed
+        backgroundColor: 'black', // Color of the line
+        marginVertical: 10, // Adjust vertical margin as needed
     },
     underline: {
         borderBottomWidth: 1,

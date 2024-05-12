@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert, StyleSheet } from 'react-native';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
@@ -6,6 +6,7 @@ import Theme from '../../style';
 import { SelectList } from 'react-native-dropdown-select-list'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { AuthContext } from '../../contexts/authContext';
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
@@ -27,6 +28,8 @@ export default function HomeScreen({ navigation }) {
     //modal functions
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
+
+    const {fullname } = useContext(AuthContext);
 
     // Edit Mode States
     const toggleEditMode = () => {
@@ -132,31 +135,6 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
-
-    function fetchUserName(userID) {
-        // get User table
-        let firstname = "";
-        let surname = "";
-        onSnapshot(collection(db, "User"), (snapshot) => {
-            
-            console.log("checking user table");
-            snapshot.docs.forEach((doc) => {
-                const user = { ...doc.data(), id: doc.id };
-                if (user.id == userID) {
-                    console.log("equal!!!!", user.Firstname, user.Surname);
-                    firstname = user.Firstname;
-                    surname = user.Surname;
-                    console.log(firstname, surname);
-                }
-            });
-            
-        });
-        return (<Text style={Theme.inputLabel}> {firstname} {surname}</Text>)
-    }
-
-    
-    
-
     const getAttendingByDayTime = (inputDayTime) => {
         // Filter the availabilityData list to find an item with the same dayTime
         const matchingItem = availabilityData.find(item => item.dayTime === inputDayTime);
@@ -166,16 +144,28 @@ export default function HomeScreen({ navigation }) {
             return (
                 <Text>
                     <Text style={Theme.inputLabel}>Attending:</Text>{"\n"}
-                    {matchingItem.attending.join("\n")}
+                    {matchingItem.attending.map(person => {
+                        const [id, name] = person.split(', '); // Splitting id and name details by comma
+                        return name;
+                        }).join("\n")}
                     {"\n\n"}
                     <Text style={Theme.inputLabel}>Absent:</Text>{"\n"}
-                    {matchingItem.absent.join("\n")}
+                    {matchingItem.absent.map(person => {
+                        const [id, name] = person.split(', '); // Splitting id and name details by comma
+                        return name;
+                        }).join("\n")}
                     {"\n\n"}
                     <Text style={Theme.inputLabel}>Sick:</Text>{"\n"}
-                    {matchingItem.sick.join("\n")}
+                    {matchingItem.sick.map(person => {
+                        const [id, name] = person.split(', '); // Splitting id and name details by comma
+                        return name;
+                        }).join("\n")}
                     {"\n\n"}
                     <Text style={Theme.inputLabel}>Home Training:</Text>{"\n"}
-                    {matchingItem.home.join("\n")}
+                    {matchingItem.home.map(person => {
+                        const [id, name] = person.split(', '); // Splitting id and name details by comma
+                        return name;
+                        }).join("\n")}
                     {"\n\n"}
 
                 </Text>
@@ -422,10 +412,14 @@ export default function HomeScreen({ navigation }) {
                         sessionsForDay.map((session, sessionIndex) => {
                             const displayedDateTime = `${targetDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}, ${session.split(', ')[1]}`;
                             return (
-                                <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={[{flex:1}, Theme.h2]}>{session.split(', ')[1]}</Text>
-                                    <Text style={{flex:1}}>{getAttendingByDayTime(displayedDateTime)} {fetchUserName("hGSQNMnQa4Bjt0zb0L5i")}</Text>
+                                <View>
+                                    <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text style={[{flex:1}, Theme.h2]}>{session.split(', ')[1]}</Text>
+                                        <Text style={{flex:1}}>{getAttendingByDayTime(displayedDateTime)}</Text>
+                                    </View>
+                                    <View style={Theme.line}></View>
                                 </View>
+                                
                             );
                         })
                     ) : (
@@ -441,6 +435,8 @@ export default function HomeScreen({ navigation }) {
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
     // Inside the main return function
     return (
+        <View>
+            <Text style={Theme.maroontitle}>Welcome Back, {fullname}</Text>
         <FlatList
             data={[
                 { sectionTitle: 'Notifications', data: notification },
@@ -448,9 +444,9 @@ export default function HomeScreen({ navigation }) {
             ]}
             renderItem={({ item }) => (
                 <View style={Theme.V1}>
-
+                    
                     <View style={Theme.headerContainer}>
-                        <Text style={Theme.title}>{item.sectionTitle}</Text>
+                        <Text style={Theme.h1}>{item.sectionTitle}</Text>
                         {item.sectionTitle === 'Notifications' && (
                             <View style={Theme.buttonContainer}>
                                 <TouchableOpacity
@@ -493,6 +489,7 @@ export default function HomeScreen({ navigation }) {
             )}
             keyExtractor={(item, index) => index.toString()}
         />
+        </View>
     );
 
 };

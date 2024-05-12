@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
     const [isCoach, setIsCoach] = useState(false); // State to indicate if the user is a coach
     const [userID, setUserID] = useState(null); // State to hold user's ID
     const [typeID, setTypeID] = useState(null); //State holds user's TypeID
+    const [fullname, setFullname] = useState(null); //State folds users fullname
 
     useEffect(() => {
         const fetchUserType = async () => {
@@ -48,6 +49,9 @@ export const AuthProvider = ({ children }) => {
                     //set TypeID
                     setTypeID(typeID);
 
+                    //set fullname
+                    setFullname(doc.data().Firstname +" "+ doc.data().Surname);
+
                     // Set userID
                     setUserID(doc.id);
                 }
@@ -62,7 +66,7 @@ export const AuthProvider = ({ children }) => {
 
     // Provides the userUID, setUserUID, isCoach, and setIsCoach to any children
     return (
-        <AuthContext.Provider value={{ userUID, setUserUID, isCoach, setIsCoach, userID, setUserID, typeID, setTypeID }}>
+        <AuthContext.Provider value={{ userUID, setUserUID, isCoach, setIsCoach, userID, setUserID, typeID, setTypeID, fullname, setFullname }}>
             {children}
         </AuthContext.Provider>
       );
