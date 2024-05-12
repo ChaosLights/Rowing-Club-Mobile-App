@@ -132,6 +132,28 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
+
+    function fetchUserName(userID) {
+        // get User table
+        let firstname = "";
+        let surname = "";
+        onSnapshot(collection(db, "User"), (snapshot) => {
+            
+            console.log("checking user table");
+            snapshot.docs.forEach((doc) => {
+                const user = { ...doc.data(), id: doc.id };
+                if (user.id == userID) {
+                    console.log("equal!!!!", user.Firstname, user.Surname);
+                    firstname = user.Firstname;
+                    surname = user.Surname;
+                    console.log(firstname, surname);
+                }
+            });
+            
+        });
+        return (<Text style={Theme.inputLabel}> {firstname} {surname}</Text>)
+    }
+
     
     
 
@@ -223,6 +245,9 @@ export default function HomeScreen({ navigation }) {
             addNotification(notificationList)
         })
     }, [])
+
+
+
 
     //ADD NEW NOTICICATION
     //to Notification db
@@ -399,7 +424,7 @@ export default function HomeScreen({ navigation }) {
                             return (
                                 <View key={sessionIndex} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text style={[{flex:1}, Theme.h2]}>{session.split(', ')[1]}</Text>
-                                    <Text style={{flex:1}}>{getAttendingByDayTime(displayedDateTime)}</Text>
+                                    <Text style={{flex:1}}>{getAttendingByDayTime(displayedDateTime)} {fetchUserName("hGSQNMnQa4Bjt0zb0L5i")}</Text>
                                 </View>
                             );
                         })
