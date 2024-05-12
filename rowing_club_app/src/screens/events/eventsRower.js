@@ -1,19 +1,21 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, query, where, orderBy} from "firebase/firestore";
 import Theme from '../../style';
 import * as util from './eventsUtil';
+import { AuthContext } from '../../contexts/authContext';
 
 export default function EventsRower({ navigation }) {
     // const
     const [userTypeID, setUserTypeID] = useState();
     const [rowerEvents, setEvents] = useState([]);
+    const {userID} = useContext(AuthContext);
 
     useEffect(() => {
         // query for current user information
-        const q1 = query(collection(db, "User"), where("__name__", "==", global.user));
+        const q1 = query(collection(db, "User"), where("__name__", "==", userID));
         const querySnapshot1 = onSnapshot(q1, (snapshot) => {
             // set the user typeID to userTypeID
             setUserTypeID(snapshot.docs[0].data().TypeID);

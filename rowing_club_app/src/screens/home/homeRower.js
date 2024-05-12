@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
 
     const [selectedAvailability, setSelectedAvailability] = useState({});
 
-    const { typeID, userID } = useContext(AuthContext);
+    const { typeID, userID, fullname } = useContext(AuthContext);
 
     const AttendancePickerData = [
         { key: 'Not Attending', value: 'Absent' },
@@ -60,13 +60,13 @@ export default function HomeScreen({ navigation }) {
                 const data = doc.data();
                 let value = "";
 
-                if (data.Attending && data.Attending.includes(userID)) {
+                if (data.Attending && data.Attending.includes(userID + ", " + fullname)) {
                     value = "Attending";
-                } else if (data.Absent && data.Absent.includes(userID)) {
+                } else if (data.Absent && data.Absent.includes(userID + ", " + fullname)) {
                     value = "Absent";
-                } else if (data.Sick && data.Sick.includes(userID)) {
+                } else if (data.Sick && data.Sick.includes(userID + ", " + fullname)) {
                     value = "Sick";
-                } else if (data["Home Training"] && data["Home Training"].includes(userID)) {
+                } else if (data["Home Training"] && data["Home Training"].includes(userID + ", " + fullname)) {
                     value = "Home Training";
                 }
                 availabilityList.push({ dayTime: data.Session, value });
@@ -157,32 +157,32 @@ export default function HomeScreen({ navigation }) {
             }
 
             // Check if the selected value is already the same as the current value in the database
-            if (sessionData && sessionData[value] && sessionData[value].includes(userID)) {
+            if (sessionData && sessionData[value] && sessionData[value].includes(userID + ", " + fullname)) {
                 // Value is already selected, no need to perform updates
                 console.log("Attendance value is already the same, no updates needed.");
                 return;
             }
 
             // Create an update object
-            const updateField = { [value]: arrayUnion(userID) };
+            const updateField = { [value]: arrayUnion(userID + ", " + fullname) };
 
             // Determine the old field based on the existing session data
             let oldField;
             if (sessionData) {
-                if (sessionData.Attending && sessionData.Attending.includes(userID)) {
+                if (sessionData.Attending && sessionData.Attending.includes(userID + ", " + fullname)) {
                     oldField = "Attending";
-                } else if (sessionData.Absent && sessionData.Absent.includes(userID)) {
+                } else if (sessionData.Absent && sessionData.Absent.includes(userID + ", " + fullname)) {
                     oldField = "Absent";
-                } else if (sessionData.Sick && sessionData.Sick.includes(userID)) {
+                } else if (sessionData.Sick && sessionData.Sick.includes(userID + ", " + fullname)) {
                     oldField = "Sick";
-                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(userID)) {
+                } else if (sessionData["Home Training"] && sessionData["Home Training"].includes(userID + ", " + fullname)) {
                     oldField = "Home Training";
                 }
             }
 
             // Remove the user ID from the old field if it exists
             if (oldField) {
-                updateField[oldField] = arrayRemove(userID);
+                updateField[oldField] = arrayRemove(userID + ", " + fullname);
             }
 
             await setDoc(sessionDocRef, sessionData, { merge: true });
@@ -214,7 +214,7 @@ export default function HomeScreen({ navigation }) {
                 dropdownTextStyles={{ color: 'white' }}
                 inputStyles={{ color: 'white' }}
             />
-            <Text style={Theme.h2}>{"\n"}Sessions: {userID}
+            <Text style={Theme.h2}>{"\n"}Sessions:
             </Text>
             <View style={{ flexDirection: 'row' }}>
                 {selectedWeek === 'Current week' && (
@@ -304,6 +304,8 @@ export default function HomeScreen({ navigation }) {
     // MAIN 
     // prints headings and calls methods renderNotification and renderAttendance to display info
     return (
+        <View>
+            <Text style={Theme.maroontitle}>Welcome Back, {fullname}</Text>
         <FlatList
             data={[
                 { sectionTitle: "Notifications", data: notification },
@@ -321,6 +323,7 @@ export default function HomeScreen({ navigation }) {
             )}
             keyExtractor={(item, index) => index.toString()}
         />
+        </View>
     );
 
 }
