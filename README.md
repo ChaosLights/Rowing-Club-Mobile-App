@@ -20,4 +20,4 @@ The aim of this project is to develop a custom mobile application for the Nottin
 # Contents
 
 - [Requirement Gathering](requirement_gathering/requirementgathering.md)
-- [Initial Development](docs/initialdevelopment.md)
+- [Application Overview](docs/initialdevelopment.md)
