@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+/*import React, { useContext } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { AuthContext } from '../../contexts/authContext';
 import SettingsCoach from './settingsCoach';
@@ -21,7 +21,7 @@ export default function SettingsScreen({ navigation }) {
     return isCoach ? <SettingsCoach navigation={navigation} /> : <SettingsRower navigation={navigation} />;
 }
 
-/*export default function SettingsScreen({navigation}) {
+export default function SettingsScreen({navigation}) {
     // Nottingham & Union Rowing Club website URL
     const url = "https://nurc.co.uk"
 
@@ -53,3 +53,54 @@ export default function SettingsScreen({ navigation }) {
         </View>
     )
 }*/
+
+import React, { useContext } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator, Alert, Linking } from 'react-native';
+import { AuthContext } from '../../contexts/authContext';
+import Theme from '../../style';
+
+export default function SettingsScreen({ navigation }) {
+    const { isCoach } = useContext(AuthContext);
+
+    if (isCoach === undefined) {  // Ensuring the context has loaded
+        return <ActivityIndicator size="large" />;
+    }
+
+    const handleOptionsPress = () => {
+        if (isCoach) {
+            navigation.navigate('SettingsCoach');
+        } else {
+            navigation.navigate('SettingsRower');
+        }
+    };
+
+        // Function to open the club's website
+    const openWebsite = async () => {
+        const url = "https://nurc.co.uk";
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Can't open this URL: ${url}`);
+        }
+    };
+
+    return (
+        <View style={Theme.view}>
+            <TouchableOpacity
+                style={[Theme.navButton, { marginTop: 10 }]}
+                onPress={handleOptionsPress}
+            >
+                <Text style={Theme.navButtonFont}>Options</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[Theme.navButton, { marginTop: 10 }]}
+                onPress={openWebsite}
+            >
+                <Text style={Theme.navButtonFont}>Visit Club Website</Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+

@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './screens/home/home';
 import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
-import SettingsContainer from './screens/settings/settingsContainer';
+import SettingsContainer from './screens/settings/settingscontainer';
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';

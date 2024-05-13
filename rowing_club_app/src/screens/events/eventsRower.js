@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { db } from '../../config/firebase';
@@ -62,8 +62,66 @@ export default function EventsRower({ navigation }) {
     // MAIN
     return (
         <View style={Theme.view}>
-            {/* <Text style={Theme.body}>{"\n"}</Text> */}
+            //{ <Text style={Theme.body}>{"\n"}</Text> }
             <FlatList data={rowerEvents} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
     );
+}*/
+
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import { db } from '../../config/firebase';
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { AuthContext } from '../../contexts/authContext';
+import Theme from '../../style';
+
+export default function EventsRower({ navigation }) {
+    const { userUID } = useContext(AuthContext);
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        if (!userUID) return;  // Ensure userUID is not undefined
+
+        // Fetching the user's type ID first
+        const userQuery = query(collection(db, "User"), where("UserUID", "==", userUID));
+        let unsubscribeUser = onSnapshot(userQuery, (snapshot) => {
+            if (!snapshot.empty) {
+                const userTypeID = snapshot.docs[0].data().TypeID;
+
+                // Once userTypeID is fetched, fetch events related to this type
+                if (userTypeID) {
+                    const eventsQuery = query(collection(db, "Event"), where("TypeID", "==", userTypeID));
+                    const unsubscribeEvents = onSnapshot(eventsQuery, (eventSnapshot) => {
+                        const loadedEvents = eventSnapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                        setEvents(loadedEvents);
+                    });
+
+                    return () => unsubscribeEvents();
+                }
+            }
+        });
+
+        return () => unsubscribeUser();
+    }, [userUID]);  // Dependency array includes userUID to re-run effect when userUID changes
+
+    return (
+        <View style={Theme.view}>
+            <FlatList
+                data={events}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                    <View style={Theme.eventContainer}>
+                        <Text style={Theme.h2}>{item.Title}</Text>
+                        <Text style={Theme.body}>{item.Date}</Text> {/* Modify according to your date format needs */}
+                        <Text style={Theme.body}>{item.Description}</Text>
+                    </View>
+                )}
+            />
+        </View>
+    );
 }
+
+

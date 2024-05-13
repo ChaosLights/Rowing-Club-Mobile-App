@@ -1,13 +1,11 @@
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
-import * as ImagePicker from 'expo-image-picker';
-import { db, storage } from '../../config/firebase';
-import { ref, uploadBytes } from 'firebase/storage'
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import React, { useState, useEffect } from 'react';
-import * as FileSystem from 'expo-file-system';
-import { db } from '../../config/firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import { userId } from '../auth/login';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { db, storage } from '../../config/firebase'; // All firebase-related imports on one line
+import { ref, uploadBytes } from 'firebase/storage';
+import { collection, query, where, orderBy, getDocs, addDoc } from 'firebase/firestore';
+import { userId } from '../auth/login'; // Ensure userId is being used or remove if unnecessary
+
 
 //import Icon from 'react-native-vector-icons/FontAwesome'
 
