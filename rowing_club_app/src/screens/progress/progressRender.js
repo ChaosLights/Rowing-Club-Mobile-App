@@ -1,6 +1,6 @@
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
 import { db, storage } from '../../config/firebase';
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
+import { collection, query, where, orderBy, getDocs, onSnapshot } from "firebase/firestore";
 import React, { useState, useEffect, useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Theme from '../../style';
@@ -16,6 +16,7 @@ export function renderRower() {
         </ScrollView>
     )
 }
+
 export function renderCoach() {
     return (
         <ScrollView>
@@ -26,8 +27,12 @@ export function renderCoach() {
         </ScrollView>
     )
 }
+
 function CoachView() {
     const [rowerData, setRowerData] = useState([]);
+    const [rowerNames, setRowerNames] = useState([]);
+
+    // get rower training data
     useEffect(() => {
         async function fetchLatestData() {
             try {
@@ -36,7 +41,7 @@ function CoachView() {
                 let snapshot = await getDocs(q);
                 let rowerDocs = [];
                 let map = new Map();
-                snapshot.forEach(doc => {
+                snapshot.forEach(async doc => {
                     const data = doc.data();
                     const userId = data.UserId;
                     const type = data.Type;
@@ -55,6 +60,42 @@ function CoachView() {
         fetchLatestData();
     }, [])
 
+    // get rower names
+    useEffect(() => {
+        try {
+            let userNames = [];
+            const querySnapshot = onSnapshot(collection(db, "User"), (snapshot) => {
+                snapshot.docs.forEach((doc) => {
+                    // get user id
+                    const userID = doc.id;
+                    // get fullname
+                    const userName = (doc.data().Firstname +" "+ doc.data().Surname);
+
+                    // add mapped ID and name
+                    userNames.push({key: userID, value: userName})
+                });
+                // set user type list to the updated version
+                setRowerNames(userNames);
+            });
+
+            // return cleanup function
+            console.log("TEST:")
+            console.log(rowerNames);
+            return () => querySnapshot();
+        } catch (error) {
+            console.log("Error fetching data:" + error);
+        }
+    }, []);
+
+    function getName(userID) {
+        const name = rowerNames.find(user => user.key === userID);
+        if (name) {
+            return name.value;
+        }
+        // if name cannot be found
+        return null;
+    }
+
     function TwoKMView() {
         const twoKMData = rowerData.filter(record => record.Type === '2km');
         return (
@@ -68,25 +109,25 @@ function CoachView() {
                             day: '2-digit'
                             })}
                             </Text>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
-                                <Text style = {{marginRight: 10}}>Rower ID: {record.UserId}</Text>
+                            <View style={Theme.entryBlock}>
+                                <Text style = {{marginRight: 10}}>Name: {getName(record.UserId)}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>Type: {record.Type}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>400m: {record.fourHM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>800m: {record.eightHM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>1200m: {record.twelveHM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>1600m: {record.sixteenHM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>2000m: {record.twentyHM}</Text>
                             </View>
                         </View>
@@ -109,25 +150,25 @@ function CoachView() {
                             day: '2-digit'
                             })}
                             </Text>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
-                                <Text style = {{marginRight: 10}}>Rower ID: {record.UserId}</Text>
+                            <View style={Theme.entryBlock}>
+                                <Text style = {{marginRight: 10}}>Name: {getName(record.UserId)}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>Type: {record.Type}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>1000m: {record.oneKM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>2000m: {record.twoKM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>3000m: {record.threeKM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>4000m: {record.fourKM}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>5000m: {record.fiveKM}</Text>
                             </View>
                         </View>
@@ -150,13 +191,13 @@ function CoachView() {
                             day: '2-digit'
                             })}
                             </Text>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
-                                <Text style = {{marginRight: 10}}>Rower ID: {record.UserId}</Text>
+                            <View style={Theme.entryBlock}>
+                                <Text style = {{marginRight: 10}}>Name: {getName(record.UserId)}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>Type: {record.Type}</Text>
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>Distance: {record.distance}</Text>
                             </View>
                         </View>
@@ -251,7 +292,7 @@ function TrainingDataView() {
                             day: '2-digit'
                             })}
                             </Text>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>400m: {record.fourHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgFourHM[twoKMData.length-2-index] < 0 ? (
@@ -262,7 +303,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>800m: {record.eightHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgEightHM[twoKMData.length-2-index] < 0 ? (
@@ -273,7 +314,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>1200m: {record.twelveHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgTwelveHM[twoKMData.length-2-index] < 0 ? (
@@ -284,7 +325,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>1600m: {record.sixteenHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgSixteenHM[twoKMData.length-2-index] < 0 ? (
@@ -295,7 +336,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>2000m: {record.twentyHM}</Text>
                                 {index != twoKMData.length-1 ? (
                                     avgTwentyHM[twoKMData.length-2-index] < 0 ? (
@@ -352,7 +393,7 @@ function TrainingDataView() {
                             day: '2-digit'
                             })}
                             </Text>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>1000m: {record.oneKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgOneKM[fiveKMData.length-2-index] < 0 ? (
@@ -363,7 +404,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>2000m: {record.twoKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgTwoKM[fiveKMData.length-2-index] < 0 ? (
@@ -374,7 +415,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>3000m: {record.threeKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgThreeKM[fiveKMData.length-2-index] < 0 ? (
@@ -385,7 +426,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>4000m: {record.fourKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgFourKM[fiveKMData.length-2-index] < 0 ? (
@@ -396,7 +437,7 @@ function TrainingDataView() {
                                 ) : null
                                 }
                             </View>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>5000m: {record.fiveKM}</Text>
                                 {index != fiveKMData.length-1 ? (
                                     avgFiveKM[fiveKMData.length-2-index] < 0 ? (
@@ -436,7 +477,7 @@ function TrainingDataView() {
                             day: '2-digit'
                             })}
                             </Text>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', width: '80%'}}>
+                            <View style={Theme.entryBlock}>
                                 <Text style = {{marginRight: 10}}>Distance: {record.distance}</Text>
                                 {index != thirtyMinData.length-1 ? (
                                     avgProgress[thirtyMinData.length-2-index] < 0 ? (
