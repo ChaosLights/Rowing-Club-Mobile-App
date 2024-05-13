@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ImageScreenRower from './addTrainingRower';
 import ImageScreenCoach from './addTrainingCoach';
+import { AuthContext } from '../../contexts/authContext';
 
 export default function ImageScreen() {
     const [content, setContent] = useState();
+    const {isCoach} = useContext(AuthContext);
     const refreshContent = async(id) => {
-        if(id === "YDYsOFRCBMqhFpDn1buu"){
+        if(isCoach){
             setContent(<ImageScreenCoach/>);
         }else{
             setContent(<ImageScreenRower/>);
