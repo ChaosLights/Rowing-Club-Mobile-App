@@ -29,7 +29,7 @@ export default function HomeScreen({ navigation }) {
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
 
-    const {fullname } = useContext(AuthContext);
+    const { fullname } = useContext(AuthContext);
 
     // Edit Mode States
     const toggleEditMode = () => {
@@ -436,7 +436,11 @@ export default function HomeScreen({ navigation }) {
     // Inside the main return function
     return (
         <View>
-            <Text style={Theme.maroontitle}>Welcome Back, {fullname}</Text>
+            <Text style={Theme.maroontitle}>
+                <Feather name={'user'} size={20} ccolor="maroon"/>
+                {" "}
+                {fullname}
+            </Text>
         <FlatList
             data={[
                 { sectionTitle: 'Notifications', data: notification },
