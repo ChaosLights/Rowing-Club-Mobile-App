@@ -27,12 +27,10 @@ export default function HomeScreen({ navigation }) {
     useEffect(() => {
         if (isCoach) {
             // set returning content to coach screen
-            console.log("coach");
             setContent(<HomeCoach />);
             
         } else {
             //// set returning content to rower screen
-            console.log("rower");
             setContent(<HomeRower />);
         }
 

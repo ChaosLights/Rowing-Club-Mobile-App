@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation }) {
     // FETCH CURRENT AVAILABILITY
     useEffect(() => {
         fetchAvailability();
-    }, [selectedWeek]);
+    }, [selectedWeek, userID]);
 
     const fetchAvailability = async () => {
         const currentDate = new Date();
@@ -73,7 +73,6 @@ export default function HomeScreen({ navigation }) {
             });
 
             setAvailability(availabilityList);
-            console.log("Availability list:", availabilityList);
         } catch (error) {
             console.error("Error fetching availability:", error);
         }
@@ -86,7 +85,7 @@ export default function HomeScreen({ navigation }) {
             initialSelectedAvailability[item.dayTime] = item.value;
         });
         setSelectedAvailability(initialSelectedAvailability);
-    }, [availability, selectedWeek]);
+    }, [availability, selectedWeek, userID]);
 
     //GET GROUP ATTENDANCE SCHEDULE
     //from RecuringSchedule db
@@ -284,7 +283,6 @@ export default function HomeScreen({ navigation }) {
                                         data={AttendancePickerData}
                                         defaultValue={selectedAvailability[dayTime]}
                                         search={false}
-                                        onChange={(val) => console.log('Selected:', val)} // Add an onChange handler to log the selected value
                                         placeholder={selectedAvailability[dayTime]}
                                         save="value"
                                         boxStyles={{ backgroundColor: '#F5F5F5' }}
