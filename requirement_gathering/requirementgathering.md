@@ -273,7 +273,7 @@ Although Michael is currently only reviewing his erg records at the moment, he s
 ## Prototypes
 
 --------------
-* [Younger Rowers](youngerrowers.md)
-* [Older Rowers](olderrowers.md)
-* [Coaches](coaches.md)
-* [Parents](parents.md)
+* [Younger Rowers](/requirement_gathering/youngerrowers.md)
+* [Older Rowers](/requirement_gathering/olderrowers.md)
+* [Coaches](/requirement_gathering/coaches.md)
+* [Parents](/requirement_gathering/parents.md)
