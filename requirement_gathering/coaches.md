@@ -18,16 +18,16 @@ The initial low fidelity coach prototype is outlines below with notes describing
 <img src="../imgs/Prototypes/Coach/coachAvailabilityCal.png">
 
     Training Sets: where coach can make new sets. Can scroll through existing training sets, edit them, delete them and add more
-<img src="../imgs/Prototypes/coach/coachTrainingSet.png"><img src="../imgs/Prototypes/coach/coachTrainingSetEdit.png">
+<img src="../imgs/Prototypes/Coach/coachTrainingSet.png"><img src="../imgs/Prototypes/Coach/coachTrainingSetEdit.png">
 
     Events Calendar: Display calendar as a list, with scroll bar. Coach has option to edit calendar; to edit existing events, delete events or add new events
-<img src="../imgs/Prototypes/coach/coachEventCal.png"><img src="../imgs/Prototypes/coach/coachEventCalEdit.png">
+<img src="../imgs/Prototypes/Coach/coachEventCal.png"><img src="../imgs/Prototypes/Coach/coachEventCalEdit.png">
 
     Rowers: Coach is able to search for specific rowers to see thier profiles, PBs and other info
-<img src="../imgs/Prototypes/coach/coachRowers.png"><img src="../imgs/Prototypes/coach/coachRowersProfile.png">
+<img src="../imgs/Prototypes/Coach/coachRowers.png"><img src="../imgs/Prototypes/Coach/coachRowersProfile.png">
 
     Rowing Machine (ERG) Data: Can view the list of each training session by date and click on link to see the full database of times from the specific training session for all students. Has option to export the data so coach can analyse data
-<img src="../imgs/Prototypes/coach/coachERG.png"><img src="../imgs/Prototypes/coach/coachERGDate.png">
+<img src="../imgs/Prototypes/Coach/coachERG.png"><img src="../imgs/Prototypes/Coach/coachERGDate.png">
 
     Basic account page to view users personal details + logout
 <img src="../imgs/Prototypes/Coach/coachAccount.png">
