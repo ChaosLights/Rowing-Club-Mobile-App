@@ -3,10 +3,10 @@ import * as ImagePicker from 'expo-image-picker';
 import { db, storage } from '../../config/firebase';
 import { ref, uploadBytes } from 'firebase/storage'
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import * as FileSystem from 'expo-file-system';
-import { userId } from '../auth/login';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from '../../contexts/authContext';
 
 export default function ImageScreenRower() {
     return (
@@ -20,7 +20,7 @@ export default function ImageScreenRower() {
 }
 function UploadImageView() {
     const [image, setImage] = useState(null);
-    
+    const { userID } = useContext(AuthContext);
     const pickImage = async () => {
         let permLib = await ImagePicker.getMediaLibraryPermissionsAsync();
         const options = {
@@ -90,7 +90,7 @@ function UploadImageView() {
             });
 
             const filename = image.substring(image.lastIndexOf('/') + 1);
-            const storageRef = ref(storage, "images/"+global.user+"/"+filename);
+            const storageRef = ref(storage, "images/"+userID+"/"+filename);
 
             await uploadBytes(storageRef, blob);
             Alert.alert('Photo Uploaded');

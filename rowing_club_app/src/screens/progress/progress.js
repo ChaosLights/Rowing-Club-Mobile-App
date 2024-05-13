@@ -1,21 +1,23 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {View, Text, Button, TouchableOpacity} from 'react-native';
 import Theme from '../../style';
 import * as progresRender from './progressRender'
+import { AuthContext } from '../../contexts/authContext';
 
 //const: screen names
 const addTrainingName = 'AddTraining';
 
 export default function ProgressScreen({navigation}) {
+    const { isCoach } = useContext(AuthContext);
     const [button, setButton] = useState("");
     useEffect(() => {
-        if(global.userTypeID === "YDYsOFRCBMqhFpDn1buu"){
+        if(isCoach){
             setButton("Record Image Data");
         }else{
             setButton("Add New Training Record");
         }
-    }, [global.userTypeID]);
+    }, [isCoach]);
 
     return (
         <View style={Theme.view}>
@@ -29,14 +31,7 @@ export default function ProgressScreen({navigation}) {
             </TouchableOpacity>
 
             {/* Show Progress Data */}
-            {progresRender.renderData()}
+            {isCoach ? progresRender.renderCoach() : progresRender.renderRower()}
         </View>
     )
 }
-
-// function getTraining() {
-//     if(global.userTypeID == YDYsOFRCBMqhFpDn1buu) {
-//         return
-//     }
-//     return (progresRender.renderData())
-// }
