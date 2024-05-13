@@ -84,7 +84,7 @@ function DisplayImage({ refresh, setRefresh }){
                 <Button title="Prev" onPress={() => switchImage(imageIndex-1)} color='#800000'/>
                 <Image
                     source={{ uri: images[imageIndex].url }}
-                    style={{ width: 300, height: 300 }}
+                    style={{ width:280, height: 280 }}
                 />
                 <Button title="Next" onPress={() => switchImage(imageIndex+1)} color='#800000'/>
             </View>
@@ -216,7 +216,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>400m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {fourHM = value.nativeEvent.text}}
                     />
                 </View>
@@ -224,7 +226,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>800m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {eightHM = value.nativeEvent.text}}
                     />
                 </View>
@@ -232,7 +236,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>1200m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {twelveHM = value.nativeEvent.text}}
                     />
                 </View>
@@ -240,7 +246,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>1600m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {sixteenHM = value.nativeEvent.text}}
                     />
                 </View>
@@ -248,7 +256,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>2000m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {twentyHM = value.nativeEvent.text}}
                     />
                 </View>
@@ -263,7 +273,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>1000m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {oneKM = value.nativeEvent.text}}
                     />
                 </View>
@@ -271,7 +283,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>2000m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {twoKM = value.nativeEvent.text}}
                     />
                 </View>
@@ -279,7 +293,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>3000m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {threeKM = value.nativeEvent.text}}
                     />
                 </View>
@@ -287,7 +303,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>4000m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {fourKM = value.nativeEvent.text}}
                     />
                 </View>
@@ -295,7 +313,9 @@ function RaceDataInput({ refresh, setRefresh }){
                     <Text style={style.inputLabel}>5000m</Text>
                     <TextInput
                         style={style.inputBox}
-                        placeholder="Enter time data..."
+                        placeholder="Enter time..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {fiveKM = value.nativeEvent.text}}
                     />
                 </View>
@@ -311,12 +331,15 @@ function RaceDataInput({ refresh, setRefresh }){
                     <TextInput
                         style={style.inputBox}
                         placeholder="Enter distance..."
+                        placeholderTextColor="grey"
+                        keyboardType="numeric"
                         onEndEditing={(value) => {distance = value.nativeEvent.text}}
                     />
                 </View>
             </View>
         );
     };
+
     return (
         <View>
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -336,7 +359,7 @@ function RaceDataInput({ refresh, setRefresh }){
             {raceType == '2km' && <TwoKMDisplay/>}
             {raceType == '5km' && <FiveKMDisplay/>}
             {raceType == '30min' && <ThirtyMinDisplay/>}
-            <View style={{marginTop: 20}}>
+            <View style={{marginTop: 20, paddingBottom: 200}}>
                 <TouchableOpacity style={style.submitButton} onPress={submitData}>
                     <Text style={style.submitText}>Submit</Text>
                 </TouchableOpacity>
@@ -344,6 +367,7 @@ function RaceDataInput({ refresh, setRefresh }){
         </View>
     )
 }
+
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
       fontSize: 16,

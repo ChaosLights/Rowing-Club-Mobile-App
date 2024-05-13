@@ -71,15 +71,10 @@ export default function SettingsCoach({ navigation }) {
         console.log('HandleLogout');
         signOut(auth).then(() => {
             console.log('User logged out');
-            navigation.replace('Login');
         }).catch((error) => {
             console.error('Error signing out: ', error);
         });
     };
-
-    const Logout = () => {
-        () => navigation.replace('Login');
-    }
 
     return (
         <View style={Theme.view}>

@@ -9,6 +9,7 @@ export default function Login( {navigation} ) {
     const [password, setPassword] = useState('');
     const { setUserUID } = useContext(AuthContext);
     const auth = getAuth();
+    const navGlobal  = {navigation};
 
     // function to handle login
     const handleLogin = async () => {

@@ -6,49 +6,48 @@ import HomeScreen from './screens/home/home';
 import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
 import SettingsContainer from './screens/settings/settingsContainer';
+import Login from './screens/auth/login';
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';
 const progressContainerName = 'Progress';
 const settingsContainerName = 'Settings';
+const loginName = 'Login';
 //const: nav
 const Tab = createBottomTabNavigator();
 
-export default function ScreensContainer() {
+export default function ScreensContainer({navigation}) {
     return(
+        <Tab.Navigator 
+            initialRouteName={homeName}
+            screenOptions = {({route}) => ({
+                tabBarIcon: ({focused, color, size}) => {
+                    let iconName;
+                    let routeName = route.name;
 
-            <Tab.Navigator 
-                initialRouteName={homeName}
-                screenOptions = {({route}) => ({
-                    tabBarIcon: ({focused, color, size}) => {
-                        let iconName;
-                        let routeName = route.name;
+                    if(routeName === homeName) {
+                        iconName = focused ? 'home' : 'home-outline';
+                    } else if(routeName === eventsName) {
+                        iconName = focused ? 'calendar' : 'calendar-outline';
+                    } else if(routeName === progressContainerName) {
+                        iconName = focused ? 'body' : 'body-outline';
+                    } else if(routeName === settingsContainerName) {
+                        iconName = focused ? 'settings' : 'settings-outline';
+                    }
 
-                        if(routeName === homeName) {
-                            iconName = focused ? 'home' : 'home-outline';
-                        } else if(routeName === eventsName) {
-                            iconName = focused ? 'calendar' : 'calendar-outline';
-                        } else if(routeName === progressContainerName) {
-                            iconName = focused ? 'body' : 'body-outline';
-                        } else if(routeName === settingsContainerName) {
-                            iconName = focused ? 'settings' : 'settings-outline';
-                        }
+                    return <Ionicons name={iconName} size={size} color={color}/>
+                },
+                tabBarActiveTintColor: 'maroon',
+                tabBarInactiveTintColor: 'grey',
+                tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
+                tabBarStyle: {padding: 10, height: 100}
 
-                        return <Ionicons name={iconName} size={size} color={color}/>
-                    },
-                    tabBarActiveTintColor: 'maroon',
-                    tabBarInactiveTintColor: 'grey',
-                    tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
-                    tabBarStyle: {padding: 10, height: 100}
-
-                })}
-            >
-                <Tab.Screen name={homeName} component={HomeScreen}/>
-                <Tab.Screen name={eventsName} component={EventsScreen}/>
-                <Tab.Screen name={progressContainerName} component={ProgressContainer}/>
-                <Tab.Screen name={settingsContainerName} component={SettingsContainer}/>
-            </Tab.Navigator>
-
-        
+            })}
+        >
+            <Tab.Screen name={homeName} component={HomeScreen}/>
+            <Tab.Screen name={eventsName} component={EventsScreen}/>
+            <Tab.Screen name={progressContainerName} component={ProgressContainer}/>
+            <Tab.Screen name={settingsContainerName} component={SettingsContainer}/>
+        </Tab.Navigator>
     );
 }

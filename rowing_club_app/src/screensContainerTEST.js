@@ -8,7 +8,7 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from
 //const: nav
 const Tab = createBottomTabNavigator();
 
-export default function ScreensContainer( {navigation}) {
+export default function ScreensContainer({navigation}) {
 
     // Initial Login check
     useEffect(() => {

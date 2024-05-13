@@ -44,7 +44,7 @@ export default function App() {
             <NavigationContainer>
                 <Stack.Navigator {...{initialRouteName: authenticated ? "Login" : "Login"}} screenOptions={{headerShown:false}} >
                     <Stack.Screen name="Login" options={{ gestureDirection: 'horizontal-inverted' }} component={LoginScreen} />
-                    <Stack.Screen name="ScreensContainer" options={{  }} component={ScreensContainer} />
+                    <Stack.Screen name="ScreensContainer" component={ScreensContainer} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthProvider>
