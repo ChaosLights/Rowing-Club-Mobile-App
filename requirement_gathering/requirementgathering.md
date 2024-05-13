@@ -19,10 +19,6 @@
 
 ## Brief
 
------------------
-
-[INTRO]
-
 The diagrams we settled on producing are: personas, a use case diagram, user stories and scenarios. We also produced low fidelity screen prototypes for each user type.
 
 *Personas*: As our application will include multiple user types, with each type having different function requirements, it is important for us to understand each of them, so that we can develop the app to includes functions fitting to each and every user. 
@@ -36,19 +32,7 @@ making it a lot easier to discover forgotten requirements or errors in the long 
 *Scenarios*: To be able to understand the systems in our application, we decided to use scenarios to grasp how the app features would work together, and how different users would use the application. 
 This will help us in the development stages to integrate smaller functions together into the app.
 
-*Low Fidelity Prototypes*: As we will be producing an application that requires a user interface, producing a prototype will allow us to map out where our elements will be, and how our screens may look like.
-This will greatly reduce the time we spend on the user interface development as we will already have a plan on how to execute our idea.
-
-## Team Management
-
------------------
-We managed the work by dividing into pairs...
-
-
-## Reflection
-
------------------
-Add reflection here...
+*Low Fidelity Prototypes*: As we will be producing an application that requires a user interface, producing a prototype will allow us to map out where our elements will be, and how our screens may look like. This will greatly reduce the time we spend on the user interface development as we will already have a plan on how to execute our idea.
 
 ## Textual Analysis
 
@@ -87,8 +71,6 @@ Personas will also be essential to test and validate the app later in the softwa
 
 **Persona Priority**
 
-Which persona has priority over other personas when creating the app? If so, why?
-
 Coaches and both types of junior rowers are the primary users of our application, as they will be directly using it to enter information and record attendance. Therefore, their needs will be prioritised. On the other hand, parents are secondary users, as they will mostly use the application to receive information about competitions and training, but won't have many more interactions with the app.
 
 Key Features discovered through analysis of personas:
@@ -102,11 +84,6 @@ Key Features discovered through analysis of personas:
 ## Use Case Diagram
 
 <img src="../imgs/requirement_diagrams/use-case-diagram.png">
-
-List assumptions and questions from use case diagram:
-- ...
-- ...
-- ...
 
 ## Activity Diagram
 
@@ -163,7 +140,6 @@ As a **role** I want **goal** so that **outcome**
 
 
 ## Scenarios
-(structured description of a process: define a setting/context, define one or more actors/stakeholders, define goals/objectives, define a plot)
 
 **COACH:**
 
