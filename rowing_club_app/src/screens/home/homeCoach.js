@@ -103,7 +103,6 @@ export default function HomeScreen({ navigation }) {
 
         try {
             const q = query(collection(db, "Availability"), where("TypeID", "==", selectedTypeID), where("Session", ">=", formattedStartOfWeek));
-            console.log("Age Group Selected:", selectedTypeID, selectedAgeGroup);
             const querySnapshot = await getDocs(q);
 
             const availabilityList = [];
@@ -129,7 +128,6 @@ export default function HomeScreen({ navigation }) {
             });
 
             setAvailability(availabilityList);
-            console.log("Availability list:", availabilityList);
         } catch (error) {
             console.error("Error fetching availability:", error);
         }
