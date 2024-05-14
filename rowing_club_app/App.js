@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native'; // Added imports for View and Text
+import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthProvider } from './src/contexts/authContext';
 import ScreensContainer from './src/screensContainer';
-// import ScreensContainer from './src/screensContainerTEST';
 import LoginScreen from './src/screens/auth/login';
-// import LoginScreen from './src/screens/auth/loginTEST';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Stack = createStackNavigator();

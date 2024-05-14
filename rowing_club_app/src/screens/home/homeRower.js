@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, FlatList } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore"; import Theme from '../../style';

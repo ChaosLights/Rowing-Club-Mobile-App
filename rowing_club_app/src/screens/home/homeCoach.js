@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Modal, Button, TextInput, Alert } from 'react-native';
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, addDoc, deleteDoc, doc, query, where, getDocs } from "firebase/firestore";
 import Theme from '../../style';
@@ -429,6 +429,17 @@ export default function HomeScreen({ navigation }) {
     };
     
 
+    const data = [{
+        key: 1, sectionTitle: 'Notifications', data: notification,
+        }, {
+        key: 2, sectionTitle: 'Attendance', data: attendance,
+    }];
+    console.log("DATA");
+    console.log(data);
+    console.log(notification);
+    console.log(notification);
+    
+
     // MAIN 
     // prints headings and calls methods renderNotification, renderAttendance and renderNotifiactionPopup to display info
     // Inside the main return function
@@ -441,8 +452,8 @@ export default function HomeScreen({ navigation }) {
             </Text>
             <FlatList
                 data={[
-                    { sectionTitle: 'Notifications', data: notification },
-                    { sectionTitle: 'Attendance', data: attendance },
+                    { key: 1, sectionTitle: 'Notifications', data: notification },
+                    { key: 2, sectionTitle: 'Attendance', data: attendance }
                 ]}
                 renderItem={({ item }) => (
                     <View style={Theme.V1}>
@@ -464,7 +475,7 @@ export default function HomeScreen({ navigation }) {
                         <FlatList
                             data={item.sectionTitle === 'Notifications' ? notification : attendance}
                             renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
-                            keyExtractor={(item) => item.id}
+                            keyExtractor={item => item.id}
                         />
 
                         {item.sectionTitle === 'Notifications' && isEditMode && (
@@ -493,5 +504,4 @@ export default function HomeScreen({ navigation }) {
             />
         </View>
     );
-
 };

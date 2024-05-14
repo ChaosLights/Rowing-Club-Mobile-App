@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
-import { db } from '../../config/firebase';
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
-import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
+import { getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
 const login = 'login';
 
 export default function PassChange() {

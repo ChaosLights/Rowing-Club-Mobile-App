@@ -1,5 +1,5 @@
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
-import { db, storage } from '../../config/firebase';
+import { ScrollView, View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { db } from '../../config/firebase';
 import { collection, query, where, orderBy, getDocs, onSnapshot } from "firebase/firestore";
 import React, { useState, useEffect, useContext } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'

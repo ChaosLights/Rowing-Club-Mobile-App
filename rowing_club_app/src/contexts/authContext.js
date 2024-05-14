@@ -1,7 +1,7 @@
 // Importing necessary functions and data from Firebase and React
 import React, { createContext, useState, useEffect } from 'react';
 import { db } from '../config/firebase';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 // Creating a React context with default values
 export const AuthContext = createContext({

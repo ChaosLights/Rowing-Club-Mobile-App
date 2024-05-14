@@ -3,7 +3,6 @@ import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
 import { createUserWithEmailAndPassword, } from 'firebase/auth';
 
-
 export default function AddUser() {
     const [newEmail, setNewEmail] = useState('');
     const [newUserPassword, setNewUserPassword] = useState('');

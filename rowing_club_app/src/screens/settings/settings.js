@@ -5,8 +5,7 @@ import { useState, useEffect } from 'react';
 import Theme from '../../style';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Feather from 'react-native-vector-icons/Feather';
-import { getAuth, signOut } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import * as util from './settingsUtil';
 
 //const: screen names

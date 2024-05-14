@@ -6,13 +6,11 @@ import HomeScreen from './screens/home/home';
 import EventsScreen from './screens/events/events';
 import ProgressContainer from './screens/progress/progressContainer';
 import SettingsContainer from './screens/settings/settingsContainer';
-import Login from './screens/auth/login';
 //const: screen names
 const homeName = 'Home';
 const eventsName = 'Events';
 const progressContainerName = 'Progress';
 const settingsContainerName = 'Settings';
-const loginName = 'Login';
 //const: nav
 const Tab = createBottomTabNavigator();
 

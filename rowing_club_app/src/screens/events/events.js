@@ -4,7 +4,7 @@ import EventsRower from './eventsRower';
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../contexts/authContext';
 
-export default function EventsScreen({ navigation }) {
+export default function EventsScreen() {
     // const
     const [content, setContent] = useState();
     const {isCoach} = useContext(AuthContext);

@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { AuthContext } from '../../contexts/authContext';
 import Theme from '../../style'
 

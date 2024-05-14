@@ -1,11 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Text, View, FlatList, Modal, TextInput, Button, Animated } from 'react-native';
-import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
+import { Text, View, FlatList } from 'react-native';
 import { db } from '../../config/firebase';
-import { collection, onSnapshot, addDoc } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import Theme from '../../style';
-import * as util from './settingsUtil';
 
 export default function ShowUsers() {
     // const
@@ -106,7 +104,7 @@ export default function ShowUsers() {
     return (
         <View style={Theme.view}>
             {/* Show events */}
-            <FlatList data={userData} renderItem={renderItem} keyExtractor={(item) => item.id} />
+            <FlatList data={userData} renderItem={renderItem} keyExtractor={(item) => item.key} />
         </View>
     );
 }

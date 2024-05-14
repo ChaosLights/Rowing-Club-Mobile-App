@@ -9,7 +9,7 @@ import * as eventRender from './eventRender';
 import * as util from './eventsUtil';
 import { TextInputMask } from 'react-native-masked-text';
 
-export default function EventsCoach({ navigation }) {
+export default function EventsCoach() {
     // date list constants
     const [userTypeList, setUserTypeList] = useState([]);
     const [selection, setSelection] = useState([]);

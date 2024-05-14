@@ -1,5 +1,5 @@
-import React, { useContext, useCallback } from 'react';
-import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
 import Theme from '../../style';
 import Feather from 'react-native-vector-icons/Feather';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
-import {View, Text, Button, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Theme from '../../style';
 import * as progresRender from './progressRender'
 import { AuthContext } from '../../contexts/authContext';

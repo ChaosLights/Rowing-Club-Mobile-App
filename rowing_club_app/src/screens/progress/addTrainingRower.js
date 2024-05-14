@@ -1,8 +1,7 @@
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-import { db, storage } from '../../config/firebase';
+import { storage } from '../../config/firebase';
 import { ref, uploadBytes } from 'firebase/storage'
-import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import React, { useState, useContext } from 'react';
 import * as FileSystem from 'expo-file-system';
 import Icon from 'react-native-vector-icons/FontAwesome';
