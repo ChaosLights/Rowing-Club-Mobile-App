@@ -53,8 +53,6 @@ export default function SettingsScreen({ navigation }) {
 
     // set returning content to coach screen
     useEffect(() => {
-        console.log("1")
-        console.log(navigation);
         if (isCoach) {
             // set returning content to coach screen
             setContent(<SettingsCoach />);

@@ -10,9 +10,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import navigation from './settings';
 
-export default function SettingsRower() {
+export default function SettingsRower({navigation}) {
 
     // Initialize Firebase Auth
     const auth = getAuth();
@@ -37,7 +36,6 @@ export default function SettingsRower() {
     // function to handle logout
     const handleLogout = async () => {
         const auth = getAuth();
-        console.log('HandleLogout');
         signOut(auth).catch((error) => {
             console.error('Error signing out: ', error);
         });
@@ -46,7 +44,7 @@ export default function SettingsRower() {
     return (
         <View style={Theme.view}>
             {/* To change password */}
-            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate(passChangeName)}>
+            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate('passChange')}>
                 <Text style={Theme.navButtonFont}>
                     <MaterialIcons name={'password'} size={15} />
                     {"  "}
