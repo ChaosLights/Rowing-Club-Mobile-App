@@ -1,6 +1,6 @@
 COMP2002 2023 Team 12
 =============================
-
+<img src="../imgs/banner.png">
 # Introduction
 
 Welcome to the Rowing Club Training App.
