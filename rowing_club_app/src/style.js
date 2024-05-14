@@ -286,7 +286,6 @@ const Theme = StyleSheet.create({
     //events page ends
 
     // Progres page
-
     tabsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -327,6 +326,14 @@ const Theme = StyleSheet.create({
     entryBlock: {
         flexDirection: "row",
         justifyContent: 'space-between',
+    },
+    sectionline: {
+        borderBottomColor: 'maroon',
+        padding: 5,
+        margin: 5,
+        borderBottomWidth: 1,
+        alignSelf: 'center',
+        width: "80%",
     }
 });
 

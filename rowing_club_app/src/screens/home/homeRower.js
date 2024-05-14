@@ -5,7 +5,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, doc, setDoc, arrayUnion, updateDoc, arrayRemove, query, where, getDocs, getDoc } from "firebase/firestore"; import Theme from '../../style';
 import { AuthContext } from '../../contexts/authContext';
-
+import Feather from 'react-native-vector-icons/Feather';
 
 export default function HomeScreen({ navigation }) {
     //CONSTS
@@ -303,24 +303,28 @@ export default function HomeScreen({ navigation }) {
     // prints headings and calls methods renderNotification and renderAttendance to display info
     return (
         <View>
-            <Text style={Theme.maroontitle}>Welcome Back, {fullname}</Text>
-        <FlatList
-            data={[
-                { sectionTitle: "Notifications", data: notification },
-                { sectionTitle: "Attendance", data: attendance }
-            ]}
-            renderItem={({ item }) => (
-                <View style={Theme.view}>
-                    <Text style={Theme.h1}>{item.sectionTitle}</Text>
-                    <FlatList
-                        data={item.data}
-                        renderItem={item.sectionTitle === "Notifications" ? renderNotification : renderAttendance}
-                        keyExtractor={item => item.id}
-                    />
-                </View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-        />
+            <Text style={Theme.maroontitle}>
+                <Feather name={'user'} size={20} color="maroon"/>
+                {" "}
+                {fullname}
+            </Text>
+            <FlatList
+                data={[
+                    { sectionTitle: "Notifications", data: notification },
+                    { sectionTitle: "Attendance", data: attendance }
+                ]}
+                renderItem={({ item }) => (
+                    <View style={Theme.view}>
+                        <Text style={Theme.h1}>{item.sectionTitle}</Text>
+                        <FlatList
+                            data={item.data}
+                            renderItem={item.sectionTitle === "Notifications" ? renderNotification : renderAttendance}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+            />
         </View>
     );
 

@@ -435,62 +435,62 @@ export default function HomeScreen({ navigation }) {
     return (
         <View>
             <Text style={Theme.maroontitle}>
-                <Feather name={'user'} size={20} ccolor="maroon"/>
+                <Feather name={'user'} size={20} color="maroon"/>
                 {" "}
                 {fullname}
             </Text>
-        <FlatList
-            data={[
-                { sectionTitle: 'Notifications', data: notification },
-                { sectionTitle: 'Attendance', data: attendance },
-            ]}
-            renderItem={({ item }) => (
-                <View style={Theme.V1}>
-                    
-                    <View style={Theme.headerContainer}>
-                        <Text style={Theme.h1}>{item.sectionTitle}</Text>
-                        {item.sectionTitle === 'Notifications' && (
-                            <View style={Theme.buttonContainer}>
-                                <TouchableOpacity
-                                    style={Theme.editCircle}
-                                    onPress={toggleEditMode}
+            <FlatList
+                data={[
+                    { sectionTitle: 'Notifications', data: notification },
+                    { sectionTitle: 'Attendance', data: attendance },
+                ]}
+                renderItem={({ item }) => (
+                    <View style={Theme.V1}>
+                        
+                        <View style={Theme.headerContainer}>
+                            <Text style={Theme.h1}>{item.sectionTitle}</Text>
+                            {item.sectionTitle === 'Notifications' && (
+                                <View style={Theme.buttonContainer}>
+                                    <TouchableOpacity
+                                        style={Theme.editCircle}
+                                        onPress={toggleEditMode}
+                                    >
+                                        <Feather name={isEditMode ? 'edit-3' : 'edit-2'} size={20} color="#FFFFFF"/>
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+                        </View>
+
+                        <FlatList
+                            data={item.sectionTitle === 'Notifications' ? notification : attendance}
+                            renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
+                            keyExtractor={(item) => item.id}
+                        />
+
+                        {item.sectionTitle === 'Notifications' && isEditMode && (
+                            <>
+                                <View style={Theme.addButtonContainer}>
+                                    <TouchableOpacity
+                                        style={Theme.addCircle}
+                                        onPress={openModal}
+                                    >
+                                        <Ionicons name={isModalVisible ? 'duplicate' : 'duplicate-outline'} size={20} color="#FFFFFF"/>
+                                    </TouchableOpacity>
+                                </View>
+                                <Modal
+                                    visible={isModalVisible}
+                                    onRequestClose={closeModal}
+                                    transparent
+                                    animationType="slide"
                                 >
-                                    <Feather name={isEditMode ? 'edit-3' : 'edit-2'} size={20} color="#FFFFFF"/>
-                                </TouchableOpacity>
-                            </View>
+                                    {renderNotificationPopup()}
+                                </Modal>
+                            </>
                         )}
                     </View>
-
-                    <FlatList
-                        data={item.sectionTitle === 'Notifications' ? notification : attendance}
-                        renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
-                        keyExtractor={(item) => item.id}
-                    />
-
-                    {item.sectionTitle === 'Notifications' && isEditMode && (
-                        <>
-                            <View style={Theme.addButtonContainer}>
-                                <TouchableOpacity
-                                    style={Theme.addCircle}
-                                    onPress={openModal}
-                                >
-                                    <Ionicons name={isModalVisible ? 'duplicate' : 'duplicate-outline'} size={20} color="#FFFFFF"/>
-                                </TouchableOpacity>
-                            </View>
-                            <Modal
-                                visible={isModalVisible}
-                                onRequestClose={closeModal}
-                                transparent
-                                animationType="slide"
-                            >
-                                {renderNotificationPopup()}
-                            </Modal>
-                        </>
-                    )}
-                </View>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-        />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+            />
         </View>
     );
 

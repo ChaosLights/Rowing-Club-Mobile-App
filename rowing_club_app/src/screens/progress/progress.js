@@ -21,12 +21,8 @@ export default function ProgressScreen({navigation}) {
 
     return (
         <View style={Theme.view}>
-            <Text style={Theme.title}>
-                Progress Page
-            </Text>
-            
             {/* To add training image or record data */}
-            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate(addTrainingName)}>
+            <TouchableOpacity style={[Theme.navButton, {alignItems: 'center'}]} onPress={() => navigation.navigate(addTrainingName)}>
                 <Text style={Theme.navButtonFont}>{button}</Text>
             </TouchableOpacity>
 
