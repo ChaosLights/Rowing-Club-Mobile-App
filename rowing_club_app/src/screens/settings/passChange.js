@@ -3,6 +3,7 @@ import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Theme from '../../style';
 import { db } from '../../config/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
 const login = 'login';
 
 export default function PassChange() {
@@ -10,9 +11,10 @@ export default function PassChange() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleChangePassword = async () => {
+    const auth = getAuth();
 
-        if (currentPassword === '' || newPassword === '' || confirmPassword === '') {
+    const handleChangePassword = async () => {
+        if (!currentPassword || !newPassword || !confirmPassword) {
             Alert.alert('Please fill in all fields');
             return;
         }
@@ -22,37 +24,23 @@ export default function PassChange() {
             return;
         }
 
-        const passwordDocumentId = 'FWBWX7EOw75rwE20cQD2';
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
 
-        try {
-            const passwordDocRef = doc(db, 'Passwords', passwordDocumentId);
-            const passwordDocSnap = await getDoc(passwordDocRef);
-
-            if (!passwordDocSnap.exists()) {
-                Alert.alert('No password document found')
-                return;
-            }
-        
-
-            const storedPassword = passwordDocSnap.data().currentUserPassword;
-
-            if (storedPassword !== currentPassword) {
-                Alert.alert('Current password is incorrect');
-                return;
-            }
-
-            await updateDoc(passwordDocRef, {
-                currentUserPassword: newPassword,
+        reauthenticateWithCredential(user, credential).then(() => {
+            updatePassword(user, newPassword).then(() => {
+                Alert.alert('Success', 'Password updated successfully!');
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmPassword('');
+            }).catch((error) => {
+                console.error("Error updating password: ", error);
+                Alert.alert('Failed to update password', error.message);
             });
-
-            Alert.alert('Password updated successfully');
-
-        } catch (error) {
-            console.error("Error updating password: ", error);
-            Alert.alert('There was a problem updating the password.');
-        }
-
-        console.log('New password:', newPassword);
+        }).catch((error) => {
+            console.error("Error re-authenticating: ", error);
+            Alert.alert('Re-authentication failed', error.message);
+        });
     };
 
     return (

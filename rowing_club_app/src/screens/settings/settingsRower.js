@@ -3,7 +3,6 @@ import { View, Text, TextInput, Alert, TouchableOpacity, Linking } from 'react-n
 import Theme from '../../style';
 import { db } from '../../config/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
-const login = 'login';
 import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
 import { AuthContext } from '../../contexts/authContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -42,28 +41,7 @@ export default function SettingsRower({navigation}) {
     };
 
     return (
-        <View style={Theme.view}>
-            {/* To change password */}
-            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate('passChange')}>
-                <Text style={Theme.navButtonFont}>
-                    <MaterialIcons name={'password'} size={15} />
-                    {"  "}
-                    Change Password
-                </Text>
-            </TouchableOpacity>
-
-            {/* To logout */}
-            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={handleLogout}>
-
-                <Text style={Theme.navButtonFont}>
-                    <MaterialCommunityIcons name={'logout'} size={18} />
-                    {"  "}
-                    Logout
-                </Text>
-            </TouchableOpacity>
-
-            <View style={Theme.sectionline} />
-
+        <View>
             {/* To website */}
             <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={openWebsite}>
                 <Text style={Theme.navButtonFont}>
@@ -110,16 +88,6 @@ export default function SettingsRower({navigation}) {
     //     }).catch((error) => {
     //         console.error("Error re-authenticating: ", error);
     //         Alert.alert('Re-authentication failed', error.message);
-    //     });
-    // };
-
-    // const handleLogout = () => {
-    //     signOut(auth).then(() => {
-    //         // User signed out
-    //         console.log('User logged out');
-    //         navigation.replace('Login');
-    //     }).catch((error) => {
-    //         console.error('Error signing out: ', error);
     //     });
     // };
 

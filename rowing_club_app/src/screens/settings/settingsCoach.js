@@ -74,7 +74,7 @@ export default function SettingsCoach({ navigation }) {
     };
 
     return (
-        <View style={Theme.view}>
+        <View>
             <Text style={Theme.title}>Change Password</Text>
             <View style={{marginBottom: 10}} />
 
