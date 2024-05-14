@@ -79,8 +79,6 @@ function CoachView() {
             });
 
             // return cleanup function
-            console.log("TEST:")
-            console.log(rowerNames);
             return () => querySnapshot();
         } catch (error) {
             console.log("Error fetching data:" + error);

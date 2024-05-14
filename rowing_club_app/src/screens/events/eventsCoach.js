@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, FlatList, Modal, TouchableOpacity, TextInput, Button, Animated } from 'react-native';
+import { View, FlatList, Modal, TextInput, Button, Animated } from 'react-native';
 import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list'
 import { db } from '../../config/firebase';
 import { collection, onSnapshot, addDoc } from "firebase/firestore";

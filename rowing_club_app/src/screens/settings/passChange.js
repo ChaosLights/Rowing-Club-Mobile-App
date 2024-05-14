@@ -45,35 +45,40 @@ export default function PassChange() {
 
     return (
         <View style={Theme.view}>
-            <Text style={Theme.title}>Change Password</Text>
-            <View style={{marginBottom: 10}} />
+            {/* Title */}
+            <Text style={[Theme.title, {paddingBottom: 15}]}>Change Password</Text>
+
+            {/* Current Password */}
             <TextInput
-                style={[Theme.input, Theme.underline]}
                 placeholder="Current Password"
-                placeholderTextColor="#808080"
+                placeholderTextColor="grey"
                 secureTextEntry={true}
                 value={currentPassword}
-                onChangeText={setCurrentPassword}
+                onChangeText={text => setCurrentPassword(text)}
+                style={Theme.settingInput}
             />
-            <View style={{marginBottom: 10}} />
+
+            {/* New Password */}
             <TextInput
-                style={[Theme.input, Theme.underline]}
                 placeholder="New Password"
-                placeholderTextColor="#808080"
+                placeholderTextColor="grey"
                 secureTextEntry={true}
                 value={newPassword}
-                onChangeText={setNewPassword}
+                onChangeText={text => setNewPassword(text)}
+                style={Theme.settingInput}
             />
-            <View style={{marginBottom: 10}} />
+
+            {/* Confirm Password */}
             <TextInput
-                style={[Theme.input, Theme.underline]}
                 placeholder="Confirm New Password"
-                placeholderTextColor="#808080"
+                placeholderTextColor="grey"
                 secureTextEntry={true}
                 value={confirmPassword}
-                onChangeText={setConfirmPassword}
+                onChangeText={text => setConfirmPassword(text)}
+                style={Theme.settingInput}
             />
-            <View style={{marginBottom: 10}} />
+
+            {/* Add buttons */}
             <TouchableOpacity style={[Theme.maroonOvalButton, {marginTop: 10}]} onPress={handleChangePassword}>
                 <Text style={Theme.optionText}>Change Password</Text>
             </TouchableOpacity>

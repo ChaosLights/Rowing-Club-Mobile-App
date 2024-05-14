@@ -334,6 +334,13 @@ const Theme = StyleSheet.create({
         borderBottomWidth: 1,
         alignSelf: 'center',
         width: "80%",
+    },
+    settingInput: {
+        marginBottom: 10,
+        borderWidth: 1,
+        padding: 8,
+        borderRadius: 5,
+        backgroundColor: 'white',
     }
 });
 

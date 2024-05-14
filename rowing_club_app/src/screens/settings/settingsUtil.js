@@ -1,6 +1,8 @@
 import React, { useContext, useCallback } from 'react';
-import { Alert } from 'react-native';
-import { getAuth, signOut } from 'firebase/auth';
+import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { getAuth, signOut, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth';
+import Theme from '../../style';
+import Feather from 'react-native-vector-icons/Feather';
 
 // Initialize Firebase Auth
 const auth = getAuth();
@@ -42,4 +44,30 @@ export const handleChangePassword = async () => {
         console.error("Error re-authenticating: ", error);
         Alert.alert('Re-authentication failed', error.message);
     });
+};
+
+export const getCoachContent = (navigation) => {
+    return (
+        <View>
+            <View style={Theme.sectionline} />
+
+            {/* To logout */}
+            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate('addUser')}>
+                    <Text style={Theme.navButtonFont}>
+                        <Feather name={'user-plus'} size={15} />
+                        {"   "}
+                        Add User
+                    </Text>
+                </TouchableOpacity>
+
+            {/* Show all users */}
+            <TouchableOpacity style={[Theme.navButton, {marginTop: 10}]} onPress={() => navigation.navigate('showUsers')}>
+                    <Text style={Theme.navButtonFont}>
+                        <Feather name={'users'} size={15} />
+                        {"   "}
+                        Show all User
+                    </Text>
+                </TouchableOpacity>
+        </View>
+    );
 };
