@@ -437,7 +437,7 @@ export default function HomeScreen({ navigation }) {
     console.log("DATA");
     console.log(data);
     console.log(notification);
-    console.log(notification);
+    console.log(attendance);
     
 
     // MAIN 
@@ -475,7 +475,7 @@ export default function HomeScreen({ navigation }) {
                         <FlatList
                             data={item.sectionTitle === 'Notifications' ? notification : attendance}
                             renderItem={item.sectionTitle === 'Notifications' ? renderNotification : renderAttendance}
-                            keyExtractor={item => item.id}
+                            keyExtractor={(innerItem, index) => innerItem.id.toString()}
                         />
 
                         {item.sectionTitle === 'Notifications' && isEditMode && (
